@@ -27,24 +27,15 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   
   ## TODO: [Document] this function
   ## TODO: [Find code] Get my 'todo' finder...
-  
 
-  ## Look for all files, that match the current mode
-  allfiles = find_files(dir = dir, mode = mode)
-  
-  ## If file_regex is set, search the regular expression in the remaining files
-  ## TODO: This regex looks at entire filename. 
-  if (!is.null(file_regex)) {
-    matches = grep(file_regex, allfiles)
-  } else {
-    matches = seq_along(allfiles)
-  }
+  ## Look for all files, that match the current mode and file_regex setting
+  allfiles = find_files(dir = dir, mode = mode, file_regex = file_regex)
 
   ## Load in all relevant code files
   all_code = list()
-  for(j in seq_along(matches)) {
-    all_code[[j]] = list(filename = allfiles[matches[j]],
-              code = readLines(allfiles[matches[j]])   )
+  for(j in seq_along(allfiles)) {
+    all_code[[j]] = list(filename = allfiles[j],
+              code = readLines(allfiles[j])   )
   }
   
   ## Create savefile name

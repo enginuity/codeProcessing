@@ -1,11 +1,11 @@
 ##@S This file is a script that pulls all '# TODO:' (or ## TODO:) sections in the code and outputs the entries into 'zGEN_todolist.txt'
 ##@L Goal: Produce a project-wide todo list
 
-## TODO: add C processing also
+## TODO: [C-functionality] add C processing also
 
 
 generate_todolist = function(dir = ".") {
-  ## TODO: Document this.
+  ## TODO: [Document] this.
 
   ## Find files
   allfiles = list.files(path = dir, recursive = TRUE, full.names = TRUE)
