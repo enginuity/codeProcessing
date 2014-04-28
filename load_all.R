@@ -3,5 +3,8 @@
 ## Load helper functions
 source("sub_programs/text_proc_fxs.R")
 
-## Load code-searching tools
+## Load code-searching script
 source("sub_programs/search_code.R")
+
+## Load todo-list generation script
+source("sub_programs/generate_todo_list.R")
