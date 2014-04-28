@@ -8,13 +8,12 @@ generate_todolist = function(dir = ".") {
   ## TODO: [Document] this.
 
   ## Find files
-  allfiles = list.files(path = dir, recursive = TRUE, full.names = TRUE)
-  matches = grep("[.]R$",allfiles)
+  allfiles = find_files(dir = dir, mode = "R", file_regex = NULL)
 
   todo_type = NULL
   todolist = NULL
 
-  for(j in matches) {
+  for(j in seq_along(allfiles)) {
     addition = paste("--In file:", gsub(dir, "", allfiles[j]))
     f = readLines(allfiles[j])
     ## Grab all TODO entries, that start a line
