@@ -2,6 +2,7 @@
 
 ## Load helper functions
 source("sub_programs/text_proc_fxs.R")
+source("sub_programs/file_proc_fxs.R")
 
 ## Load code-searching script
 source("sub_programs/search_code.R")
