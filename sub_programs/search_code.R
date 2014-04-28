@@ -1,14 +1,8 @@
-#@S Code for searching the entire codebase (all '.R' files) for certain text. 
-#@S   Search results are output inside this directory (metadata)
-
-## source("text_proc_fxs.R")
-## needs this, but shouldn't be called here.
-
-
+##@S Code for searching the entire codebase (all '.R' files) for certain text. 
+##@S   Search results are output inside this directory (metadata)
 
 
 ##### Function that performs search. Examples of running this will come after. 
-
 mark_gregexpr_loc = function(gr, len) {
   # given gregexpr entry (gr is not a list; rather a vector with attributes)
   # outputs a line with " " where no match, and "-" where match. 
@@ -23,7 +17,7 @@ mark_gregexpr_loc = function(gr, len) {
   return(res)
 }
 
-search_code = function(mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, file_regex = NULL) {
+search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, file_regex = NULL) {
   ## mode: 'R' or 'C' depending on whether to look in R or C code.
   ## -- R code => looks at all .R files.
   ## -- C code => looks at all .c, .cc, .cpp, .h, .hh files.
@@ -36,7 +30,7 @@ search_code = function(mode = c("R", "C"), regexp = "Default Search...", add_com
   
 
   ## Look for all files, that match the current mode
-  allfiles = list.files(recursive = TRUE)
+  allfiles = list.files(path = dir, recursive = TRUE, full.names = TRUE)
 
   if (mode == "R") {
     matches = grep("[.]R$", allfiles)
@@ -49,7 +43,8 @@ search_code = function(mode = c("R", "C"), regexp = "Default Search...", add_com
   }
   
   ## If file_regex is set, searchthis regular expression in the remaining files.
-  ## TODO: Code here is not efficient (searches all files, not just the previously matched. Fix? low priority. 
+  ## TODO: Code here is not efficient (searches all files, not just the previously matched. Fix? low priority.
+  ## TODO: This does in whole path name. (or something...)
   if (!is.null(file_regex)) {
     matches = intersect(matches, grep(file_regex, allfiles))
   }
@@ -62,7 +57,7 @@ search_code = function(mode = c("R", "C"), regexp = "Default Search...", add_com
   }
   
   ## Create savefile name
-  sfile = paste("metacode/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
+  sfile = paste("results/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
 
   ## Search files, outputting relevant information to savefile. 
   cat('Searching for "', regexp, '"', "\n", date(), "\n\n", sep = "", file = sfile, append = TRUE)
