@@ -30,23 +30,14 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   
 
   ## Look for all files, that match the current mode
-  allfiles = list.files(path = dir, recursive = TRUE, full.names = TRUE)
-
-  if (mode == "R") {
-    matches = grep("[.]R$", allfiles)
-    comment_head = "\n  ##**##----- "
-  } else if (mode == "C") {
-    matches = grep("[.](c|cc|cpp|h|hh)$", allfiles)
-    comment_head = "\n  //**##----- "
-  } else {
-    stop("Invalid mode (Not \"R\" or \"C\"")
-  }
+  allfiles = find_files(dir = dir, mode = mode)
   
-  ## If file_regex is set, searchthis regular expression in the remaining files.
-  ## TODO: Code here is not efficient (searches all files, not just the previously matched. Fix? low priority.
-  ## TODO: This does in whole path name. (or something...)
+  ## If file_regex is set, search the regular expression in the remaining files
+  ## TODO: This regex looks at entire filename. 
   if (!is.null(file_regex)) {
-    matches = intersect(matches, grep(file_regex, allfiles))
+    matches = grep(file_regex, allfiles)
+  } else {
+    matches = seq_along(allfiles)
   }
 
   ## Load in all relevant code files
@@ -91,7 +82,7 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   }
   
   cat("\n--- Search Done! ---\n", sep = "", file = sfile, append = TRUE)
-  return("Done!")
+  return("Done! [Searching code for text]")
 }
 
 
