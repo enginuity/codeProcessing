@@ -1,3 +1,5 @@
 results/z*
 .Rproj.user
 codefile-processing-code.Rproj
+.RData
+.Rhistory
