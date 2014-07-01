@@ -8,11 +8,15 @@ source("load_all.R")
 
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
+search_code(dir = DIR, mode = "R", regexp = "square")
+search_code(dir = DIR, mode = "R", regexp = "agg_fx")
+
 search_code(dir = DIR, mode = "R", regexp = "sim_one")
 search_code(dir = DIR, mode = "R", regexp = "HP_user")
 
-search_code(dir = DIR, mode = "R", regexp=, add_comment="Change directory structure")
+search_code(dir = DIR, mode = "R", regexp="agg_fx", add_comment="need-rename")
 
+search_code(dir=DIR, mode="R", regexp="agg_fx", add_comment="relabeled", file_regex="script", replace="aggfx_day")
 
 ## Generate todo list
 generate_todolist(dir = DIR)

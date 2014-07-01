@@ -17,7 +17,8 @@ mark_gregexpr_loc = function(gr, len) {
   return(res)
 }
 
-search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, file_regex = NULL) {
+search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, 
+                       file_regex = NULL, replace = NULL, replace_mark = TRUE, comment_head = "##----##") {
   ## mode: 'R' or 'C' depending on whether to look in R or C code.
   ## -- R code => looks at all .R files.
   ## -- C code => looks at all .c, .cc, .cpp, .h, .hh files.
@@ -25,28 +26,36 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   ## file_regex: a regular expression to restrict filenames to search/process
   ## add_comment: adds a next line comment to original files where the regexp is found
   
+  ## replace: adds functionality to replace line of code with something else. -- USE version control!
+  
   ## TODO: [Document] this function
   ## TODO: [Find code] Get my 'todo' finder...
-
+  
   ## Look for all files, that match the current mode and file_regex setting
   allfiles = find_files(dir = dir, mode = mode, file_regex = file_regex)
-
+  
+  ## Can't replace without add-comment
+  if (!is.null(replace) & is.null(add_comment)) {add_comment = "Replaced code here... "}
+  
   ## Load in all relevant code files
   all_code = list()
   for(j in seq_along(allfiles)) {
     all_code[[j]] = list(filename = allfiles[j],
-              code = readLines(allfiles[j])   )
+                         code = readLines(allfiles[j])   )
   }
   
   ## Create savefile name
   sfile = paste("results/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
-
+  
   ## Search files, outputting relevant information to savefile. 
   cat('Searching for "', regexp, '"', "\n", date(), "\n\n", sep = "", file = sfile, append = TRUE)
   
   for(j in seq_along(all_code)) {
     gr = gregexpr(regexp, all_code[[j]]$code)
     match_lines = which(sapply(gr, function(x) {x[1] > 0}))
+    
+    replacement_code = all_code[[j]]$code
+    
     if (length(match_lines) > 0) {
       any_match = TRUE
       cat("\n", file = sfile, append = TRUE)
@@ -54,21 +63,40 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
       cat("**************************************************\n", file = sfile, append = TRUE)
       cat("Matches found in '", all_code[[j]]$filename,"' \n", sep = "", file = sfile, append = TRUE)
       
-      for(k in match_lines) {
-        cat(fix_length(t = k, len = 4), "||", 
-            all_code[[j]]$code[k], 
-            " \n", sep = "", file = sfile, append = TRUE)
-        cat(fix_length(t = " ", len = 4), "||",
-            mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
-            "\n------\n\n", sep = "", file = sfile, append = TRUE)
+      ## NO replace case
+      if (is.null(replace)){
+        for(k in match_lines) {
+          cat(fix_length(t = k, len = 4), "||", 
+              all_code[[j]]$code[k], 
+              " \n", sep = "", file = sfile, append = TRUE)
+          cat(fix_length(t = " ", len = 4), "||",
+              mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
+              "\n------\n\n", sep = "", file = sfile, append = TRUE)
+        }
+      } else {
+        for(k in match_lines) {
+          cat(fix_length(t = k, len = 4), "||", 
+              all_code[[j]]$code[k], 
+              " \n", sep = "", file = sfile, append = TRUE)
+          cat(fix_length(t = " ", len = 4), "||",
+              mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
+              "\n------\n\n", sep = "", file = sfile, append = TRUE)
+          if (replace_mark) {
+            mark = mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k]))
+            substr(mark,1,2) <- "##"
+          
+            replacement_code[k] = paste(gsub(replacement_code[k], pattern=regexp, replacement=replace), "\n", mark, sep = "")
+                                        
+          }
+        }
       }
-
+      
       ## Add comments to original file if needed
       if (!is.null(add_comment)) {
-        replacement_code = all_code[[j]]$code
-        replacement_code[match_lines] = paste(replacement_code[match_lines], comment_head, add_comment," --",date(), "--", sep = "")
+        replacement_code[match_lines] = paste(replacement_code[match_lines], "\n", comment_head, add_comment," --",date(), "--", sep = "")
         writeLines(replacement_code, con = all_code[[j]]$filename)
       }
+      
     }   
   }
   
@@ -80,5 +108,5 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
 ##### Examples:
 
 #search_code(mode = "R", regexp = "sim_one_set", add_comment = "Test comment")
-  ##**##----- Test comment --Sun Apr 27 19:56:29 2014--
+##**##----- Test comment --Sun Apr 27 19:56:29 2014--
 #search_code(mode = "C", regexp = "set_sample", add_comment = "test comment")
