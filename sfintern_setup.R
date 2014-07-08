@@ -8,6 +8,18 @@ source("load_all.R")
 
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
+clear_comments(dir = DIR, mode = "R", file_regex = "script_agg")
+
+search_code(dir=DIR, mode="R", add_comment="relabeled", file_regex="script_agg", regexp="dds", replace="tenure", fixed = TRUE)
+
+
+
+
+
+search_code(dir = DIR, mode = "R", regexp = "Create[_]features")
+
+
+
 search_code(dir = DIR, mode = "R", regexp = "square")
 search_code(dir = DIR, mode = "R", regexp = "agg_fx")
 
@@ -16,7 +28,12 @@ search_code(dir = DIR, mode = "R", regexp = "HP_user")
 
 search_code(dir = DIR, mode = "R", regexp="agg_fx", add_comment="need-rename")
 
-search_code(dir=DIR, mode="R", regexp="agg_fx", add_comment="relabeled", file_regex="script", replace="aggfx_day")
+
+
+
+search_code(dir=DIR, mode="R", regexp="file *= *f, *", add_comment="remove this", file_regex="script", replace="")
+
+
 
 ## Generate todo list
 generate_todolist(dir = DIR)
