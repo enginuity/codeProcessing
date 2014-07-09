@@ -9,6 +9,7 @@ source("load_all.R")
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
 
+create_roxy_templates(dir="sub_programs/create_roxygen_comments.R")
 
 
 clear_comments(dir = DIR, mode = "R", file_regex = "script_agg")

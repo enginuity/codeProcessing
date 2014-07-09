@@ -63,7 +63,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
             good_format = FALSE
           }
         }
-        
+        cat(heads[k], good_format)
         if(!good_format) {
           ins = c("#' <<BasicInfo>> ", "#' ", paste("#' @params text", params), "#' ", "#' @return text", "#' ", "#' @export")
           doc = paste(ins, sep = "\n")
