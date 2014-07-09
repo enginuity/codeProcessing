@@ -8,7 +8,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
   ## }
   
   ## It should also be okay if the arguments are split across multiple lines. 
-  
+  regexp_fxstart = "(^[[:alnum:]_]+) += +function"
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
   
   ## Look for all files, that match the current mode and file_regex setting
@@ -20,13 +20,6 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
     all_code[[j]] = list(filename = allfiles[j],
                          code = readLines(allfiles[j])   )
   }
-  
-  ## Create savefile name
-  sfile = paste("results/zTEMPLATE_ROXY_COMMENTS_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
-  
-  ## Search files, outputting relevant information to savefile. 
-  cat('Searching for "', regexp, '"', "\n", date(), "\n\n", sep = "", file = sfile, append = TRUE)
-  
   
   ## Wanted roxy output: 
   ## #` some title/description
