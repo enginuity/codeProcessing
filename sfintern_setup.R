@@ -16,7 +16,7 @@ search_code(dir=DIR, mode="R", add_comment="relabeled", file_regex="script_agg",
 
 
 
-search_code(dir = DIR, mode = "R", regexp = "Create[_]features")
+search_code(dir = DIR, mode = "R", regexp = "Create[_]features", fixed = FALSE, add_comment = "TODO: Create_features -- change usage of 'change' parameter")
 
 
 
