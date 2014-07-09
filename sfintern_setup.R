@@ -8,6 +8,9 @@ source("load_all.R")
 
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
+
+
+
 clear_comments(dir = DIR, mode = "R", file_regex = "script_agg")
 
 search_code(dir=DIR, mode="R", add_comment="relabeled", file_regex="script_agg", regexp="dds", replace="tenure", fixed = TRUE)

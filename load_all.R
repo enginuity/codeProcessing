@@ -9,3 +9,7 @@ source("sub_programs/search_code.R")
 
 ## Load todo-list generation script
 source("sub_programs/generate_todo_list.R")
+
+library(stringr)
+
+source("sub_programs/create_roxygen_comments.R")

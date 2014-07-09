@@ -153,6 +153,8 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   return("Done! [Searching code for text]")
 }  
 
+
+
 ##### Examples:
 
 #search_code(mode = "R", regexp = "sim_one_set", add_comment = "Test comment")
