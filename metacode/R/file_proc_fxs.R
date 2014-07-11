@@ -1,7 +1,7 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
 
-#' Find all files with appropriate file extensions
+#' Find all files with appropriate file extensions, and extract code
 #' 
 #' @param dir what directory to search for (and all sub-directories)
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
@@ -33,16 +33,15 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
     res = res[matches]
   }
 
-  return(res)
+  return(extract_code(res))
 }
 
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' reads code for files into memory
 #' 
-#' @param files text
+#' @param files vector of filenames
 #' 
-#' @return text
+#' @return list of filenames, code
 #' 
 #' @export
 extract_code = function(files) {
