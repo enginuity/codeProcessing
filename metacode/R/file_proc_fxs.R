@@ -35,3 +35,13 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 
   return(res)
 }
+
+
+extract_code = function(files) {
+  res = list()
+  for(j in seq_along(files)) {
+    res[[j]] = list(filename = files[j], code = readLines(files[j]))
+  }
+  return(res)
+}
+
