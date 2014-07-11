@@ -29,6 +29,8 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
 
+  #logfile =
+  #log_result()
   ## Find files, extract code
   all_files = find_files(dir = dir, mode = mode, file_regex = file_regex)
   all_code = extract_code(all_files)
@@ -40,6 +42,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ## #` @result ...
   ## #` @export
   
+  ## Search through code and make changes as necessary
   for(j in seq_along(all_code)) {
     txt = all_code[[j]]$code
     
