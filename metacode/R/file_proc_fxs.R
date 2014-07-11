@@ -1,18 +1,16 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' Find all files with appropriate file extensions
 #' 
-#' @param dir text
-#' @param mode text
-#' @param "C" text
-#' @param file_regex text
+#' @param dir what directory to search for (and all sub-directories)
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
+#' @param file_regex if non-NULL, applies this regular expression to the filenames
 #' 
-#' @return text
+#' @return vector of all appropriate filenames 
 #' 
 #' @export
 find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
-  ## TODO: [Document] this function
   res = list.files(path = dir, recursive = TRUE, full.names = TRUE)
 
   ## Find files with correct filename extension
@@ -28,8 +26,9 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
   res = res[matches]
 
   ## Apply regex of file_regex when appropriate
-  ## TODO: This only has the functionality ot look at the entire filename. 
   if (!is.null(file_regex)) {
+    ## TODO: This only has the functionality ot look at the entire filename.
+    ## TODO: -- Should this be edited to only look at the last portion of the filename?
     matches = grep(file_regex, res)
     res = res[matches]
   }
