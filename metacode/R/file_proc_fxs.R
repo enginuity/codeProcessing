@@ -37,6 +37,14 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 }
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param files text
+#' 
+#' @return text
+#' 
+#' @export
 extract_code = function(files) {
   res = list()
   for(j in seq_along(files)) {

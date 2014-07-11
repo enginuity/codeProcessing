@@ -28,6 +28,15 @@ log_result = function(..., file = log_file, header = TRUE, display = TRUE) {
 }
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param logtype text
+#' @param query text
+#' 
+#' @return text
+#' 
+#' @export
 logfile_namecreation = function(logtype, query) {
   res = paste("results/z", logtype, gsub("[^[:alnum:]]", "", query),
               "_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", 
