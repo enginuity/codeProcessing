@@ -1,14 +1,8 @@
-## TODO: [Bug] -- problem with small parameter names (function(x) = ... ). see how to fix this?
 ## TODO: [Testing] -- need to do more testing of functions/features here... 
 ## TODO: Allow function to reorder the params when the order of input is changed. 
-## TODO: Bug when processing
-# sample_LMF_fixed_intervals = function(attr_uncertainty_period = 28, def_attr_period = 56, 
-#                                       sample_separation = 40, sample_period = 56,
-#                                       min_activity = 14,
-#                                       firstday, lastday, total_period) {
-#   
-## TODO: Bug when procesing (...) (maybe? try to reproduce)
 
+## TODO: [Idea] integrate dependency tree with documentation; 
+## TODO: -- allow clicking on dependency tree to load documentation
 
 # Function to create Roxygen comments -------------------------------------
 
@@ -29,8 +23,8 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
 
-  #logfile =
-  #log_result()
+  log_file = logfile_namecreation(logtype = "create_roxy", query = regexp_fxstart)
+  log_result("Searching for functions to add/fix roxygen2 template", file = log_file)
   ## Find files, extract code
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
 
@@ -53,8 +47,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       
       replacement_code = all_code[[j]]$code
       for(k in seq_along(heads)) {
-        params = gsub(" ", "", gsub("=.*", "", strsplit(gsub("[()]", "", param_segments[k]), split = ",")[[1]]))
-        
+        params = find_current_params(param_segments[k])
         cur_doc = find_all_prev_documentation(text=txt, lineno = heads[k])
         
         ## TODO: Add in default info, for parameters? forget this for now. 
@@ -83,6 +76,26 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
     writeLines(replacement_code, con = all_code[[j]]$filename)
   }
   return("Done! [Inserting documentation]")
+}
+
+
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' 
+#' @return text
+#' 
+#' @export
+find_current_params = function(text) {
+  ## Get rid of stuff within parenthesis
+  text = substr(text, start = 2, stop = nchar(text) - 1)
+  text = gsub("[(].*?[)]", "", text)
+  text = gsub("\".*?\"","", text)
+  text = strsplit(text, ",")[[1]]
+  text = gsub("=.*", "", text)
+  text = gsub(" ", "", text)
+  return(text)
 }
 
 
@@ -151,13 +164,13 @@ extract_location_pair = function(text, start, end) {
     ## gap of 1
     return(paste(sep = "", 
                  substr(text[start[1]], start=start[2], stop = nchar(text[start[1]])),
-                 substr(text[end[1]], start = 1, stop = nchar(text[end[1]]))
+                 substr(text[end[1]], start = 1, stop = end[2])
     ))
   } else {
     return(paste(sep = "", 
                  substr(text[start[1]], start=start[2], stop = nchar(text[start[1]])),
                  paste(text[start[1]:end[1]], sep = "", collapse = ""),
-                 substr(text[end[1]], start = 1, stop = nchar(text[end[1]]))
+                 substr(text[end[1]], start = 1, stop = end[2])
     ))
   }
 }

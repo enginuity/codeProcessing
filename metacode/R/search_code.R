@@ -11,7 +11,6 @@
 #' 
 #' @param dir text
 #' @param mode text
-#' @param "C" text
 #' @param regexp text
 #' @param add_comment text
 #' @param file_regex text
