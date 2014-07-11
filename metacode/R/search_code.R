@@ -4,6 +4,15 @@
 ## TODO: Reorganize this file, rewrite functions?
 
 ##### Function that performs search. Examples of running this will come after. 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param gr text
+#' @param len text
+#' 
+#' @return text
+#' 
+#' @export
 mark_gregexpr_loc = function(gr, len) {
   # given gregexpr entry (gr is not a list; rather a vector with attributes)
   # outputs a line with " " where no match, and "-" where match. 
@@ -18,6 +27,23 @@ mark_gregexpr_loc = function(gr, len) {
   return(res)
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param mode text
+#' @param "C" text
+#' @param regexp text
+#' @param add_comment text
+#' @param file_regex text
+#' @param replace text
+#' @param replace_mark text
+#' @param comment_head text
+#' @param fixed text
+#' 
+#' @return text
+#' 
+#' @export
 search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, 
                        file_regex = NULL, replace = NULL, replace_mark = TRUE, comment_head = "#|----##", fixed = FALSE) {
   ## mode: 'R' or 'C' depending on whether to look in R or C code.
@@ -106,6 +132,18 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   return("Done! [Searching code for text]")
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param mode text
+#' @param "C" text
+#' @param regexp text
+#' @param file_regex text
+#' 
+#' @return text
+#' 
+#' @export
 clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_regex = NULL) {
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
   

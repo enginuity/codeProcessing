@@ -4,6 +4,14 @@
 ## TODO: [C-functionality] add C processing also
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' 
+#' @return text
+#' 
+#' @export
 generate_todolist = function(dir = ".") {
   ## TODO: [Document] this.
 

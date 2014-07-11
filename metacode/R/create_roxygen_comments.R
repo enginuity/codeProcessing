@@ -14,6 +14,15 @@
 
 # Function to create Roxygen comments -------------------------------------
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param file_regex text
+#' 
+#' @return text
+#' 
+#' @export
 create_roxy_templates = function(dir=DIR, file_regex = NULL) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
@@ -85,6 +94,17 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
 }
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' @param startposition text
+#' @param regex_s text
+#' @param regex_e text
+#' 
+#' @return text
+#' 
+#' @export
 find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = "[)]") {
   ## text is a vector; this looks for things that span multiple entries. 
   ## startposition is a vector(lineno, charpos)
@@ -122,6 +142,16 @@ find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = 
   return(gsub(" +", " ", extract_location_pair(text, start = firstloc, end = endloc)))
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' @param start text
+#' @param end text
+#' 
+#' @return text
+#' 
+#' @export
 extract_location_pair = function(text, start, end) {
   if (start[1] == end[1]) {
     return(substr(text[start[1]],start=start[2], stop = end[2]))
@@ -140,6 +170,16 @@ extract_location_pair = function(text, start, end) {
   }
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param loc_list text
+#' @param ln text
+#' @param cn text
+#' 
+#' @return text
+#' 
+#' @export
 find_next_location = function(loc_list, ln, cn) {
   same_line_match = which(loc_list[[ln]][,1] >= cn)
   if (length(same_line_match) > 0) {
@@ -155,6 +195,15 @@ find_next_location = function(loc_list, ln, cn) {
   }
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param loc1 text
+#' @param loc2 text
+#' 
+#' @return text
+#' 
+#' @export
 compare_locations = function(loc1, loc2) {
   ## Returns the earlier location
   if (loc1[1] == loc2[1]) {
@@ -170,6 +219,17 @@ compare_locations = function(loc1, loc2) {
   }
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' @param startpositions text
+#' @param regex_s text
+#' @param regex_e text
+#' 
+#' @return text
+#' 
+#' @export
 find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[)]") {
   N = nrow(startpositions)
   res = rep("", N)
@@ -179,6 +239,16 @@ find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[
   return(res)
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' @param lineno text
+#' @param header text
+#' 
+#' @return text
+#' 
+#' @export
 find_all_prev_headers = function(text, lineno, header="^#'") {
   ## Finds all previous lines (compared to lineno) that start with the specific header type
   ## reutnrs linenumbres
@@ -196,6 +266,16 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
   }
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param text text
+#' @param lineno text
+#' @param header text
+#' 
+#' @return text
+#' 
+#' @export
 find_all_prev_documentation = function(text, lineno, header = "^#'") {
   prev_lines = find_all_prev_headers(text, lineno, header)
   if (is.na(prev_lines[1])) {

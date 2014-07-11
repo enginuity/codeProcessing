@@ -1,5 +1,16 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param mode text
+#' @param "C" text
+#' @param file_regex text
+#' 
+#' @return text
+#' 
+#' @export
 find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
   ## TODO: [Document] this function
   res = list.files(path = dir, recursive = TRUE, full.names = TRUE)

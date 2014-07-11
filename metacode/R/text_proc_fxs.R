@@ -1,5 +1,14 @@
 ##@S This file contains generic text-processing functions
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param v text
+#' @param ch text
+#' 
+#' @return text
+#' 
+#' @export
 create_space_chars = function(v, ch = " ") {
   #@F ----------------------------------------
   #@F Function 'create_space_chars'
@@ -17,6 +26,16 @@ create_space_chars = function(v, ch = " ") {
   return(toreturn)
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param t text
+#' @param len text
+#' @param at_end text
+#' 
+#' @return text
+#' 
+#' @export
 fix_length = function(t, len, at_end = TRUE) {  
   #@F ----------------------------------------
   #@F Function 'fix_length'

@@ -3,6 +3,14 @@
 library(Rgraphviz)
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param file text
+#' 
+#' @return text
+#' 
+#' @export
 gen_depend_R_new = function(file) {
   ## New attempt at writing this function
   ## Only accepts well-formatted functions (and no non-globally defined functions) [well-formatted => starts at first character, and ends with a lone left-justified }. 
@@ -73,6 +81,14 @@ gen_depend_R_new = function(file) {
   
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param file text
+#' 
+#' @return text
+#' 
+#' @export
 gen_depend_R = function(file) {
   ## To be replaced by gen..R_new. 
   LS = 0
@@ -135,6 +151,15 @@ gen_depend_R = function(file) {
 
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param file text
+#' @param leading_spaces text
+#' 
+#' @return text
+#' 
+#' @export
 gen_depend_C = function(file, leading_spaces = 0) {
 
   LS = leading_spaces
@@ -208,6 +233,16 @@ gen_depend_C = function(file, leading_spaces = 0) {
   return(list(fxs, ft_mat))
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param fxs text
+#' @param mat text
+#' @param out_file text
+#' 
+#' @return text
+#' 
+#' @export
 plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
   pdf(out_file, width = 12, height = 12)
   NN = nrow(fxs)
@@ -259,6 +294,18 @@ plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
   dev.off()
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param codefile text
+#' @param mode text
+#' @param "C" text
+#' @param out_file text
+#' @param leading_spaces text
+#' 
+#' @return text
+#' 
+#' @export
 plot_dependency = function(codefile, mode = c("R", "C"),
   out_file = "depend_out.pdf", leading_spaces = NULL) {
   if (mode == "C") {
