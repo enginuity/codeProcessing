@@ -44,11 +44,7 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   if (!is.null(replace) & is.null(add_comment)) {add_comment = "Replaced code here... "}
   
   ## Load in all relevant code files
-  all_code = list()
-  for(j in seq_along(allfiles)) {
-    all_code[[j]] = list(filename = allfiles[j],
-                         code = readLines(allfiles[j])   )
-  }
+  all_code = extract_code(allfiles)
   
   ## Create savefile name
   sfile = paste("results/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
@@ -130,11 +126,7 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   allfiles = find_files(dir = dir, mode = mode, file_regex = file_regex)
   
   ## Load in all relevant code files
-  all_code = list()
-  for(j in seq_along(allfiles)) {
-    all_code[[j]] = list(filename = allfiles[j],
-                         code = readLines(allfiles[j])   )
-  }
+  all_code = extract_code(allfiles)
   
   ## Create savefile name
   sfile = paste("results/zCLEARCOMMENTS_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")

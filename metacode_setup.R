@@ -7,12 +7,7 @@ library(metacode)
 # DIR = "metacode/"
 # create_roxy_templates(dir = DIR)
 
-
-
-
-
-
-
+search_code(mode = "R", regexp = "allfiles")
 
 
 
