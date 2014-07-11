@@ -6,6 +6,7 @@
 #' @param ... Objects to log
 #' @param file File to write to
 #' @param header Should this line be treated as a header line? includes some spaces before this line in output
+#' @param display Should this be printed to screen?
 #' 
 #' @return nothing this stores results in logfile and prints to screen
 #' 
@@ -21,7 +22,7 @@ log_result = function(..., file = log_file, header = TRUE, display = TRUE) {
     }
   }
   if (display) {
-    print(what)
+    cat(..., "\n")
   }
   invisible(0)
 }
