@@ -5,3 +5,5 @@ codefile-processing-code.Rproj
 .Rhistory
 codefile-processing.Rproj
 *.Rd
+metacode.Rcheck/
+metacode_1.0.tar.gz
