@@ -1,5 +1,6 @@
 ##@S This file contains generic text-prettifying functions
 
+
 #' Creates a character vector of a varying amount of 'ch' characters
 #' This is mainly used to space out text for pretty displaying (in printing dataframes)
 #' 
@@ -18,6 +19,7 @@ create_space_chars = function(v, ch = " ") {
   }
   return(toreturn)
 }
+
 
 #' For elements of \code{t}, adjust its number of characters by prepending/appending/removing
 #' 
@@ -53,4 +55,24 @@ fix_length = function(t, len, at_end = TRUE) {
     }
   }
   return(vapply(t, FUN = fix_length_single, FUN.VALUE = 'character', len = len, at_end = at_end))
+}
+
+
+#' Mark regex match locations
+#' 
+#' Given a gregexpr result, outputs a line, filling "*"s where it matches. 
+#' 
+#' @param gr NOT list; single gregexpr output
+#' @param len total length of string corresponding to gregexpr output
+#' @param fill_char single character to fill. 
+#' 
+#' @return character, denoting where the matches are. 
+#' 
+#' @export
+mark_gregexpr_loc = function(gr, len, fill_char = "*") {
+  res = create_space_chars(v = len)
+  for(j in 1:length(gr)) {
+    substr(res, start = gr[j], stop = (gr[j] + attr(gr, "match.length")[j] - 1)) <- create_space_chars(v = len, ch = fill_char)
+  }
+  return(res)
 }

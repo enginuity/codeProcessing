@@ -4,28 +4,7 @@
 ## TODO: Reorganize this file, rewrite functions?
 
 ##### Function that performs search. Examples of running this will come after. 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param gr text
-#' @param len text
-#' 
-#' @return text
-#' 
-#' @export
-mark_gregexpr_loc = function(gr, len) {
-  # given gregexpr entry (gr is not a list; rather a vector with attributes)
-  # outputs a line with " " where no match, and "-" where match. 
-  # len = total length of string
-  
-  # TODO: [Move] function?
-  # TODO: [Document] function
-  res = create_space_chars(v = len)
-  for(j in 1:length(gr)) {
-    substr(res, start = gr[j], stop = (gr[j] + attr(gr, "match.length")[j] - 1)) <- create_space_chars(v = len, ch = "*")
-  }
-  return(res)
-}
+
 
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
