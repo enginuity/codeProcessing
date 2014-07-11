@@ -4,3 +4,4 @@ codefile-processing-code.Rproj
 .RData
 .Rhistory
 codefile-processing.Rproj
+*.Rd
