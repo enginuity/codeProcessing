@@ -1,12 +1,18 @@
-##@S This is examples of how to run this for the netcomp project.
-
-DIR = "metacode/"
+##@S This is examples / testing for the metacode directories. 
 
 ## Load all available programs
-source("load_all.R")
+library(metacode)
+
+# For fixing templates
+# DIR = "metacode/"
+# create_roxy_templates(dir = DIR)
 
 
-create_roxy_templates(dir = DIR)
+
+
+
+
+
 
 
 
