@@ -32,9 +32,8 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   #logfile =
   #log_result()
   ## Find files, extract code
-  all_files = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  all_code = extract_code(all_files)
-  
+  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+
   ## Wanted roxy output: 
   ## #` some title/description
   ## #` ...

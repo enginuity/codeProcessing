@@ -37,14 +37,13 @@ search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search..
   ## TODO: [Document] this function
   ## TODO: [Find code] Get my 'todo' finder...
   
-  ## Look for all files, that match the current mode and file_regex setting
-  allfiles = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  
+  ## Look for all files, that match the current mode and file_regex setting, and extract code. 
+  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+
   ## Can't replace without add-comment
   if (!is.null(replace) & is.null(add_comment)) {add_comment = "Replaced code here... "}
   
-  ## Load in all relevant code files
-  all_code = extract_code(allfiles)
+
   
   ## Create savefile name
   sfile = paste("results/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
@@ -123,10 +122,7 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
   
   ## Look for all files, that match the current mode and file_regex setting
-  allfiles = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  
-  ## Load in all relevant code files
-  all_code = extract_code(allfiles)
+  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
   
   ## Create savefile name
   sfile = paste("results/zCLEARCOMMENTS_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
@@ -163,11 +159,3 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   cat("\n--- Search Done! ---\n", sep = "", file = sfile, append = TRUE)
   return("Done! [Searching code for text]")
 }  
-
-
-
-##### Examples:
-
-#search_code(mode = "R", regexp = "sim_one_set", add_comment = "Test comment")
-##**##----- Test comment --Sun Apr 27 19:56:29 2014--
-#search_code(mode = "C", regexp = "set_sample", add_comment = "test comment")
