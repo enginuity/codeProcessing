@@ -1,6 +1,6 @@
 ##@S This is examples of how to run this for the netcomp project.
 
-DIR = "../27may_user_engagement/source/R/"
+DIR = "../27may_user_engagement/source/"
 
 ## Load all available programs
 source("load_all.R")
@@ -9,10 +9,15 @@ source("load_all.R")
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
 
-create_roxy_templates(dir="sub_programs/create_roxygen_comments.R")
+create_roxy_templates(dir="../27may_user_engagement/source/fxForUserchurn/R/")
 
 
-clear_comments(dir = DIR, mode = "R", file_regex = "script_agg")
+search_code(dir = DIR, mode = "R", regexp = "Create_features_v2", fixed = TRUE)
+
+search_code(dir = DIR, mode = "R", regexp = "Create_features_v2", replace = "Create_features", add_comment = "Rename v2 -> raw", fixed = TRUE)
+
+
+clear_comments(dir = DIR, mode = "R")
 
 search_code(dir=DIR, mode="R", add_comment="relabeled", file_regex="script_agg", regexp="dds", replace="tenure", fixed = TRUE)
 

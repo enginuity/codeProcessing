@@ -1,3 +1,16 @@
+## TODO: [Bug] -- problem with small parameter names (function(x) = ... ). see how to fix this?
+## TODO: [Testing] -- need to do more testing of functions/features here... 
+## TODO: Allow function to reorder the params when the order of input is changed. 
+
+## TODO: Bug when processing
+# sample_LMF_fixed_intervals = function(attr_uncertainty_period = 28, def_attr_period = 56, 
+#                                       sample_separation = 40, sample_period = 56,
+#                                       min_activity = 14,
+#                                       firstday, lastday, total_period) {
+#   
+
+## TODO: Bug when procesing (...) (maybe? try to reproduce)
+
 
 # Function to create Roxygen comments -------------------------------------
 
@@ -41,13 +54,13 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
       for(k in seq_along(heads)) {
         params = gsub(" ", "", gsub("=.*", "", strsplit(gsub("[()]", "", param_segments[k]), split = ",")[[1]]))
         
-        cur_doc = find_all_prev_documentation(text=txt, lineno = heads[1])
+        cur_doc = find_all_prev_documentation(text=txt, lineno = heads[k])
         
         ## TODO: Add in default info, for parameters? forget this for now. 
         ## TODO: Actually copy info, rather than only checking to see if things are missing. 
         ## TODO: Figure out if 'everything' should be @exported; this is currently done. 
         good_format = TRUE
-        if (is.na(cur_doc)) {
+        if (class(cur_doc) != "data.frame") {
           good_format = FALSE
         } else {
           if (!(any(cur_doc$Mode == "@return")) | !(any(cur_doc$Mode =="@export"))) {
@@ -56,13 +69,13 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL) {
             good_format = FALSE
           }
         }
-        cat(heads[k], good_format)
         if(!good_format) {
-          ins = c("#' <<BasicInfo>> ", "#' ", paste("#' @params text", params), "#' ", "#' @return text", "#' ", "#' @export")
-          doc = paste(ins, sep = "\n")
+          ins = c("#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
+          doc = paste(ins, collapse = "\n")
+          lineno = heads[k]
+          replacement_code[lineno] = paste(doc, "\n", replacement_code[lineno], sep = "")
         }
-        lineno = heads[k]
-        replacement_code[lineno] = paste(doc, "\n", replacement_code[lineno], sep = "")
+
       }
     }
     
@@ -172,6 +185,7 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
   z = grep(header, text) 
   breaks = setdiff(seq_along(text), z)
   closest_break = max(breaks[breaks < lineno])
+  ## TODO: This line (closest_break = .. need to do something when breaks is empty)
   
   if (closest_break < 0) {
     return(NA)

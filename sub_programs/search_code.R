@@ -127,27 +127,29 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   
   
   for(j in seq_along(all_code)) {
-    gr = gregexpr(regexp, all_code[[j]]$code, fixed=)
-    match_lines = which(sapply(gr, function(x) {x[1] > 0}))
-    
-    if (length(match_lines) > 0) {
-      any_match = TRUE
-      cat("\n", file = sfile, append = TRUE)
-      cat("**************************************************\n", file = sfile, append = TRUE)
-      cat("**************************************************\n", file = sfile, append = TRUE)
-      cat("Matches found in '", all_code[[j]]$filename,"' \n", sep = "", file = sfile, append = TRUE)
+    gr = gregexpr(regexp, all_code[[j]]$code, fixed=fixed)
+    if (length(gr) > 0) {
+      match_lines = which(sapply(gr, function(x) {x[1] > 0}))
       
-      for(k in match_lines) {
-        cat(fix_length(t = k, len = 4), "||", 
-            all_code[[j]]$code[k], 
-            " \n", sep = "", file = sfile, append = TRUE)
-        cat(fix_length(t = " ", len = 4), "||",
-            mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
-            "\n------\n\n", sep = "", file = sfile, append = TRUE)
-      }
-      replacement_code = all_code[[j]]$code
-      writeLines(replacement_code[-match_lines], con = all_code[[j]]$filename)
-    }    
+      if (length(match_lines) > 0) {
+        any_match = TRUE
+        cat("\n", file = sfile, append = TRUE)
+        cat("**************************************************\n", file = sfile, append = TRUE)
+        cat("**************************************************\n", file = sfile, append = TRUE)
+        cat("Matches found in '", all_code[[j]]$filename,"' \n", sep = "", file = sfile, append = TRUE)
+        
+        for(k in match_lines) {
+          cat(fix_length(t = k, len = 4), "||", 
+              all_code[[j]]$code[k], 
+              " \n", sep = "", file = sfile, append = TRUE)
+          cat(fix_length(t = " ", len = 4), "||",
+              mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
+              "\n------\n\n", sep = "", file = sfile, append = TRUE)
+        }
+        replacement_code = all_code[[j]]$code
+        writeLines(replacement_code[-match_lines], con = all_code[[j]]$filename)
+      }    
+    }
   }
   cat("\n--- Search Done! ---\n", sep = "", file = sfile, append = TRUE)
   return("Done! [Searching code for text]")
