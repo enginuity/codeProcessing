@@ -1,47 +1,37 @@
 ## TODO: [Bug] -- problem with small parameter names (function(x) = ... ). see how to fix this?
 ## TODO: [Testing] -- need to do more testing of functions/features here... 
 ## TODO: Allow function to reorder the params when the order of input is changed. 
-
 ## TODO: Bug when processing
 # sample_LMF_fixed_intervals = function(attr_uncertainty_period = 28, def_attr_period = 56, 
 #                                       sample_separation = 40, sample_period = 56,
 #                                       min_activity = 14,
 #                                       firstday, lastday, total_period) {
 #   
-
 ## TODO: Bug when procesing (...) (maybe? try to reproduce)
 
 
 # Function to create Roxygen comments -------------------------------------
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Create roxygen templates (and fix/reorder them as necessary)
 #' 
-#' @param dir text
-#' @param file_regex text
+#' @param dir directory to search under
+#' @param file_regex If non-null, apply this file_regex. 
 #' 
-#' @return text
+#' @return no output
 #' 
 #' @export
-create_roxy_templates = function(dir=DIR, file_regex = NULL) { 
+create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",
+                                 mode = c("R", "C")) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
   ##   content
   ## }
   
-  ## It should also be okay if the arguments are split across multiple lines. 
-  regexp_fxstart = "(^[[:alnum:]_]+) += +function"
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
-  
-  ## Look for all files, that match the current mode and file_regex setting
-  allfiles = find_files(dir = dir, mode = "R", file_regex = file_regex)
-  
-  ## Load in all relevant code files
-  all_code = list()
-  for(j in seq_along(allfiles)) {
-    all_code[[j]] = list(filename = allfiles[j],
-                         code = readLines(allfiles[j])   )
-  }
+
+  ## Find files, extract code
+  all_files = find_files(dir = dir, mode = mode, file_regex = file_regex)
+  all_code = extract_code(all_files)
   
   ## Wanted roxy output: 
   ## #` some title/description
