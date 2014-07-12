@@ -1,5 +1,9 @@
 
+library(metacode)
+create_roxy_templates(dir = "metacode/")
+
 detach(package:metacode)
+
 library(roxygen2)
 roxygenise("metacode/", clean = TRUE)
 
