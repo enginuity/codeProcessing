@@ -11,18 +11,14 @@
 #' @return nothing this stores results in logfile and prints to screen
 #' 
 #' @export
-log_result = function(..., file = log_file, header = TRUE, display = TRUE) {
+log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
   if (header) { 
     cat("\n---", date(), "---\n", sep = "", file = file, append = TRUE) 
   } else {    
-    if (is.character(what) & (length(what) == 1)) {
-      cat("---", date(), "--- ", ..., "\n", append = TRUE, file = file, sep = "")
-    } else {
-      cat(..., "\n", file = file, append = TRUE, sep = "")
-    }
+    cat(..., "\n", file = file, append = TRUE, sep = "")
   }
   if (display) {
-    cat(..., "\n")
+    cat(..., "\n", sep = "")
   }
   invisible(0)
 }
@@ -38,8 +34,8 @@ log_result = function(..., file = log_file, header = TRUE, display = TRUE) {
 #' 
 #' @export
 logfile_namecreation = function(logtype, query) {
-  res = paste("results/z", logtype, gsub("[^[:alnum:]]", "", query),
+  res = paste("results/z", logtype, "_", gsub("[^[:alnum:]]", "", query),
               "_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", 
-               sep = "")
+              sep = "")
   return(res)
 }
