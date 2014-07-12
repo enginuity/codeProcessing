@@ -22,7 +22,7 @@
 #' @return text
 #' 
 #' @export
-search_code = function(dir = ".", mode = c("R", "C"), regexp = "Default Search...", add_comment = NULL, 
+search_code = function(dir = DIR, mode = "R", regexp = "Default Search...", add_comment = NULL, 
                        file_regex = NULL, replace = NULL, replace_mark = TRUE, comment_head = "#|----##", fixed = FALSE) {
   ## mode: 'R' or 'C' depending on whether to look in R or C code.
   ## -- R code => looks at all .R files.

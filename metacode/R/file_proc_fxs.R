@@ -45,9 +45,9 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 #' 
 #' @export
 extract_code = function(files) {
-  res = list()
+  res = list(files = files, code = list())
   for(j in seq_along(files)) {
-    res[[j]] = list(filename = files[j], code = readLines(files[j]))
+    res$code[[j]] = readLines(files[j])
   }
   return(res)
 }

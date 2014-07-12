@@ -23,6 +23,8 @@ create_space_chars = function(v, ch = " ") {
 
 #' For elements of \code{t}, adjust its number of characters by prepending/appending/removing
 #' 
+#' This is obseleted by 'str_pad' in stringr?
+#' 
 #' @param t character vector to extend or shorten
 #' @param len target length
 #' @param at_end TRUE/FALSE: modify entries at beginning or at the end

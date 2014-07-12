@@ -18,6 +18,7 @@ generate_todolist = function(dir = ".") {
   
   ## Find files
   all_code = find_files(dir = dir, mode = "R", file_regex = NULL)
+#|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
 
   todo_type = NULL
   todolist = NULL
