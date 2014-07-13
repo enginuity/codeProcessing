@@ -85,7 +85,7 @@ reformat_documentation = function(cur_doc, params, function_name) {
   
   if (class(cur_doc) == "data.frame") {
     if (any(cur_doc$Mode == "Text")) { head_doc = cur_doc$Value[cur_doc$Mode == "Text"] }
-    if (any(cur_doc$Mode == "@return")) { return_doc = cur_doc$Value[cur_doc$Mode == "Return"] }
+    if (any(cur_doc$Mode == "@return")) { return_doc = cur_doc$Value[cur_doc$Mode == "@return"] }
     if (any(cur_doc$Mode == "@param")) {
       for(j in which(cur_doc$Mode == "@param")) {
         param_doc[which(params == cur_doc$Mode2[j])] = cur_doc$Value[j]
