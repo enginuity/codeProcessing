@@ -132,8 +132,8 @@ is_roxy_goodformat = function(cur_doc, params) {
 find_current_params = function(text) {
   ## Get rid of stuff within parenthesis
   text = substr(text, start = 2, stop = nchar(text) - 1)
-  text = gsub("[(].*?[)]", "", text)
   text = gsub("\".*?\"","", text)
+  text = gsub("[(].*?[)]", "", text)
   text = strsplit(text, ",")[[1]]
   text = gsub("=.*", "", text)
   text = gsub(" ", "", text)
