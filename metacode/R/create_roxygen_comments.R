@@ -50,7 +50,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       
       if (class(cur_doc) == "data.frame") { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
       doc = paste(proper_doc, collapse = "\n")
-      txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
+      txt[matchlines[k]] = paste(doc, "\n", txt[matchlines[k]], sep = "")
       
       #       if(!is_roxy_goodformat(cur_doc, params) & !test_run) {
       #         
