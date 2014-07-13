@@ -11,17 +11,17 @@ log_file = "results/test.txt"
 # create_roxy_templates(dir = DIR)
 
 search_code(regexp = "find_files")
-#|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
+
 search_code(regexp = "search_code", add_comment = "this function has been split (order of args changed)")
-#|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
+
+#Example -- replace_code(regexp = "find_files", replace = "testtest", add_comment = "TESTING!")
+
+search_code(regexp = "clear_comments", add_comment = "This function has been rewritten")
+clear_comments()
+temp = search_code_matches("test", dir = ".", mode = "R", file_regex = NULL, logged = "CLEAR-com")
 
 
-# search_code(mode = "R", regexp = "find_files", 
-# #|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
-#             add_comment = "*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code")
-# 
-# search_code_matches(regexp = "find_files") -> m
-# #|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
+
 
 create_roxy_templates(dir = "metacode/", test_run = TRUE)
 
