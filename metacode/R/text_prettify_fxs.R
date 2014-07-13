@@ -81,16 +81,17 @@ mark_gregexpr_loc = function(gr, len, fill_char = "*") {
 
 #' Like mark_gregexpr_loc, except for str_locate output. 
 #' 
-#' @param j single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows
+#' @param s single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows
 #' @param fill what to use as indicator text
 #' 
 #' @return character singleton that denotes where in the code the matches were. 
 #' 
 #' @export
-mark_strlocate = function(j, fill = "*") {
-  res = str_dup(" ", max(j[,2]))
-  for(k in nrow(j)) {
-    str_sub(res, j[k,1], j[k,2]) <- str_dup(fill, j[k,2] - j[k,1]+1)
+mark_strlocate = function(s, fill = "*") {
+  res = str_dup(" ", max(s[,2]))
+  for(k in nrow(s)) {
+    str_sub(res, s[k,1], s[k,2]) <- str_dup(fill, s[k,2] - s[k,1]+1)
   }
   return(res)
 }
+
