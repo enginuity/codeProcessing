@@ -83,9 +83,19 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
     mats$code[[j]][mats$matchlines[[j]]] = text
   }
   
-  if (write) { for(j in seq_along(mats$files)) { writeLines(text = mats$code[[j]], con = mats$files[j]) } }
+  if (write) { write_matchlist(mats)}
   return(m)
 }
+
+
+write_matchlist = function(mats) {
+  for(j in seq_along(mats$files)) {
+    writeLines(text = mats$code[[j]], con = mats$files[j])
+  }
+  invisible(0)
+}
+
+
 # Callable search functions -----------------------------------------------
 
 
@@ -103,10 +113,8 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 search_code = function(regexp = "Default Search...", add_comment = NULL, 
                        dir = DIR, mode = "R", file_regex = NULL) {
   
-  ## Look for all files, that match the current mode and file_regex setting, and extract code. 
-  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  
   mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
+  
   if (!is.null(add_comment)) { add_comment_matches(mats, add_comment, write = TRUE) }
   return("Search is done!")
 }
@@ -131,8 +139,6 @@ replace_code = function(regexp = "Default Search...", replace,
                         add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
                         dir = DIR, mode = "R", file_regex = NULL) {
   ## replace_mark - true => place marks as like in search code as an additional line to just the comment_head line
-  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  
   mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
   
   ## Do actual replacement: 
@@ -156,14 +162,12 @@ replace_code = function(regexp = "Default Search...", replace,
 #' 
 #' @export
 clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
-  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  
   mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 
-  for (j in seq_along(mats$files)) {
-    writeLines(text = mats$code[[j]][-mats$matchlines[[j]]], con = mats$files[j])
-  }
+  for (j in seq_along(mats$files)) { mats$code[[j]] = mats$code[[j]][-mats$matchlines[[j]]] }
+  write_matchlist(mats)
+  
   return("Comment clearing is done!")
 }
 
