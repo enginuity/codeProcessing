@@ -66,12 +66,11 @@ search_code_matches = function(regexp = "Default Search",
 #' @param regexp text
 #' @param add_comment adds a next line comment to original files where the regexp is found
 #' @param file_regex a regular expression to restrict filenames to search/process
-#' @param fixed text
 #' 
 #' @return text
 #' 
 #' @export
-search_code = function(regexp = "Default Search...", fixed = FALSE, add_comment = NULL, 
+search_code = function(regexp = "Default Search...", add_comment = NULL, 
                        dir = DIR, mode = "R", file_regex = NULL) {
   
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
@@ -126,7 +125,6 @@ add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##
 #' <<BasicInfo>> 
 #' 
 #' @param regexp text
-#' @param fixed text
 #' @param replace text
 #' @param add_comment text
 #' @param comment_heads text
@@ -137,7 +135,7 @@ add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##
 #' @return text
 #' 
 #' @export
-replace_code = function(regexp = "Default Search...", fixed = FALSE, replace, 
+replace_code = function(regexp = "Default Search...", replace, 
                         add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
                         dir = DIR, mode = "R", file_regex = NULL) {
   ## replace_mark - true => place marks as like in search code as an additional line to just the comment_head line
@@ -145,6 +143,8 @@ replace_code = function(regexp = "Default Search...", fixed = FALSE, replace,
   
   mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
   
+  ## Do actual replacement: 
+  for(j in )
   mats = add_comment_matches(m = mats, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
