@@ -41,7 +41,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
     for(k in seq_along(matchlines)) {
       params = find_current_params(param_segments[k])  
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
-      proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"))
+      proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+"))
       
       ## No need to check whether the current documentation *is* proper, since if we just replace it, 
       ## it wouldn't hurt if it was already correct. 
@@ -57,6 +57,54 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   
   if (!test_run) { write_matchlist(mats) }
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
+}
+
+roxyparam_subset = function(locate_df, param_name) {
+  inds = which(locate_df$paramname == param_name)
+  return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param",param_name), "", locate_df[inds, "paramval"])))
+}
+
+
+
+roxyparam_overwrite = function(locate_df, param_name, replace_text) {
+  inds = which(locate_df$paramname == param_name)
+  if (length(inds) == 0) { return("[No matching parameter names]") }
+  
+  new_param_doc = paste("#'", param_name, param_text)
+  files = unique(locate_df$filename)
+  for(f in files) {
+    lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
+    code = readLines(f)
+    for (l in lines) { code[l] = new_param_doc }
+    writeLines(text = code, con = f)
+  }
+  return("[Parameter Documentation replacement done!]")
+}
+
+
+roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+  mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+  
+  agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
+  
+  for(j in seq_along(mats$files)) {
+    txt = mats$code[[j]]
+    matchlines = mats$matchlines[[j]]
+    param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
+    
+    for(k in seq_along(matchlines)) {
+      params = find_current_params(param_segments[k])  
+      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+      if (is.data.frame(cur_doc)) {
+        fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        agg_params = rbind(agg_params, 
+                           data.frame(filename = mats$files[j], funcname = fn_name, 
+                                      paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
+                                      lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE))
+      }
+    }
+  }
+  return(agg_params[-1,])
 }
 
 
