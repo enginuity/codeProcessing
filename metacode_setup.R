@@ -13,5 +13,8 @@ log_file = "results/test.txt"
 search_code(mode = "R", regexp = "find_files", 
             add_comment = "*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code")
 
-search_code_simplify(regexp = "find_files") -> m
+search_code_matches(regexp = "find_files") -> m
+
+
+
 

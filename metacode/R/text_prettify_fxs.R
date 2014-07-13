@@ -78,3 +78,19 @@ mark_gregexpr_loc = function(gr, len, fill_char = "*") {
   }
   return(res)
 }
+
+#' Like mark_gregexpr_loc, except for str_locate output. 
+#' 
+#' @param j single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows
+#' @param fill what to use as indicator text
+#' 
+#' @return character singleton that denotes where in the code the matches were. 
+#' 
+#' @export
+mark_strlocate = function(j, fill = "*") {
+  res = str_pad("", max(j[,2]), 'right', " ")
+  for(k in nrow(j)) {
+    str_sub(res, j[k,1], j[k,2]) <- str_pad(fill, j[k,2] - j[k,1], 'right', fill)
+  }
+  return(res)
+}

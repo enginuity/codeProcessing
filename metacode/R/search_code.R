@@ -11,12 +11,11 @@
 #' <<BasicInfo>> 
 #' 
 #' @param regexp text
-#' @param search_code_simplify text
 #' 
 #' @return text
 #' 
 #' @export
-search_code_simplify = function(regexp = "Default Search", 
+search_code_matches = function(regexp = "Default Search", 
                                 dir = DIR, mode = "R", file_regex = NULL, 
                                 logged = TRUE) {
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
@@ -76,22 +75,7 @@ create_search_log = function(logtype, query, m) {
   invisible(0)
 }
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param j text
-#' @param fill text
-#' 
-#' @return text
-#' 
-#' @export
-mark_strlocate = function(j, fill = "*") {
-  res = str_pad("", max(j[,2]), 'right', " ")
-  for(k in nrow(j)) {
-    str_sub(res, j[k,1], j[k,2]) <- str_pad(fill, j[k,2] - j[k,1], 'right', fill)
-  }
-  return(res)
-}
+
 
 #   ## Add comments to original file if needed
 #   if (!is.null(add_comment)) {

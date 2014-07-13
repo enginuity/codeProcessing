@@ -14,17 +14,6 @@
 #' @return no output
 #' 
 #' @export
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param dir text
-#' @param file_regex text
-#' @param regexp_fxstart text
-#' @param mode text
-#' 
-#' @return text
-#' 
-#' @export
 create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",
                                  mode = c("R", "C")) { 
   ## Assumes functions are of the format 
