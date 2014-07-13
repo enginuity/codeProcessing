@@ -14,7 +14,8 @@ search_code(regexp = "find_files")
 
 search_code(regexp = "search_code", add_comment = "this function has been split (order of args changed)")
 
-Example -- replace_code(regexp = "find_files", replace = "testtest", add_comment = "TESTING!")
+#Example -- 
+#replace_code(regexp = "find_files", replace = "testtest", add_comment = "TESTING!")
 
 search_code(regexp = "clear_comments", add_comment = "This function has been rewritten")
 clear_comments()
