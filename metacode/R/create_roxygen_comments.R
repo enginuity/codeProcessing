@@ -1,3 +1,5 @@
+##@S Functions to produce Roxygen2 comments
+
 ## TODO: [Testing] -- need to do more testing of functions/features here... 
 ## TODO: Allow function to reorder the params when the order of input is changed. 
 
@@ -5,33 +7,30 @@
 ## TODO: -- allow clicking on dependency tree to load documentation
 
 ## TODO: [Idea] allow for matching/checking of documentation for parameters to be the same... 
+## TODO: Add in default info, for parameters? forget this for now. 
+## TODO: Actually copy info, rather than only checking to see if things are missing. 
+## TODO: Figure out if 'everything' should be @exported; this is currently done. 
+
+
+
 # Function to create Roxygen comments -------------------------------------
 
 #' Create roxygen templates (and fix/reorder them as necessary)
+#' DO NOT DO THIS WITHOUT VERSION CONTROL!
 #' 
 #' @param dir directory to search under
 #' @param file_regex If non-null, apply this file_regex. 
 #' @param regexp_fxstart text
-#' @param mode text
 #' @param test_run text
 #' 
 #' @return no output
 #' 
 #' @export
-create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",
-                                 mode = c("R", "C"), test_run = FALSE) { 
+create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",  test_run = FALSE) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
   ##   content
   ## }
-  
-  ## DO NOT DO THIS WITHOUT VERSION CONTROL!
-  
-  log_file = logfile_namecreation(logtype = "create_roxy", query = regexp_fxstart)
-  log_result("Searching for functions to add/fix roxygen2 template", file = log_file)
-  ## Find files, extract code
-  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  #|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
   
   ## Wanted roxy output: 
   ## #` some title/description
@@ -39,49 +38,46 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ## #` @param ... 
   ## #` @result ...
   ## #` @export
+
+  mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
-  ## Search through code and make changes as necessary
-  for(j in seq_along(all_code$files)) {
-    txt = all_code$code[[j]]
+  for(j in seq_along(mats$files)) {
+    txt = mats$code[[j]]
+    matchlines = mats$matchlines[[j]]
+    param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
     
-    gr = str_match_all(pattern=regexp_fxstart, txt)
-    heads = which(sapply(gr, length) > 0)
-    
-    if(length(heads) > 0) {
-      param_segments = find_all_enclosed(text=txt, startpositions=cbind(heads, 1))
+    for(k in seq_along(matchlines)) {
+      params = find_current_params(param_segments[k])  
+      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
       
-      replacement_code = all_code$code[[j]]
-      for(k in seq_along(heads)) {
-        #print(param_segments[k])
-        params = find_current_params(param_segments[k])
-        cur_doc = find_all_prev_documentation(text=txt, lineno = heads[k])
-        
-        ## TODO: Add in default info, for parameters? forget this for now. 
-        ## TODO: Actually copy info, rather than only checking to see if things are missing. 
-        ## TODO: Figure out if 'everything' should be @exported; this is currently done. 
-        good_format = TRUE
-        if (class(cur_doc) != "data.frame") {
-          good_format = FALSE
-        } else {
-          if (!(any(cur_doc$Mode == "@return")) | !(any(cur_doc$Mode =="@export"))) {
-            good_format = FALSE
-          } else if (any(is.na(match(params, cur_doc$Mode2)))) {
-            good_format = FALSE
-          }
-        }
-        if(!good_format & !test_run) {
-          ins = c("#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
-          doc = paste(ins, collapse = "\n")
-          lineno = heads[k]
-          replacement_code[lineno] = paste(doc, "\n", replacement_code[lineno], sep = "")
-        }
-        
+      if(!is_roxy_goodformat(cur_doc, params) & !test_run) {
+        ins = c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",
+                      str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"),")", sep = ""),
+                "#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", 
+                "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
+        doc = paste(ins, collapse = "\n")
+        txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
       }
     }
-    
-    writeLines(replacement_code, con = all_code$files[[j]])
   }
-  return("Done! [Inserting documentation]")
+  
+  write_matchlist(mats)
+  return("Done! [Inserting documentation (roxygen) templates]")
+}
+
+
+is_roxy_goodformat = function(cur_doc, params) {
+  good_format = TRUE
+  if (class(cur_doc) != "data.frame") {
+    good_format = FALSE
+  } else {
+    if (!(any(cur_doc$Mode == "@return")) | !(any(cur_doc$Mode =="@export"))) {
+      good_format = FALSE
+    } else if (any(is.na(match(params, cur_doc$Mode2)))) {
+      good_format = FALSE
+    }
+  }
+  return(good_format)
 }
 
 
