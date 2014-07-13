@@ -24,8 +24,8 @@
 #' 
 #' @export
 search_code_matches = function(regexp = "Default Search", 
-                                dir = DIR, mode = "R", file_regex = NULL, 
-                                logged = NULL) {
+                               dir = DIR, mode = "R", file_regex = NULL, 
+                               logged = NULL) {
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
   
@@ -82,6 +82,20 @@ search_code = function(regexp = "Default Search...", fixed = FALSE, add_comment 
   return("Search is done!")
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param m text
+#' @param add_comment text
+#' @param comment_heads text
+#' @param mark text
+#' @param mark_replace_len text
+#' @param marker text
+#' @param write text
+#' 
+#' @return text
+#' 
+#' @export
 add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##"), 
                                mark = FALSE, mark_replace_len = NULL, marker = "*",
                                write = FALSE) {
@@ -108,20 +122,35 @@ add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##
   return(m)
 }
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param regexp text
+#' @param fixed text
+#' @param replace text
+#' @param add_comment text
+#' @param comment_heads text
+#' @param replace_mark text
+#' @param mode text
+#' @param file_regex text
+#' 
+#' @return text
+#' 
+#' @export
 replace_code = function(regexp = "Default Search...", fixed = FALSE, replace, 
-                        add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE
-                        dir = DIR, mode = "R", file_regex = NULL)
+                        add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
+                        dir = DIR, mode = "R", file_regex = NULL) {
   ## replace_mark - true => place marks as like in search code as an additional line to just the comment_head line
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-
+  
   mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
-
+  
   mats = add_comment_matches(m = mats, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
-
+  
   return("Replacements are done!")
 }
-      
+
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 

@@ -1,4 +1,3 @@
-
 library(metacode)
 library(stringr)
 create_roxy_templates(dir = "metacode/")
@@ -18,5 +17,6 @@ system("R CMD INSTALL metacode")
 #  install.packages(pkgs="metacode_1.0.tar.gz")
 
 library(metacode)
+library(stringr)
 
 
