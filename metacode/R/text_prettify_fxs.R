@@ -88,9 +88,9 @@ mark_gregexpr_loc = function(gr, len, fill_char = "*") {
 #' 
 #' @export
 mark_strlocate = function(j, fill = "*") {
-  res = str_pad("", max(j[,2]), 'right', " ")
+  res = str_dup(" ", max(j[,2]))
   for(k in nrow(j)) {
-    str_sub(res, j[k,1], j[k,2]) <- str_pad(fill, j[k,2] - j[k,1], 'right', fill)
+    str_sub(res, j[k,1], j[k,2]) <- str_dup(fill, j[k,2] - j[k,1]+1)
   }
   return(res)
 }
