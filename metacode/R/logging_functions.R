@@ -41,14 +41,13 @@ logfile_namecreation = function(logtype, query) {
 }
 
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Writes a logfile, for various search operations. 
 #' 
-#' @param logtype text
-#' @param query text
-#' @param m text
+#' @param logtype Logtype for entering into filename
+#' @param query regexp that was searched for, to be added to filename
+#' @param m search result match list. 
 #' 
-#' @return text
+#' @return Nothing
 #' 
 #' @export
 create_search_log = function(logtype, query, m) {

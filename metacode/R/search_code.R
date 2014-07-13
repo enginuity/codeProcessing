@@ -1,7 +1,6 @@
 ##@S Code for searching the entire codebase (all '.R' files) for certain text. 
 ##@S   Search results are output inside this directory (metadata)
 
-## TODO: Reorganize this file, rewrite functions?
 ## TODO: [Find code] Get my 'todo' finder...  
 
 ## mode: 'R' or 'C' depending on whether to look in R or C code.
@@ -49,14 +48,45 @@ search_code_matches = function(regexp = "Default Search",
 }
 
 
+#' Adds comments into the code, and writes if necessary
+#' 
+#' @param mats search match list
+#' @param add_comment comment to add in code
+#' @param comment_heads length 2 vector: short/long comment header
+#' @param mark T/F: True includes location of replace match. 
+#' @param mark_replace_len if non NULL, length of replacement (to modify search markers)
+#' @param marker marker character, defaults to "*"
+#' @param write write comments to code? (FALSE is essentially for a test run, or to make modifications that are manually written later)
+#' 
+#' @return modified mats list. 
+#' 
+#' @export
+add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|----##"), 
+                               mark = FALSE, mark_replace_len = NULL, marker = "*",
+                               write = FALSE) {
+  for(j in seq_along(mats$files)) { 
+    text = mats$code[[j]][mats$matchlines[[j]]]
+    if (mark) {
+      for(k in seq_along(mats$matchlines[[j]])) {
+        com = mark_strlocate(mats$matchlocs[[j]][[k]])
+        str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
+        
+        if (!is.null(mark_replace_len)) { 
+          com = str_replace_all(com, pattern = paste("[",marker,"]+",sep=""), replacement = str_dup(marker, times = mark_replace_len)) 
+        }
+        
+        text[k] = paste(text[k], "\n", com,sep = "")
+      }
+    }
+    text = paste(text, "\n", comment_heads[2], add_comment, " --", date(), "--", sep = "")
+    
+    mats$code[[j]][mats$matchlines[[j]]] = text
+  }
+  
+  if (write) { for(j in seq_along(mats$files)) { writeLines(text = mats$code[[j]], con = mats$files[j]) } }
+  return(m)
+}
 # Callable search functions -----------------------------------------------
-
-
-
-
-
-
-
 
 
 #' Search code, and potentially add comments. 
@@ -81,45 +111,6 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
   return("Search is done!")
 }
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param m text
-#' @param add_comment text
-#' @param comment_heads text
-#' @param mark text
-#' @param mark_replace_len text
-#' @param marker text
-#' @param write text
-#' 
-#' @return text
-#' 
-#' @export
-add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##"), 
-                               mark = FALSE, mark_replace_len = NULL, marker = "*",
-                               write = FALSE) {
-  for(j in seq_along(m$files)) { 
-    text = m$code[[j]][m$matchlines[[j]]]
-    if (mark) {
-      for(k in seq_along(m$matchlines[[j]])) {
-        com = mark_strlocate(m$matchlocs[[j]][[k]])
-        str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
-        
-        if (!is.null(mark_replace_len)) { 
-          com = str_replace_all(com, pattern = paste("[",marker,"]+",sep=""), replacement = str_dup(marker, times = mark_replace_len)) 
-        }
-        
-        text[k] = paste(text[k], "\n", com,sep = "")
-      }
-    }
-    text = paste(text, "\n", comment_heads[2], add_comment, " --", date(), "--", sep = "")
-    
-    m$code[[j]][m$matchlines[[j]]] = text
-  }
-  
-  if (write) { for(j in seq_along(m$files)) { writeLines(text = m$code[[j]], con = m$files[j]) } }
-  return(m)
-}
 
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
