@@ -164,14 +164,14 @@ replace_code = function(regexp = "Default Search...", replace,
 #' @return text
 #' 
 #' @export
-clear_comments = function(comment_regex = "^#|", dir = DIR, mode = "R", file_regex = NULL) {
+clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
   
   mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 
-  for (j in seq_along(m$files)) {
-    writeLines(text = m$code[[j]][-m$matchlines[[j]]], con = m$files[j])
+  for (j in seq_along(mats$files)) {
+    writeLines(text = mats$code[[j]][-mats$matchlines[[j]]], con = mats$files[j])
   }
   return("Comment clearing is done!")
 }
