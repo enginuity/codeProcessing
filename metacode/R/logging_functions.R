@@ -24,13 +24,13 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 }
 
 
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' Creates log_file value to enter as logfile name. 
 #' 
-#' @param logtype text
-#' @param query text
+#' @param logtype type-identifier in filename
+#' @param query regexp used as query for type
 #' 
-#' @return text
+#' @return a filename, to be stored under folder results/
 #' 
 #' @export
 logfile_namecreation = function(logtype, query) {

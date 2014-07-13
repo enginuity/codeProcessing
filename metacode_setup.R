@@ -15,6 +15,6 @@ search_code(mode = "R", regexp = "find_files",
 
 search_code_matches(regexp = "find_files") -> m
 
-
+create_roxy_templates(dir = "metacode/", test_run = TRUE)
 
 

@@ -1,5 +1,6 @@
 
 library(metacode)
+library(stringr)
 create_roxy_templates(dir = "metacode/")
 
 detach(package:metacode)

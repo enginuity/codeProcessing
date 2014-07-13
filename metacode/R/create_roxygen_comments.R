@@ -10,25 +10,28 @@
 #' 
 #' @param dir directory to search under
 #' @param file_regex If non-null, apply this file_regex. 
+#' @param regexp_fxstart text
+#' @param mode text
+#' @param test_run text
 #' 
 #' @return no output
 #' 
 #' @export
 create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",
-                                 mode = c("R", "C")) { 
+                                 mode = c("R", "C"), test_run = FALSE) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
   ##   content
   ## }
   
   ## DO NOT DO THIS WITHOUT VERSION CONTROL!
-
+  
   log_file = logfile_namecreation(logtype = "create_roxy", query = regexp_fxstart)
   log_result("Searching for functions to add/fix roxygen2 template", file = log_file)
   ## Find files, extract code
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-#|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
-
+  #|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
+  
   ## Wanted roxy output: 
   ## #` some title/description
   ## #` ...
@@ -48,6 +51,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       
       replacement_code = all_code$code[[j]]
       for(k in seq_along(heads)) {
+        #print(param_segments[k])
         params = find_current_params(param_segments[k])
         cur_doc = find_all_prev_documentation(text=txt, lineno = heads[k])
         
@@ -64,13 +68,13 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
             good_format = FALSE
           }
         }
-        if(!good_format) {
+        if(!good_format & !test_run) {
           ins = c("#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
           doc = paste(ins, collapse = "\n")
           lineno = heads[k]
           replacement_code[lineno] = paste(doc, "\n", replacement_code[lineno], sep = "")
         }
-
+        
       }
     }
     
@@ -170,7 +174,7 @@ extract_location_pair = function(text, start, end) {
   } else {
     return(paste(sep = "", 
                  substr(text[start[1]], start=start[2], stop = nchar(text[start[1]])),
-                 paste(text[start[1]:end[1]], sep = "", collapse = ""),
+                 paste(text[(start[1]+1):(end[1]-1)], sep = "", collapse = ""),
                  substr(text[end[1]], start = 1, stop = end[2])
     ))
   }

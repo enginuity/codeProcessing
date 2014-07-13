@@ -11,6 +11,10 @@
 #' <<BasicInfo>> 
 #' 
 #' @param regexp text
+#' @param dir text
+#' @param mode text
+#' @param file_regex text
+#' @param logged text
 #' 
 #' @return text
 #' 
