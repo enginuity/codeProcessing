@@ -14,6 +14,17 @@
 #' @return no output
 #' 
 #' @export
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param file_regex text
+#' @param regexp_fxstart text
+#' @param mode text
+#' 
+#' @return text
+#' 
+#' @export
 create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",
                                  mode = c("R", "C")) { 
   ## Assumes functions are of the format 
@@ -27,6 +38,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   log_result("Searching for functions to add/fix roxygen2 template", file = log_file)
   ## Find files, extract code
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+#|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
 
   ## Wanted roxy output: 
   ## #` some title/description
@@ -36,8 +48,8 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ## #` @export
   
   ## Search through code and make changes as necessary
-  for(j in seq_along(all_code)) {
-    txt = all_code[[j]]$code
+  for(j in seq_along(all_code$files)) {
+    txt = all_code$code[[j]]
     
     gr = str_match_all(pattern=regexp_fxstart, txt)
     heads = which(sapply(gr, length) > 0)
@@ -45,7 +57,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
     if(length(heads) > 0) {
       param_segments = find_all_enclosed(text=txt, startpositions=cbind(heads, 1))
       
-      replacement_code = all_code[[j]]$code
+      replacement_code = all_code$code[[j]]
       for(k in seq_along(heads)) {
         params = find_current_params(param_segments[k])
         cur_doc = find_all_prev_documentation(text=txt, lineno = heads[k])
@@ -73,7 +85,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       }
     }
     
-    writeLines(replacement_code, con = all_code[[j]]$filename)
+    writeLines(replacement_code, con = all_code$files[[j]])
   }
   return("Done! [Inserting documentation]")
 }
