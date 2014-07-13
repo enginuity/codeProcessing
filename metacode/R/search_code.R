@@ -129,6 +129,7 @@ add_comment_matches = function(m, add_comment, comment_heads = c("#|", "#|----##
 #' @param add_comment text
 #' @param comment_heads text
 #' @param replace_mark text
+#' @param dir text
 #' @param mode text
 #' @param file_regex text
 #' 
@@ -155,54 +156,23 @@ replace_code = function(regexp = "Default Search...", replace,
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
+#' @param comment_regex text
 #' @param dir text
 #' @param mode text
-#' @param "C" text
-#' @param regexp text
 #' @param file_regex text
 #' 
 #' @return text
 #' 
 #' @export
-clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_regex = NULL) {
-  ## DO NOT DO THIS WITHOUT VERSION CONTROL!
-  
-  ## Look for all files, that match the current mode and file_regex setting
+clear_comments = function(comment_regex = "^#|", dir = DIR, mode = "R", file_regex = NULL) {
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-  #|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
   
-  ## Create savefile name
-  sfile = paste("results/zCLEARCOMMENTS_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
+  mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
   
-  ## Search files, outputting relevant information to savefile. 
-  cat('Searching for "', regexp, '"', "\n", date(), "\n\n", sep = "", file = sfile, append = TRUE)
-  
-  
-  for(j in seq_along(all_code)) {
-    gr = gregexpr(regexp, all_code[[j]]$code, fixed=fixed)
-    if (length(gr) > 0) {
-      match_lines = which(sapply(gr, function(x) {x[1] > 0}))
-      
-      if (length(match_lines) > 0) {
-        any_match = TRUE
-        cat("\n", file = sfile, append = TRUE)
-        cat("**************************************************\n", file = sfile, append = TRUE)
-        cat("**************************************************\n", file = sfile, append = TRUE)
-        cat("Matches found in '", all_code[[j]]$filename,"' \n", sep = "", file = sfile, append = TRUE)
-        
-        for(k in match_lines) {
-          cat(fix_length(t = k, len = 4), "||", 
-              all_code[[j]]$code[k], 
-              " \n", sep = "", file = sfile, append = TRUE)
-          cat(fix_length(t = " ", len = 4), "||",
-              mark_gregexpr_loc(gr = gr[[k]], len = nchar(all_code[[j]]$code[k])),
-              "\n------\n\n", sep = "", file = sfile, append = TRUE)
-        }
-        replacement_code = all_code[[j]]$code
-        writeLines(replacement_code[-match_lines], con = all_code[[j]]$filename)
-      }    
-    }
+  ## Do actual comment clearing: 
+  for (j in seq_along(m$files)) {
+    writeLines(text = m$code[[j]][-m$matchlines[[j]]], con = m$files[j])
   }
-  cat("\n--- Search Done! ---\n", sep = "", file = sfile, append = TRUE)
-  return("Done! [Searching code for text]")
-}  
+  return("Comment clearing is done!")
+}
+
