@@ -84,7 +84,7 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
   }
   
   if (write) { write_matchlist(mats)}
-  return(m)
+  return(mats)
 }
 
 
@@ -152,7 +152,7 @@ replace_code = function(regexp = "Default Search...", replace,
   ## Do actual replacement: 
   for(j in seq_along(mats$files)) { mats$code[[j]] = str_replace_all(mats$code[[j]], regexp, replace) }
   
-  mats = add_comment_matches(m = mats, add_comment = add_comment, comment_heads = comment_heads, 
+  mats = add_comment_matches(mats = mats, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
   return("Replacements are done!")
