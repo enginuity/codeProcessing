@@ -1,34 +1,30 @@
 ##@S Functions to produce Roxygen2 comments
 
 ## TODO: [Testing] -- need to do more testing of functions/features here... 
-## TODO: Allow function to reorder the params when the order of input is changed. 
 
 ## TODO: [Idea] integrate dependency tree with documentation; 
 ## TODO: -- allow clicking on dependency tree to load documentation
 
 ## TODO: [Idea] allow for matching/checking of documentation for parameters to be the same... 
-## TODO: Add in default info, for parameters? forget this for now. 
-## TODO: Actually copy info, rather than only checking to see if things are missing. 
-## TODO: Figure out if 'everything' should be @exported; this is currently done. 
 
+## TODO: [Low-Priority] Figure out if 'everything' should be @exported; this is currently done. 
 
 
 # Function to create Roxygen comments -------------------------------------
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
 #' Create roxygen templates (and fix/reorder them as necessary)
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
 #' 
-#' @param dir directory to search under
-#' @param file_regex If non-null, apply this file_regex. 
-#' @param regexp_fxstart text
-#' @param test_run text
+#' @param dir Directory to search for R files under
+#' @param file_regex If non-NULL, apply this regex to files, limit files to such
+#' @param regexp_fxstart Regex to determine function starts; default should work
+#' @param test_run Won't write any changes to file, unless test_run is FALSE. 
 #' 
-#' @return no output
+#' @return none
 #' 
 #' @export
 #' 
-create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",  test_run = FALSE) { 
+create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
   ##   content
@@ -53,25 +49,24 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       if (class(cur_doc) == "data.frame") { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
       doc = paste(proper_doc, collapse = "\n")
       txt[matchlines[k]] = paste(doc, "\n", txt[matchlines[k]], sep = "")
-      
     }
+    
     if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
     mats$code[[j]] = txt
   }
   
-  write_matchlist(mats)
+  if (!test_run) { write_matchlist(mats) }
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reformat)
-#' <<BasicInfo>> 
+#' Takes old (or non-existent) roxygen documentation, and reformats it
 #' 
-#' @param cur_doc temp
-#' @param params temp
-#' @param function_name temp
+#' @param cur_doc old documentation (as data frame output)
+#' @param params function parameters
+#' @param function_name function name
 #' 
-#' @return temp
+#' @return character vector: correct roxygen documentation
 #' 
 #' @export
 #' 
@@ -102,13 +97,11 @@ reformat_documentation = function(cur_doc, params, function_name) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Processes function parameters and attempts to extract out all parameter names
 #' 
-#' @param text text
+#' @param text Should be all the code 'here' in [function() { ..here.. }]
 #' 
-#' @return text
+#' @return character vecctor of all parameter names
 #' 
 #' @export
 #' 
@@ -124,22 +117,21 @@ find_current_params = function(text) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Looks for the next open/close parethesis set, accounting for parenthesis embedding
+#' Allows for arbitrary types of open/close parens. 
 #' 
-#' @param text text
-#' @param startposition text
-#' @param regex_s text
-#' @param regex_e text
+#' @param text code to process
+#' @param startposition a vector(lineno, charpos) denoting where to find 
+#' @param regex_s regex to find 'open-paren'
+#' @param regex_e regex to find 'close-paren'
 #' 
-#' @return text
+#' @return contents of next open/close paren set
 #' 
 #' @export
 #' 
 find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = "[)]") {
   ## text is a vector; this looks for things that span multiple entries. 
-  ## startposition is a vector(lineno, charpos)
+  ## 
   starts = str_locate_all(text, regex_s)
   ends = str_locate_all(text, regex_e)  
   
@@ -174,15 +166,14 @@ find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = 
   return(gsub(" +", " ", extract_location_pair(text, start = firstloc, end = endloc)))
 }
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' Extracts all text between the starting and ending vector pairs.
 #' 
 #' @param text text
-#' @param start text
-#' @param end text
+#' @param start starting vector(lineno, charno) pair
+#' @param end ending vector(lineno, charno) pair
 #' 
-#' @return text
+#' @return All text (as character singleton) between starting/ending pairs
 #' 
 #' @export
 #' 
@@ -295,9 +286,8 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
   ## Finds all previous lines (compared to lineno) that start with the specific header type
   ## reutnrs linenumbres
   z = grep(header, text) 
-  breaks = setdiff(seq_along(text), z)
+  breaks = c(0,setdiff(seq_along(text), z))
   closest_break = max(breaks[breaks < lineno])
-  ## TODO: This line (closest_break = .. need to do something when breaks is empty)
   
   if (closest_break < 0) {
     return(NA)
