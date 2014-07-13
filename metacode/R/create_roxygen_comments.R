@@ -54,15 +54,6 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       doc = paste(proper_doc, collapse = "\n")
       txt[matchlines[k]] = paste(doc, "\n", txt[matchlines[k]], sep = "")
       
-      #       if(!is_roxy_goodformat(cur_doc, params) & !test_run) {
-      #         
-      #         ins = c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",
-      #                       str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"),")", sep = ""),
-      #                 "#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", 
-      #                 "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
-      #         doc = paste(ins, collapse = "\n")
-      #         txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
-      #       }
     }
     if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
     mats$code[[j]] = txt
@@ -108,31 +99,6 @@ reformat_documentation = function(cur_doc, params, function_name) {
   
   return(c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = ""),
            head_doc, "#' ", param_doc, "#' ", return_doc, "#' ", "#' @export", "#' "))
-}
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (is)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param cur_doc text
-#' @param params text
-#' 
-#' @return text
-#' 
-#' @export
-#' 
-is_roxy_goodformat = function(cur_doc, params) {
-  good_format = TRUE
-  if (class(cur_doc) != "data.frame") {
-    good_format = FALSE
-  } else {
-    if (!(any(cur_doc$Mode == "@return")) | !(any(cur_doc$Mode =="@export"))) {
-      good_format = FALSE
-    } else if (any(is.na(match(params, cur_doc$Mode2)))) {
-      good_format = FALSE
-    }
-  }
-  return(good_format)
 }
 
 
