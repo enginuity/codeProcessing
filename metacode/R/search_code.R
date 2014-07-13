@@ -144,7 +144,8 @@ replace_code = function(regexp = "Default Search...", replace,
   mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
   
   ## Do actual replacement: 
-  for(j in )
+  for(j in seq_along(mats$files)) { mats$code[[j]] = str_replace_all(mats$code[[j]], regexp, replace) }
+  
   mats = add_comment_matches(m = mats, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
