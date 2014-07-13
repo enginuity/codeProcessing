@@ -10,6 +10,7 @@
 
 # Helper Functions --------------------------------------------------------
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (search)
 #' Searches code for certain regular expressions. This is a helper function that should be called by 
 #' any function that requires searching. 
 #' 
@@ -22,6 +23,7 @@
 #' @return a list of search result matches. 
 #' 
 #' @export
+#' 
 search_code_matches = function(regexp = "Default Search", 
                                dir = DIR, mode = "R", file_regex = NULL, 
                                logged = NULL) {
@@ -48,6 +50,7 @@ search_code_matches = function(regexp = "Default Search",
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (add)
 #' Adds comments into the code, and writes if necessary
 #' 
 #' @param mats search match list
@@ -61,6 +64,7 @@ search_code_matches = function(regexp = "Default Search",
 #' @return modified mats list. 
 #' 
 #' @export
+#' 
 add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|----##"), 
                                mark = FALSE, mark_replace_len = NULL, marker = "*",
                                write = FALSE) {
@@ -88,6 +92,7 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (write)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -96,6 +101,7 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 #' @return text
 #' 
 #' @export
+#' 
 write_matchlist = function(mats) {
   for(j in seq_along(mats$files)) {
     writeLines(text = mats$code[[j]], con = mats$files[j])
@@ -107,17 +113,19 @@ write_matchlist = function(mats) {
 # Callable search functions -----------------------------------------------
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (search)
 #' Search code, and potentially add comments. 
 #' 
-#' @param dir text
-#' @param mode text
 #' @param regexp text
 #' @param add_comment adds a next line comment to original files where the regexp is found
+#' @param dir text
+#' @param mode text
 #' @param file_regex a regular expression to restrict filenames to search/process
 #' 
 #' @return text
 #' 
 #' @export
+#' 
 search_code = function(regexp = "Default Search...", add_comment = NULL, 
                        dir = DIR, mode = "R", file_regex = NULL) {
   
@@ -128,6 +136,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (replace)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -143,6 +152,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' @return text
 #' 
 #' @export
+#' 
 replace_code = function(regexp = "Default Search...", replace, 
                         add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
                         dir = DIR, mode = "R", file_regex = NULL) {
@@ -158,6 +168,7 @@ replace_code = function(regexp = "Default Search...", replace,
   return("Replacements are done!")
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (clear)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -169,6 +180,7 @@ replace_code = function(regexp = "Default Search...", replace,
 #' @return text
 #' 
 #' @export
+#' 
 clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
   mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
   

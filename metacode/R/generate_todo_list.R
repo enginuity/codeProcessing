@@ -4,6 +4,7 @@
 ## TODO: [C-functionality] add C processing also
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (generate)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -12,6 +13,7 @@
 #' @return text
 #' 
 #' @export
+#' 
 generate_todolist = function(dir = ".") {
   ## TODO: [Document] this.
   ## TODO: [Test] this function. 

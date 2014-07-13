@@ -1,6 +1,7 @@
 ##@S This file contains functions for logging
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (log)
 #' Add logline to logfile
 #' 
 #' @param ... Objects to log
@@ -11,6 +12,7 @@
 #' @return nothing this stores results in logfile and prints to screen
 #' 
 #' @export
+#' 
 log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
   if (header) { 
     cat("\n---", date(), "---\n", sep = "", file = file, append = TRUE) 
@@ -25,6 +27,7 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (logfile)
 #' Creates log_file value to enter as logfile name. 
 #' 
 #' @param logtype type-identifier in filename
@@ -33,6 +36,7 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 #' @return a filename, to be stored under folder results/
 #' 
 #' @export
+#' 
 logfile_namecreation = function(logtype, query) {
   res = paste("results/z", logtype, "_", gsub("[^[:alnum:]]", "", query),
               "_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", 
@@ -41,6 +45,7 @@ logfile_namecreation = function(logtype, query) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
 #' Writes a logfile, for various search operations. 
 #' 
 #' @param logtype Logtype for entering into filename
@@ -50,6 +55,7 @@ logfile_namecreation = function(logtype, query) {
 #' @return Nothing
 #' 
 #' @export
+#' 
 create_search_log = function(logtype, query, m) {
   ## This function writes a search logfile (only does this; this shall be called by search_code)
   ## m = match list

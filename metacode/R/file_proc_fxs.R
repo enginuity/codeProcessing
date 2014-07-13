@@ -1,6 +1,7 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' Find all files with appropriate file extensions, and extract code
 #' 
 #' @param dir what directory to search for (and all sub-directories)
@@ -10,6 +11,7 @@
 #' @return vector of all appropriate filenames 
 #' 
 #' @export
+#' 
 find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
   res = list.files(path = dir, recursive = TRUE, full.names = TRUE)
 
@@ -37,6 +39,7 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract)
 #' reads code for files into memory
 #' 
 #' @param files vector of filenames
@@ -44,6 +47,7 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 #' @return list of filenames, code
 #' 
 #' @export
+#' 
 extract_code = function(files) {
   res = list(files = files, code = list())
   for(j in seq_along(files)) {

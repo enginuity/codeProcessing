@@ -15,6 +15,7 @@
 
 # Function to create Roxygen comments -------------------------------------
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
 #' Create roxygen templates (and fix/reorder them as necessary)
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
 #' 
@@ -26,6 +27,7 @@
 #' @return no output
 #' 
 #' @export
+#' 
 create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function",  test_run = FALSE) { 
   ## Assumes functions are of the format 
   ## FUNCTION_NAME = function( .... ) {
@@ -71,6 +73,17 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reformat)
+#' <<BasicInfo>> 
+#' 
+#' @param cur_doc temp
+#' @param params temp
+#' @param function_name temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 reformat_documentation = function(cur_doc, params, function_name) {
   ## Wanted roxy output: 
   ## #` some title/description
@@ -97,6 +110,7 @@ reformat_documentation = function(cur_doc, params, function_name) {
            head_doc, "#' ", param_doc, "#' ", return_doc, "#' ", "#' @export", "#' "))
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (is)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -106,6 +120,7 @@ reformat_documentation = function(cur_doc, params, function_name) {
 #' @return text
 #' 
 #' @export
+#' 
 is_roxy_goodformat = function(cur_doc, params) {
   good_format = TRUE
   if (class(cur_doc) != "data.frame") {
@@ -121,6 +136,7 @@ is_roxy_goodformat = function(cur_doc, params) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -129,6 +145,7 @@ is_roxy_goodformat = function(cur_doc, params) {
 #' @return text
 #' 
 #' @export
+#' 
 find_current_params = function(text) {
   ## Get rid of stuff within parenthesis
   text = substr(text, start = 2, stop = nchar(text) - 1)
@@ -141,6 +158,7 @@ find_current_params = function(text) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -152,6 +170,7 @@ find_current_params = function(text) {
 #' @return text
 #' 
 #' @export
+#' 
 find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = "[)]") {
   ## text is a vector; this looks for things that span multiple entries. 
   ## startposition is a vector(lineno, charpos)
@@ -189,6 +208,7 @@ find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = 
   return(gsub(" +", " ", extract_location_pair(text, start = firstloc, end = endloc)))
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -199,6 +219,7 @@ find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = 
 #' @return text
 #' 
 #' @export
+#' 
 extract_location_pair = function(text, start, end) {
   if (start[1] == end[1]) {
     return(substr(text[start[1]],start=start[2], stop = end[2]))
@@ -217,6 +238,7 @@ extract_location_pair = function(text, start, end) {
   }
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -227,6 +249,7 @@ extract_location_pair = function(text, start, end) {
 #' @return text
 #' 
 #' @export
+#' 
 find_next_location = function(loc_list, ln, cn) {
   same_line_match = which(loc_list[[ln]][,1] >= cn)
   if (length(same_line_match) > 0) {
@@ -242,6 +265,7 @@ find_next_location = function(loc_list, ln, cn) {
   }
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (compare)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -251,6 +275,7 @@ find_next_location = function(loc_list, ln, cn) {
 #' @return text
 #' 
 #' @export
+#' 
 compare_locations = function(loc1, loc2) {
   ## Returns the earlier location
   if (loc1[1] == loc2[1]) {
@@ -266,6 +291,7 @@ compare_locations = function(loc1, loc2) {
   }
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -277,6 +303,7 @@ compare_locations = function(loc1, loc2) {
 #' @return text
 #' 
 #' @export
+#' 
 find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[)]") {
   N = nrow(startpositions)
   res = rep("", N)
@@ -286,6 +313,7 @@ find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[
   return(res)
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -296,6 +324,7 @@ find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[
 #' @return text
 #' 
 #' @export
+#' 
 find_all_prev_headers = function(text, lineno, header="^#'") {
   ## Finds all previous lines (compared to lineno) that start with the specific header type
   ## reutnrs linenumbres
@@ -313,6 +342,7 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
   }
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -323,6 +353,7 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 #' @return text
 #' 
 #' @export
+#' 
 find_all_prev_documentation = function(text, lineno, header = "^#'") {
   prev_lines = find_all_prev_headers(text, lineno, header)
   if (is.na(prev_lines[1])) {
