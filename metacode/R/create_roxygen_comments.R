@@ -32,13 +32,6 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ##   content
   ## }
   
-  ## Wanted roxy output: 
-  ## #` some title/description
-  ## #` ...
-  ## #` @param ... 
-  ## #` @result ...
-  ## #` @export
-
   mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(mats$files)) {
@@ -46,25 +39,63 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
     matchlines = mats$matchlines[[j]]
     param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
     
+    lines_to_clear = NULL
     for(k in seq_along(matchlines)) {
       params = find_current_params(param_segments[k])  
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+      proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"))
       
-      if(!is_roxy_goodformat(cur_doc, params) & !test_run) {
-        ins = c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",
-                      str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"),")", sep = ""),
-                "#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", 
-                "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
-        doc = paste(ins, collapse = "\n")
-        txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
+      ## No need to check whether the current documentation *is* proper, since if we just replace it, 
+      ## it wouldn't hurt if it was already correct. 
+      
+      if (class(cur_doc) == "data.frame") { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
+      doc = paste(proper_doc, collapse = "\n")
+      txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
+      
+      #       if(!is_roxy_goodformat(cur_doc, params) & !test_run) {
+      #         
+      #         ins = c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",
+      #                       str_extract(txt[matchlines[k]], pattern = "[[:alnum:]]+"),")", sep = ""),
+      #                 "#' ********** WARNING -- INSERTED CODE **************", "#' <<BasicInfo>> ", 
+      #                 "#' ", paste("#' @param", params,"text"), "#' ", "#' @return text", "#' ", "#' @export")
+      #         doc = paste(ins, collapse = "\n")
+      #         txt[matchlines[k]] = paste(doc, "\n", matchlines[k], sep = "")
+      #       }
+    }
+    if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
+    mats$code[[j]] = txt
+  }
+  
+  write_matchlist(mats)
+  return("Done! [Inserting/formatting documentation (roxygen) templates]")
+}
+
+
+reformat_documentation = function(cur_doc, params, function_name) {
+  ## Wanted roxy output: 
+  ## #` some title/description
+  ## #` ...
+  ## #` @param ... 
+  ## #` @result ...
+  ## #` @export
+  
+  head_doc = "#' <<BasicInfo>> "
+  param_doc = paste("#' @param", params, "temp")
+  return_doc = "#' @return temp"
+  
+  if (class(cur_doc) == "data.frame") {
+    if (any(cur_doc$Mode == "Text")) { head_doc = cur_doc$Value[cur_doc$Mode == "Text"] }
+    if (any(cur_doc$Mode == "@return")) { return_doc = cur_doc$Value[cur_doc$Mode == "Return"] }
+    if (any(cur_doc$Mode == "@param")) {
+      for(j in which(cur_doc$Mode == "@param")) {
+        param_doc[which(params == cur_doc$Mode2[j])] = cur_doc$Value[j]
       }
     }
   }
   
-  write_matchlist(mats)
-  return("Done! [Inserting documentation (roxygen) templates]")
+  return(c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = ""),
+           head_doc, "#'", param_doc, "#'", return_doc, "#'", "#' @export", "#'"))
 }
-
 
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -299,9 +330,9 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   }
   prev_docu = data.frame(LineNo=prev_lines, Mode="", Mode2 ="", Value = "", stringsAsFactors=FALSE)
   
-  text = gsub(header, "", text[prev_lines])
+  text_clean = gsub(header, "", text[prev_lines])
   ## Mode is either 'Empty', 'Text', or "@something"
-  tsplit = strsplit(text, " ")
+  tsplit = strsplit(text_clean, " ")
   
   for(j in seq_along(prev_lines)) {
     t = tsplit[[j]]
@@ -320,7 +351,7 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
         prev_docu$Mode[j] = "Text"
       }
     }
-    prev_docu$Value[j] = text[j]
+    prev_docu$Value[j] = text[prev_lines[j]]
   }
   return(prev_docu)
 }
