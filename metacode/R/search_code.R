@@ -6,6 +6,117 @@
 ##### Function that performs search. Examples of running this will come after. 
 
 
+
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param regexp text
+#' @param search_code_simplify text
+#' 
+#' @return text
+#' 
+#' @export
+search_code_simplify = function(regexp = "Default Search", 
+                                dir = DIR, mode = "R", file_regex = NULL, 
+                                logged = TRUE) {
+  ## Look for all files, that match the current mode and file_regex setting, and extract code. 
+  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+  
+  ## Matching texts:
+  files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, regexp))}))
+  matchline_list = list()
+  matchloc_list = list()
+  for(j in seq_along(files_with_matches)) {
+    text = all_code$code[[files_with_matches[j]]]
+    matchline_list[[j]] = which(str_detect(text, regexp))
+    matchloc_list[[j]] = str_locate_all(text[matchline_list[[j]]], regexp)
+  }
+  
+  res = list(files = all_code$files[files_with_matches], code = all_code$code[files_with_matches], 
+             matchlines = matchline_list, matchlocs = matchloc_list)
+  
+  ## Log if necessary. Then return. 
+  if (logged) { create_search_log(logtype = "SEARCH", query = regexp, m = res) }
+  
+  return(res)
+}
+
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param logtype text
+#' @param query text
+#' @param m text
+#' 
+#' @return text
+#' 
+#' @export
+create_search_log = function(logtype, query, m) {
+  ## This function writes a search logfile (only does this; this shall be called by search_code)
+  ## m = match list
+  
+  log_file <<- logfile_namecreation(logtype = logtype, query = query)
+  log_result('Searching for "', query, '"', "\n", header = TRUE)
+  
+  ## Log actual matches. 
+  for(j in seq_along(m$files)) {
+    ## Insert file information
+    log_result(str_pad("\n", 80, 'right', "*"),str_pad("\n", 80, 'right', "*"),"\n",
+               "Matches found in '", m$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
+    
+    ## Insert match info
+    for(k in seq_along(m$matchlines[[j]])) {
+      codeline = m$matchlines[[j]][k]
+      log_result(str_pad(codeline, 4, 'right', " "), "||", m$code[[j]][codeline], "\n",
+                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(m$matchlocs[[j]][[k]]), "\n")
+    }
+  }
+  log_result("\n--- Search Done! ---\n", header = TRUE)
+  
+  invisible(0)
+}
+
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param j text
+#' @param fill text
+#' 
+#' @return text
+#' 
+#' @export
+mark_strlocate = function(j, fill = "*") {
+  res = str_pad("", max(j[,2]), 'right', " ")
+  for(k in nrow(j)) {
+    str_sub(res, j[k,1], j[k,2]) <- str_pad(fill, j[k,2] - j[k,1], 'right', fill)
+  }
+  return(res)
+}
+
+#   ## Add comments to original file if needed
+#   if (!is.null(add_comment)) {
+#     replacement_code[match_lines] = paste(replacement_code[match_lines], "\n", comment_head, add_comment," --",date(), "--", sep = "")
+#     writeLines(replacement_code, con = all_code[[j]]$filename)
+#     
+#     
+
+#   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
@@ -36,16 +147,18 @@ search_code = function(dir = DIR, mode = "R", regexp = "Default Search...", add_
   ## TODO: [Document] this function
   ## TODO: [Find code] Get my 'todo' finder...
   
+  ## TODO: Split off commenting, replacement into separate function. 
+  
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
-
+  #|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
+  
   ## Can't replace without add-comment
   if (!is.null(replace) & is.null(add_comment)) {add_comment = "Replaced code here... "}
   
-
   
   ## Create savefile name
-  sfile = paste("results/zSEARCH_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
+  log_file = logfile_namecreation(logtype = "SEARCH", query = regexp)
   
   ## Search files, outputting relevant information to savefile. 
   cat('Searching for "', regexp, '"', "\n", date(), "\n\n", sep = "", file = sfile, append = TRUE)
@@ -122,6 +235,7 @@ clear_comments = function(dir=DIR, mode = c("R", "C"), regexp = "^[#][|]", file_
   
   ## Look for all files, that match the current mode and file_regex setting
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+  #|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
   
   ## Create savefile name
   sfile = paste("results/zCLEARCOMMENTS_", gsub("[^[:alnum:]]", "", regexp),"_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", sep = "")
