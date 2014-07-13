@@ -39,3 +39,42 @@ logfile_namecreation = function(logtype, query) {
               sep = "")
   return(res)
 }
+
+
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param logtype text
+#' @param query text
+#' @param m text
+#' 
+#' @return text
+#' 
+#' @export
+create_search_log = function(logtype, query, m) {
+  ## This function writes a search logfile (only does this; this shall be called by search_code)
+  ## m = match list
+  
+  log_file <<- logfile_namecreation(logtype = logtype, query = query)
+  log_result('Searching for "', query, '"', "\n", header = TRUE)
+  
+  ## Log actual matches. 
+  for(j in seq_along(m$files)) {
+    ## Insert file information
+    log_result(str_pad("\n", 80, 'right', "*"),str_pad("\n", 80, 'right', "*"),"\n",
+               "Matches found in '", m$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
+    
+    ## Insert match info
+    for(k in seq_along(m$matchlines[[j]])) {
+      codeline = m$matchlines[[j]][k]
+      log_result(str_pad(codeline, 4, 'right', " "), "||", m$code[[j]][codeline], "\n",
+                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(m$matchlocs[[j]][[k]]), "\n")
+    }
+  }
+  log_result("\n--- Search Done! ---\n", header = TRUE)
+  
+  invisible(0)
+}
+
+
+

@@ -4,6 +4,7 @@
 ## TODO: [Idea] integrate dependency tree with documentation; 
 ## TODO: -- allow clicking on dependency tree to load documentation
 
+## TODO: [Idea] allow for matching/checking of documentation for parameters to be the same... 
 # Function to create Roxygen comments -------------------------------------
 
 #' Create roxygen templates (and fix/reorder them as necessary)
