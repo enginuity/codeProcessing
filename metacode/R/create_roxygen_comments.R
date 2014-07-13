@@ -94,7 +94,7 @@ reformat_documentation = function(cur_doc, params, function_name) {
   }
   
   return(c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = ""),
-           head_doc, "#'", param_doc, "#'", return_doc, "#'", "#' @export", "#'"))
+           head_doc, "#' ", param_doc, "#' ", return_doc, "#' ", "#' @export", "#' "))
 }
 
 #' ********** WARNING -- INSERTED CODE **************
