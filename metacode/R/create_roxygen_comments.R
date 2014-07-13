@@ -66,6 +66,15 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 }
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param cur_doc text
+#' @param params text
+#' 
+#' @return text
+#' 
+#' @export
 is_roxy_goodformat = function(cur_doc, params) {
   good_format = TRUE
   if (class(cur_doc) != "data.frame") {

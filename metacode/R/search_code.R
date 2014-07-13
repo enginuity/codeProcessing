@@ -88,6 +88,14 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 }
 
 
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param mats text
+#' 
+#' @return text
+#' 
+#' @export
 write_matchlist = function(mats) {
   for(j in seq_along(mats$files)) {
     writeLines(text = mats$code[[j]], con = mats$files[j])
