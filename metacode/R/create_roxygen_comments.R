@@ -60,6 +60,17 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_subset)
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param locate_df text
+#' @param param_name text
+#' 
+#' @return text
+#' 
+#' @export
+#' 
 roxyparam_subset = function(locate_df, param_name) {
   inds = which(locate_df$paramname == param_name)
   return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param ",param_name, " ", sep = ""), "", locate_df[inds, "paramval"])))
@@ -67,6 +78,18 @@ roxyparam_subset = function(locate_df, param_name) {
 
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param locate_df text
+#' @param param_name text
+#' @param replace_text text
+#' 
+#' @return text
+#' 
+#' @export
+#' 
 roxyparam_overwrite = function(locate_df, param_name, replace_text) {
   inds = which(locate_df$paramname == param_name)
   if (length(inds) == 0) { return("[No matching parameter names]") }
@@ -83,6 +106,18 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_locate)
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir text
+#' @param file_regex text
+#' @param regexp_fxstart text
+#' 
+#' @return text
+#' 
+#' @export
+#' 
 roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
   mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
   

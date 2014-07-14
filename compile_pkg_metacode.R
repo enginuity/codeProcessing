@@ -7,7 +7,7 @@ detach(package:metacode)
 library(roxygen2)
 roxygenise("metacode/", clean = TRUE)
 
-system("R CMD build metacode")
+#system("R CMD build metacode")
 
 ## For windows 
 #system("R CMD check metacode_1.0.tar.gz")
