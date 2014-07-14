@@ -45,8 +45,9 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+"))
       
       ## Only change documentation if format does not match completely
-      if (!all(proper_doc[-1] == cur_doc$Value)) {
-        if (class(cur_doc) == "data.frame") { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
+      if (class(cur_doc) != "data.frame" || !all(proper_doc[-1] == cur_doc$Value)) {
+        if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
+        
         doc = paste(proper_doc, collapse = "\n")
         txt[matchlines[k]] = paste(doc, "\n", txt[matchlines[k]], sep = "")
       }
@@ -111,6 +112,15 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (Mode_nontemp)
+#' <<BasicInfo>> 
+#' 
+#' @param text temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 Mode_nontemp = function(text) {
   ## Returns "mode" of text, ignoring values that are equal to "test" or "temp"
   ## TODO: Move function from this file? if necessary?
