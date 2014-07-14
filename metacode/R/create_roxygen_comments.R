@@ -100,17 +100,15 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
   if (is.null(replace_text)) { 
     replace_text = Mode_nontemp(locate_df$paramval[inds])
     if (replace_text == "temp") { return("[Parameter Documentation replacement NOT done: No temporary docs!]")}
-  }
+  } else { replace_text = paste("#' @param", param_name, replace_text) }
   
   if (length(inds) == 0) { return("[No matching parameter names]") }
-  
-  new_param_doc = paste("#' @param", param_name, replace_text)
-  
+
   ## The following code isn't particularly efficient (many read/writes of same file), but implemented much easier!
   for (i in inds) {
-    if (replace_all || locate_df$paramval[i] %in% c("temp", "test")) {
+    if (replace_all || strsplit(locate_df$paramval[i], " ")[[1]][4] %in% c("temp", "text")) {
       code = readLines(locate_df$filename[i])
-      code[locate_df$lineno[i]] = new_param_doc
+      code[locate_df$lineno[i]] = replace_text
       writeLines(text = code, con = locate_df$filename[i])
     }
   }
