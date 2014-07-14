@@ -45,7 +45,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
       proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+"))
       
       ## Only change documentation if format does not match completely
-      if (class(cur_doc) != "data.frame" || !all(proper_doc[-1] == cur_doc$Value)) {
+      if (class(cur_doc) != "data.frame" || length(proper_doc) != length(cur_doc$Value) || !all(proper_doc[-1] == cur_doc$Value)) {
         if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
         
         doc = paste(proper_doc, collapse = "\n")
@@ -80,12 +80,14 @@ roxyparam_subset = function(locate_df, param_name) {
 
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
 #' @param locate_df text
 #' @param param_name text
 #' @param replace_text If NULL: replaces with most frequent non(text/temp). Otherwise, replaces with replace_text.
+#' @param replace_all temp
 #' 
 #' @return text
 #' 
