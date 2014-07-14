@@ -1,15 +1,15 @@
 ##@S Functions to produce Roxygen2 comments
 
+
 ## TODO: [Testing] -- need to do more testing of functions/features here... 
 
 ## TODO: [Idea] integrate dependency tree with documentation; 
 ## TODO: -- allow clicking on dependency tree to load documentation
 
-## TODO: [Idea] allow for matching/checking of documentation for parameters to be the same... 
-
 ## TODO: [Low-Priority] Figure out if 'everything' should be @exported; this is currently done. 
 
-## TODO: For new documentation, can use most frequent old documentation as default (instead of 'temp' or 'test')
+## TODO: [Low-Priority] For new documentation, can use most frequent old documentation as default (instead of 'temp' or 'test')
+
 
 # Function to create Roxygen comments -------------------------------------
 
@@ -61,6 +61,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
 
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_subset)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -76,7 +77,6 @@ roxyparam_subset = function(locate_df, param_name) {
   inds = which(locate_df$paramname == param_name)
   return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param ",param_name, " ", sep = ""), "", locate_df[inds, "paramval"])))
 }
-
 
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
@@ -307,6 +307,7 @@ extract_location_pair = function(text, start, end) {
   }
 }
 
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -334,6 +335,7 @@ find_next_location = function(loc_list, ln, cn) {
   }
 }
 
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (compare)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -360,6 +362,7 @@ compare_locations = function(loc1, loc2) {
   }
 }
 
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -381,6 +384,7 @@ find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[
   }
   return(res)
 }
+
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
@@ -409,6 +413,7 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
     return((closest_break+1):(lineno-1))
   }
 }
+
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' ********** WARNING -- INSERTED CODE **************
