@@ -84,14 +84,19 @@ roxyparam_subset = function(locate_df, param_name) {
 #' 
 #' @param locate_df text
 #' @param param_name text
-#' @param replace_text text
+#' @param replace_text If NULL: replaces with most frequent non(text/temp). Otherwise, replaces with replace_text.
 #' 
 #' @return text
 #' 
 #' @export
 #' 
-roxyparam_overwrite = function(locate_df, param_name, replace_text) {
+roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL) {
   inds = which(locate_df$paramname == param_name)
+  if (is.null(replace_text)) { 
+    replace_text = Mode_nontemp(inds)
+    if (replace_text == "temp") { return("[Parameter Documentation replacement NOT done: No temporary docs!]")}
+  }
+  
   if (length(inds) == 0) { return("[No matching parameter names]") }
   
   new_param_doc = paste("#' @param", param_name, replace_text)
@@ -103,6 +108,17 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text) {
     writeLines(text = code, con = f)
   }
   return("[Parameter Documentation replacement done!]")
+}
+
+
+Mode_nontemp = function(text) {
+  ## Returns "mode" of text, ignoring values that are equal to "test" or "temp"
+  ## TODO: Move function from this file? if necessary?
+  t = text[text != "test" & text != "temp"]
+  if (length(t) == 0) { return("temp") }
+  
+  tab = table(t)
+  return(names(tab)[which(tab == max(tab))])
 }
 
 
