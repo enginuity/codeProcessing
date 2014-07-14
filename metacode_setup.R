@@ -11,6 +11,7 @@ log_file = "results/test.txt"
 # create_roxy_templates(dir = DIR)
 
 search_code(regexp = "find_files")
+search_code(regexp = "is_roxy")
 
 search_code(regexp = "search_code", add_comment = "this function has been split (order of args changed)")
 
@@ -23,8 +24,11 @@ clear_comments()
 
 
 
+test = roxyparam_locate(dir = "metacode/")
+roxyparam_subset(test, "file_regex")
+roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that match this regex")
 
-
+## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
 
 
 

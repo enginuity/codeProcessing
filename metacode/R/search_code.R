@@ -17,7 +17,7 @@
 #' @param regexp regex to search for
 #' @param dir directory to search files under
 #' @param mode appropraite file extensions
-#' @param file_regex filler
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param logged if non_null, then this is the logtype
 #' 
 #' @return a list of search result matches. 
@@ -120,7 +120,7 @@ write_matchlist = function(mats) {
 #' @param add_comment adds a next line comment to original files where the regexp is found
 #' @param dir text
 #' @param mode text
-#' @param file_regex a regular expression to restrict filenames to search/process
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
 #' 
@@ -147,7 +147,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' @param replace_mark text
 #' @param dir text
 #' @param mode text
-#' @param file_regex text
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
 #' 
@@ -175,7 +175,7 @@ replace_code = function(regexp = "Default Search...", replace,
 #' @param comment_regex text
 #' @param dir text
 #' @param mode text
-#' @param file_regex text
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
 #' 

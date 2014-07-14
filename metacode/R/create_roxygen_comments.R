@@ -16,7 +16,7 @@
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
 #' 
 #' @param dir Directory to search for R files under
-#' @param file_regex If non-NULL, apply this regex to files, limit files to such
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run Won't write any changes to file, unless test_run is FALSE. 
 #' 
@@ -61,7 +61,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 
 roxyparam_subset = function(locate_df, param_name) {
   inds = which(locate_df$paramname == param_name)
-  return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param",param_name), "", locate_df[inds, "paramval"])))
+  return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param ",param_name, " ", sep = ""), "", locate_df[inds, "paramval"])))
 }
 
 
@@ -70,7 +70,7 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text) {
   inds = which(locate_df$paramname == param_name)
   if (length(inds) == 0) { return("[No matching parameter names]") }
   
-  new_param_doc = paste("#'", param_name, param_text)
+  new_param_doc = paste("#' @param", param_name, replace_text)
   files = unique(locate_df$filename)
   for(f in files) {
     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]

@@ -6,7 +6,7 @@
 #' 
 #' @param dir what directory to search for (and all sub-directories)
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
-#' @param file_regex if non-NULL, applies this regular expression to the filenames
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return vector of all appropriate filenames 
 #' 
