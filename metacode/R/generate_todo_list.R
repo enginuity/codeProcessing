@@ -8,7 +8,7 @@
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param dir text
+#' @param dir Directory to search recursively for code files
 #' 
 #' @return text
 #' 

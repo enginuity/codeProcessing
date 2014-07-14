@@ -16,7 +16,7 @@
 #' Create roxygen templates (and fix/reorder them as necessary)
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
 #' 
-#' @param dir Directory to search for R files under
+#' @param dir Directory to search recursively for code files
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run Won't write any changes to file, unless test_run is FALSE. 

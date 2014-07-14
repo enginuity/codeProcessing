@@ -4,7 +4,7 @@
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
 #' Find all files with appropriate file extensions, and extract code
 #' 
-#' @param dir what directory to search for (and all sub-directories)
+#' @param dir Directory to search recursively for code files
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 

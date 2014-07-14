@@ -15,7 +15,7 @@
 #' any function that requires searching. 
 #' 
 #' @param regexp regex to search for
-#' @param dir directory to search files under
+#' @param dir Directory to search recursively for code files
 #' @param mode appropraite file extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param logged if non_null, then this is the logtype
@@ -118,7 +118,7 @@ write_matchlist = function(mats) {
 #' 
 #' @param regexp text
 #' @param add_comment adds a next line comment to original files where the regexp is found
-#' @param dir text
+#' @param dir Directory to search recursively for code files
 #' @param mode text
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
@@ -145,7 +145,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' @param add_comment text
 #' @param comment_heads text
 #' @param replace_mark text
-#' @param dir text
+#' @param dir Directory to search recursively for code files
 #' @param mode text
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
@@ -173,7 +173,7 @@ replace_code = function(regexp = "Default Search...", replace,
 #' <<BasicInfo>> 
 #' 
 #' @param comment_regex text
-#' @param dir text
+#' @param dir Directory to search recursively for code files
 #' @param mode text
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
