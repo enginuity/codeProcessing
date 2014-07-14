@@ -10,6 +10,9 @@
 
 ## TODO: [Low-Priority] For new documentation, can use most frequent old documentation as default (instead of 'temp' or 'test')
 
+## TODO: [Code split] -- split parts of this file into other files
+## TODO: [Idea] -- write wrapper function for roxyparam_subset: (roxyparam_subset_all : it will loop through all possible parameters, print them out in sequence (prettified?))
+
 
 # Function to create Roxygen comments -------------------------------------
 
@@ -19,7 +22,7 @@
 #' @param dir Directory to search recursively for code files
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param regexp_fxstart Regex to determine function starts; default should work
-#' @param test_run Won't write any changes to file, unless test_run is FALSE. 
+#' @param test_run Won't write any changes to file, unless test_run is FALSE
 #' 
 #' @return none
 #' 
@@ -149,7 +152,7 @@ Mode_nontemp = function(text) {
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param dir text
+#' @param dir Directory to search recursively for code files
 #' @param file_regex text
 #' @param regexp_fxstart text
 #' 

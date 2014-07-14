@@ -14,7 +14,7 @@
 #' Searches code for certain regular expressions. This is a helper function that should be called by 
 #' any function that requires searching. 
 #' 
-#' @param regexp regex to search for
+#' @param regexp Regular Expression to search for
 #' @param dir Directory to search recursively for code files
 #' @param mode appropraite file extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
@@ -116,7 +116,7 @@ write_matchlist = function(mats) {
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (search)
 #' Search code, and potentially add comments. 
 #' 
-#' @param regexp text
+#' @param regexp Regular Expression to search for
 #' @param add_comment adds a next line comment to original files where the regexp is found
 #' @param dir Directory to search recursively for code files
 #' @param mode text
@@ -140,7 +140,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param regexp text
+#' @param regexp Regular Expression to search for
 #' @param replace text
 #' @param add_comment text
 #' @param comment_heads text
