@@ -105,13 +105,24 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
   if (length(inds) == 0) { return("[No matching parameter names]") }
   
   new_param_doc = paste("#' @param", param_name, replace_text)
-  files = unique(locate_df$filename)
-  for(f in files) {
-    lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
-    code = readLines(f)
-    for (l in lines) { if(replace_all || locate_df$paramval %in% c("temp", "test")) { code[l] = new_param_doc } }
-    writeLines(text = code, con = f)
+  
+  ## The following code isn't particularly efficient (many read/writes of same file), but implemented much easier!
+  for (i in inds) {
+    if (replace_all || locate_df$paramval[i] %in% c("temp", "test")) {
+      code = readLines(locate_df$filename[i])
+      code[locate_df$lineno[i]] = new_param_doc
+      writeLines(text = code, con = locate_df$filename[i])
+    }
   }
+  ## TODO: [Cleanup] Remove the following code as long as this function works. 
+#   
+#   files = unique(locate_df$filename)
+#   for(f in files) {
+#     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
+#     code = readLines(f)
+#     for (l in lines) { if(replace_all || locate_df$paramval[] %in% c("temp", "test")) { code[l] = new_param_doc } }
+#     writeLines(text = code, con = f)
+#   }
   return("[Parameter Documentation replacement done!]")
 }
 
