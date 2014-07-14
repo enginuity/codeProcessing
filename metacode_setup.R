@@ -6,6 +6,7 @@ library(stringr)
 
 DIR = "."
 log_file = "results/test.txt"
+
 # For fixing templates
 # DIR = "metacode/"
 # create_roxy_templates(dir = DIR)
@@ -25,8 +26,11 @@ clear_comments()
 
 
 test = roxyparam_locate(dir = "metacode/")
-roxyparam_subset(test, "file_regex")
+roxyparam_subset(test, "dir")
+roxyparam_overwrite(test, "dir")
+roxyparam_overwrite(test, "dir", "Directory to search recursively for code files")
 roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that match this regex")
+
 
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
 

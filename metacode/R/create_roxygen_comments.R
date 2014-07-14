@@ -91,10 +91,12 @@ roxyparam_subset = function(locate_df, param_name) {
 #' 
 #' @export
 #' 
-roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL) {
+roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, replace_all = FALSE) {
+  ## replace_all = FALSE: only replaces temp/text. otherwise, replaces all of them... 
+  
   inds = which(locate_df$paramname == param_name)
   if (is.null(replace_text)) { 
-    replace_text = Mode_nontemp(inds)
+    replace_text = Mode_nontemp(locate_df$paramval[inds])
     if (replace_text == "temp") { return("[Parameter Documentation replacement NOT done: No temporary docs!]")}
   }
   
@@ -105,7 +107,7 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL) {
   for(f in files) {
     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
     code = readLines(f)
-    for (l in lines) { code[l] = new_param_doc }
+    for (l in lines) { if(replace_all || locate_df$paramval %in% c("temp", "test")) { code[l] = new_param_doc } }
     writeLines(text = code, con = f)
   }
   return("[Parameter Documentation replacement done!]")
@@ -128,7 +130,7 @@ Mode_nontemp = function(text) {
   if (length(t) == 0) { return("temp") }
   
   tab = table(t)
-  return(names(tab)[which(tab == max(tab))])
+  return(names(tab)[which(tab == max(tab))[1]])
 }
 
 
