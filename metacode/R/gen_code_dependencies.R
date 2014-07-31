@@ -4,7 +4,7 @@
 
 ## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
 
-gen_depend_R_v1 = function(files) {
+gen_depend_R = function(files) {
   ## Start over again! Use new functions written... 
   ## Only accepts well-formatted functions (and no non-globally defined functions)
   ##   [well-formatted => starts at first character, and ends with a lone left-justified }. 
@@ -62,71 +62,6 @@ gen_depend_R_v1 = function(files) {
   }
   
   return(list(function_table = fxtable, calls = all_calls))
-}
-
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (gen)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
-#' 
-#' @param file text
-#' 
-#' @return text
-#' 
-#' @export
-#' 
-gen_depend_R = function(file) {
-  ## To be replaced by gen..R_new. 
-  LS = 0
-  
-  code = readLines(file)
-  
-  poss_function_starts = grep(
-    paste(c("^", rep(" ", times = LS), "[A-Za-z]+.*?= *function"), collapse = ""), code)
-  poss_function_ends = grep(paste(c("^", rep(" ", times = LS),"([A-za-z]+.*[}]|[}])"), collapse = ""), code)
-  
-  temp = strsplit(code[poss_function_starts], " ")
-  fxs = data.frame(name = sapply(temp, function(x) {x[1]}),
-                   start = poss_function_starts,
-                   end = sapply(poss_function_starts, function(x) {
-                     return(min(poss_function_ends[poss_function_ends > x])) }),
-                   stringsAsFactors = FALSE
-  )
-  
-  fxs = fxs[fxs$name != "{",]
-  fxs$name = gsub("[(].*$", "", fxs$name)
-  
-  temp = grep("^[*]", fxs$name)
-  fxs$name = gsub("^[*]", "", fxs$name)
-  
-  NN = nrow(fxs)
-  ## dep_mat[i,j] = 1 => function i calls function j.
-  ft_mat = matrix(0, nrow = 1, ncol = 2)
-  
-  for(j in 1:NN) {
-    for(i in 1:NN) {
-      temp = grep(fxs$name[j], code[(fxs$start[i] + 1):(fxs$end[i] - 1)])
-      if (length(temp) > 0) {
-        ft_mat = rbind(ft_mat, cbind(i,j))
-      }
-    }
-  }
-  
-  ## Check for uncalled functions
-  exist.uncalled = FALSE
-  for(j in 1:NN) {
-    if(sum(ft_mat == j) == 0) {
-      ft_mat = rbind(ft_mat, cbind(NN+1,j))
-      exist.uncalled = TRUE
-    }
-  }
-  
-  ft_mat = ft_mat[-1,]
-  if (exist.uncalled) {
-    fxs = rbind(fxs,data.frame(name="NULL_FUNCTION",
-                               start = -1, end = -1))
-  }
-  return(list(fxs, ft_mat))
 }
 
 
