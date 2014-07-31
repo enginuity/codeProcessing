@@ -4,16 +4,13 @@
 
 ## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
 
-gen_depend_R = function(files) {
+gen_depend_R = function(dir) {
   ## Start over again! Use new functions written... 
   ## Only accepts well-formatted functions (and no non-globally defined functions)
   ##   [well-formatted => starts at first character, and ends with a lone left-justified }. 
   
-  # file = can be a vector of filenames
-  if (FALSE) {
-    files = "metacode/R/search_code.R"
-  }
-  fs = extract_code(files)
+  fs = find_files(dir, mode = "R")
+  files = fs$files
   
   # Find functions within the code
   
@@ -63,11 +60,6 @@ gen_depend_R = function(files) {
   
   return(list(function_table = fxtable, calls = all_calls))
 }
-
-
-
-
-
 
 
 
@@ -156,6 +148,8 @@ gen_depend_C = function(file, leading_spaces = 0) {
   return(list(fxs, ft_mat))
 }
 
+
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
@@ -169,6 +163,7 @@ gen_depend_C = function(file, leading_spaces = 0) {
 #' @export
 #' 
 plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
+  require(Rgraphviz)
   pdf(out_file, width = 12, height = 12)
   NN = nrow(fxs)
   
@@ -232,16 +227,17 @@ plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
 #' 
 #' @export
 #' 
-plot_dependency = function(codefile, mode = c("R", "C"),
+plot_dependency = function(dir, mode = c("R", "C"),
                            out_file = "depend_out.pdf", leading_spaces = NULL) {
   if (mode == "C") {
+    stop("Does this still work? probably needs fixing?")
     LS = 2
     if (!is.null(leading_spaces)) {
       LS = leading_spaces
     }
     temp = gen_depend_C(file = codefile, leading_spaces = LS)
   } else if (mode == "R") {
-    temp = gen_depend_R(file = codefile)
+    temp = gen_depend_R(dir)
   } else {
     stop("Unallowed mode")
   }
