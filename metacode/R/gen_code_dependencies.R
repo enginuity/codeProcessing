@@ -242,7 +242,7 @@ plot_dependency = function(dir, mode = c("R", "C"),
     stop("Unallowed mode")
   }
   
-  plot_depend(temp[[1]], temp[[2]], out_file = out_file)
+  plot_depend(fxs = temp$function_table, mat = temp$calls, out_file = out_file)
 }
 
 # ## For now, this will look for all functions, and look at all function calls in C++ code.
