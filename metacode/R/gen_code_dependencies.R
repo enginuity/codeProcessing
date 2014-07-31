@@ -4,6 +4,15 @@
 
 ## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (gen_depend_R)
+#' <<BasicInfo>> 
+#' 
+#' @param dir temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 gen_depend_R = function(dir) {
   ## Start over again! Use new functions written... 
   ## Only accepts well-formatted functions (and no non-globally defined functions)
@@ -215,10 +224,11 @@ plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
 }
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot)
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot_dependency)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param codefile text
+#' @param dir temp
 #' @param mode text
 #' @param out_file text
 #' @param leading_spaces text
@@ -243,6 +253,7 @@ plot_dependency = function(dir, mode = c("R", "C"),
   }
   
   plot_depend(fxs = temp$function_table, mat = temp$calls, out_file = out_file)
+  return(temp)
 }
 
 # ## For now, this will look for all functions, and look at all function calls in C++ code.
