@@ -4,21 +4,21 @@
 
 ## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
 
-gen_depend_R_v1 = function(file) {
+gen_depend_R_v1 = function(files) {
   ## Start over again! Use new functions written... 
   ## Only accepts well-formatted functions (and no non-globally defined functions)
   ##   [well-formatted => starts at first character, and ends with a lone left-justified }. 
   
   # file = can be a vector of filenames
   if (FALSE) {
-    file = "metacode/R/search_code.R"
+    files = "metacode/R/search_code.R"
   }
-  fs = extract_code(file)
+  fs = extract_code(files)
   
   # Find functions within the code
   
   fxlist = list()
-  for(k in seq_along(file)) {
+  for(k in seq_along(files)) {
     code = fs$code[[k]]
     
     ## TODO: Generalize this section? can ideas be pulled from other areas
