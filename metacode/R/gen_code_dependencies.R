@@ -53,7 +53,7 @@ gen_depend_R = function(dir) {
     for(j in seq_along(fxtable$name)) {
       if (length(grep(fxtable$name[i], fs$code[[fxtable$fileID[j]]][(fxtable$start[j]+1):(fxtable$end[j]-1)])) > 0) {
         ## TODO: [Idea] Incorporate the call line numbers? does this matter?
-        call_list[[length(call_list) + 1]] = data.frame(caller = i, called = j)
+        call_list[[length(call_list) + 1]] = data.frame(caller = j, called = i)
       }
     }
   }
@@ -171,24 +171,30 @@ gen_depend_C = function(file, leading_spaces = 0) {
 #' 
 #' @export
 #' 
-plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
+plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
   require(Rgraphviz)
   pdf(out_file, width = 12, height = 12)
   NN = nrow(fxs)
   
-  g = ftM2graphNEL(mat)
+  g = ftM2graphNEL(as.matrix(calls))
   
   
   ## Setup graph attributes
   graphAttr = list(rankdir = "LR")
   
   ## Setup node attributes
-  label_vec = paste(fxs$name, "\\\n", fxs$type, "\\\n",
+  label_vec = paste(fxs$name, "\\\n", fxs$filename, "\\\n",
                     "lines (",fxs$start,"-",fxs$end,")", sep = "")
   names(label_vec) = 1:NN
   
   shape_vec = rep("rectangle", times = NN)
   names(shape_vec) = 1:NN
+  
+  unique_IDS = sort(unique(fxs$fileID))
+  cs = unique_IDS - 1
+  colors = c("#AAAAAA", rgb(runif(cs, min = 0, max = 0.3),runif(cs, min = 0, max = 0.3), runif(cs, min = 0, max = 0.3),alpha = 0.4))
+  fillcolor_vec = colors[match(fxs$fileID, unique_IDS)]
+  names(fillcolor_vec) = 1:NN
   
   font_size = rep("16", times = NN)
   names(font_size) = 1:NN
@@ -201,16 +207,16 @@ plot_depend = function(fxs, mat, out_file = "test_depend.pdf") {
   fixed_size = rep("false", times = NN)
   names(fixed_size) = 1:NN
   
-  nodeAttr = list(label = label_vec, shape = shape_vec,
+  nodeAttr = list(label = label_vec, shape = shape_vec, fillcolor = fillcolor_vec,
                   fontsize = font_size, height = height_vec, width = width_vec,
                   fixedsize = fixed_size)
   
   ## Set up edge attributes
-  edge_col = rep("darkgreen", times = nrow(mat))
-  names(edge_col) = paste(mat[,1], "~", mat[,2], sep = "")
+  edge_col = rep("darkgreen", times = nrow(calls))
+  names(edge_col) = paste(calls[,1], "~", calls[,2], sep = "")
   
-  edge_arrowhead = rep("none", times = nrow(mat))
-  names(edge_arrowhead) = paste(mat[,1], "~", mat[,2], sep = "")
+  edge_arrowhead = rep("none", times = nrow(calls))
+  names(edge_arrowhead) = paste(calls[,1], "~", calls[,2], sep = "")
   
   edgeAttr = list(
     color = edge_col,
@@ -252,8 +258,8 @@ plot_dependency = function(dir, mode = c("R", "C"),
     stop("Unallowed mode")
   }
   
-  plot_depend(fxs = temp$function_table, mat = temp$calls, out_file = out_file)
-  return(temp)
+  plot_depend(fxs = temp$function_table, calls = temp$calls, out_file = out_file)
+  invisible(temp)
 }
 
 # ## For now, this will look for all functions, and look at all function calls in C++ code.
