@@ -50,8 +50,11 @@ gen_depend_R = function(dir) {
   call_list = list()
   
   for(i in seq_along(fxtable$name)) { 
-    for(j in seq_along(fxtable$name)) {
-      if (length(grep(fxtable$name[i], fs$code[[fxtable$fileID[j]]][(fxtable$start[j]+1):(fxtable$end[j]-1)])) > 0) {
+    reg = paste("(^|([^_[:alnum:].]))", fxtable$name[i], "($|([^_[:alnum:].]))", sep = "")
+    ## TODO: [Idea] write this into a function? this is generally useful? checks for words...
+    
+    for(j in seq_along(fxtable$name)) {  
+      if (length(grep(reg, fs$code[[fxtable$fileID[j]]][(fxtable$start[j]+1):(fxtable$end[j]-1)])) > 0) {
         ## TODO: [Idea] Incorporate the call line numbers? does this matter?
         call_list[[length(call_list) + 1]] = data.frame(caller = j, called = i)
       }

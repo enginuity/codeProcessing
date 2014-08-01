@@ -39,3 +39,5 @@ roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that
 gen_depend_R(".") -> test
 plot_dependency(".", mode = "R", out_file = "results/ztestplot.pdf")
 
+plot_dependency("../27may_user_engagement/source/fxForUserchurn/R/", mode = "R", out_file = "results/znewproj.pdf")
+
