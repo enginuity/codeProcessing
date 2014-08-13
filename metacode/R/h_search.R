@@ -9,11 +9,12 @@
 
 # Helper Functions --------------------------------------------------------
 
+
 #' Locates regex matches in codebase
 #'    
 #' This function searches the code in the 'dir'ectory (with 'file_regex' as needed, and of 'mode'). 
 #' This should be a helper function called by any function that uses searching... 
-#'
+#'    
 #' The returned object is a list with the following elements:
 #' \itemize{
 #' \item $files -- A vector of filenames
@@ -99,8 +100,9 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 }
 
 
+
 #' Writes a modified match list to the codefiles
-#' 
+#'   
 #' If a match list was modified (ie the $code portions were modified), the changes could be written to file. 
 #' This function does just that. 
 #' 
