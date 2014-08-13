@@ -1,15 +1,16 @@
 ##@S This file contains functions for logging
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (log)
-#' Add logline to logfile
+#' Log object (characters usually)
+#' 
+#' Writes line to the logfile, and perhaps prints to screen
 #' 
 #' @param ... Objects to log
 #' @param file File to write to
-#' @param header Should this line be treated as a header line? includes some spaces before this line in output
+#' @param header Should this line be treated as a header line? Includes some spaces before this line in output
 #' @param display Should this be printed to screen?
 #' 
-#' @return nothing this stores results in logfile and prints to screen
+#' @return none
 #' 
 #' @export
 #' 
@@ -27,13 +28,12 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (logfile)
-#' Creates log_file value to enter as logfile name. 
+#' Creates the logfile name (to conform to system standards)
 #' 
-#' @param logtype type-identifier in filename
-#' @param query regexp used as query for type
+#' @param logtype Type-identifier to be added to the logfile name
+#' @param query Usually is regexp; this is added to the logfile name
 #' 
-#' @return a filename, to be stored under folder results/
+#' @return A filename in under the folder results/
 #' 
 #' @export
 #' 
@@ -48,7 +48,7 @@ logfile_namecreation = function(logtype, query) {
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
 #' Writes a logfile, for various search operations. 
 #' 
-#' @param logtype Logtype for entering into filename
+#' @param logtype Type-identifier to be added to the logfile name
 #' @param query regexp that was searched for, to be added to filename
 #' @param m search result match list. 
 #' 
