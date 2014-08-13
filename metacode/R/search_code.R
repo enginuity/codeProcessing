@@ -1,6 +1,7 @@
 ##@S Code for searching the entire codebase (all '.R' files) for certain text. 
 ##@S   Search results are output inside this directory (metadata)
 
+## TODO: [WriteHTMLDocument] This info should be added to documentation somehow?
 ## mode: 'R' or 'C' depending on whether to look in R or C code.
 ## -- R code => looks at all .R files.
 ## -- C code => looks at all .c, .cc, .cpp, .h, .hh files.
@@ -12,7 +13,7 @@
 #'    
 #' This function searches the code in the 'dir'ectory (with 'file_regex' as needed, and of 'mode'). 
 #' This should be a helper function called by any function that uses searching... 
-#' 
+#'
 #' The returned object is a list with the following elements:
 #' \itemize{
 #' \item $files -- A vector of filenames
@@ -57,18 +58,17 @@ search_code_matches = function(regexp = "Default Search",
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (add)
-#' Adds comments into the code, and writes if necessary
+#' Adds comments into the code, and write to file if necessary
 #' 
-#' @param mats search match list
-#' @param add_comment If non-NULL, this is added to the source code as a next-line comment.
-#' @param comment_heads length 2 vector: short/long comment header
-#' @param mark T/F: True includes location of replace match. 
-#' @param mark_replace_len if non NULL, length of replacement (to modify search markers)
-#' @param marker marker character, defaults to "*"
-#' @param write write comments to code? (FALSE is essentially for a test run, or to make modifications that are manually written later)
+#' @param mats Regex match list : this is output of search_code_matches
+#' @param add_comment If non-NULL, this is added to the source code as a next-line comment
+#' @param comment_heads Length 2 vector: A short and long comment header to add to comments
+#' @param mark If TRUE: Includes as a comment the location of replaced text 
+#' @param mark_replace_len If non-NULL, should be nchar of replacement (and the markers will be made in this length)
+#' @param marker Marker character : defaults to "*"
+#' @param write Write comments to code? (FALSE is essentially for a test run, or to make modifications that are manually written later)
 #' 
-#' @return modified mats list. 
+#' @return Modified version of the match list
 #' 
 #' @export
 #' 
@@ -99,13 +99,14 @@ add_comment_matches = function(mats, add_comment, comment_heads = c("#|", "#|---
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (write)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Writes a modified match list to the codefiles
 #' 
-#' @param mats text
+#' If a match list was modified (ie the $code portions were modified), the changes could be written to file. 
+#' This function does just that. 
 #' 
-#' @return text
+#' @param mats Regex match list : this is output of search_code_matches
+#' 
+#' @return none
 #' 
 #' @export
 #' 
