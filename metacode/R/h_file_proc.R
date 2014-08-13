@@ -13,7 +13,7 @@
 #' 
 extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
   files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
-  code = extract_code(res)
+  code = extract_code(files)
   return(list(files = files, code = code))
 }
 
