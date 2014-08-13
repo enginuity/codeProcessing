@@ -24,25 +24,6 @@ create_space_chars = function(v, ch = " ") {
 
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (mark)
-#' Mark regex match locations
-#' Given a gregexpr result, outputs a line, filling "*"s where it matches. 
-#' 
-#' @param gr NOT list; single gregexpr output
-#' @param len total length of string corresponding to gregexpr output
-#' @param fill_char single character to fill. 
-#' 
-#' @return character, denoting where the matches are. 
-#' 
-#' @export
-#' 
-mark_gregexpr_loc = function(gr, len, fill_char = "*") {
-  res = create_space_chars(v = len)
-  for(j in 1:length(gr)) {
-    substr(res, start = gr[j], stop = (gr[j] + attr(gr, "match.length")[j] - 1)) <- create_space_chars(v = len, ch = fill_char)
-  }
-  return(res)
-}
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (mark)
 #' Like mark_gregexpr_loc, except for str_locate output. 
