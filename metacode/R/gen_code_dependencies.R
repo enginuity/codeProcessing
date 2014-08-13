@@ -18,7 +18,9 @@ gen_depend_R = function(dir) {
   ## Only accepts well-formatted functions (and no non-globally defined functions)
   ##   [well-formatted => starts at first character, and ends with a lone left-justified }. 
   
-  fs = find_files(dir, mode = "R")
+  fs = extract_all_code(dir, mode = "R")
+#|    ****************
+#|----##Rename find_files -> extract_all_code --Wed Aug 13 16:08:27 2014--
   files = fs$files
   
   # Find functions within the code

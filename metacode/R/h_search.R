@@ -49,7 +49,9 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
   #}
   
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
-  all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
+  all_code = extract_all_code(dir = dir, mode = mode, file_regex = file_regex)
+#|          ****************
+#|----##Rename find_files -> extract_all_code --Wed Aug 13 16:08:27 2014--
   
   ## Matching texts:
   files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, regexp))}))
