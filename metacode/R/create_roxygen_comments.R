@@ -21,6 +21,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ## }
   
   mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
+#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   for(j in seq_along(mats$files)) {
     txt = mats$code[[j]]
@@ -148,6 +149,7 @@ Mode_nontemp = function(text) {
 #' 
 roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
   mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
   
