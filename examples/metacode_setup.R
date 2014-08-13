@@ -6,6 +6,7 @@ library(stringr)
 
 DIR = "."
 log_file = "results/test.txt"
+?search_code_matches
 
 # For fixing templates
 # DIR = "metacode/"
@@ -26,10 +27,14 @@ clear_comments()
 
 
 test = roxyparam_locate(dir = "metacode/")
-roxyparam_subset(test, "dir")
-roxyparam_overwrite(test, "dir")
-roxyparam_overwrite(test, "dir", "Directory to search recursively for code files")
-roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that match this regex")
+test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
+test[order(test$paramname),-which(names(test) == "paramval")]
+
+roxyparam_subset(test, "mode")
+roxyparam_overwrite(test, "out_file", replace_text = "File to plot the dependency tree to")
+roxyparam_overwrite(test, "add_comment", replace_text = "If non-NULL, this is added to the source code as a next-line comment.", replace_all = TRUE)
+roxyparam_overwrite(test, "mode", replace_text = "\"R\" or \"C\" -- looks for appropriate filename extensions", replace_all = TRUE)
+# roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that match this regex")
 
 
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
