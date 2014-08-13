@@ -3,10 +3,8 @@
 
 ## TODO: [C-functionality] add C processing also
 
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (generate)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' This function generates a TODO list by looking for all #/## TODO: in the code base. 
+#' Of course, this only works for R code... 
 #' 
 #' @param dir Directory to search recursively for code files
 #' 
@@ -15,13 +13,9 @@
 #' @export
 #' 
 generate_todolist = function(dir = ".") {
-  ## TODO: [Document] this.
-  ## TODO: [Test] this function. 
-  ## TODO: [Refactor] this function to fit more inline with the remaining code
   
   ## Find files
   all_code = find_files(dir = dir, mode = "R", file_regex = NULL)
-#|----##*** Modify output: instead of list of sublists with two fields (filename, code), have list of two lists: files, code --Sat Jul 12 18:47:32 2014--
 
   todo_type = NULL
   todolist = NULL

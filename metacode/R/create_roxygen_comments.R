@@ -1,19 +1,5 @@
 ##@S Functions to produce Roxygen2 comments
 
-
-## TODO: [Testing] -- need to do more testing of functions/features here... 
-
-## TODO: [Idea] integrate dependency tree with documentation; 
-## TODO: -- allow clicking on dependency tree to load documentation
-
-## TODO: [Low-Priority] Figure out if 'everything' should be @exported; this is currently done. 
-
-## TODO: [Low-Priority] For new documentation, can use most frequent old documentation as default (instead of 'temp' or 'test')
-
-## TODO: [Code split] -- split parts of this file into other files
-## TODO: [Idea] -- write wrapper function for roxyparam_subset: (roxyparam_subset_all : it will loop through all possible parameters, print them out in sequence (prettified?))
-
-
 # Function to create Roxygen comments -------------------------------------
 
 #' Create roxygen templates (and fix/reorder them as necessary)
