@@ -440,8 +440,7 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   
   for(j in seq_along(prev_lines)) {
     t = tsplit[[j]]
-    t = t[t != ""]
-    if (length(t) == 0 | is.na(t[1]) | t[1] == "") {
+    if (length(t) <= 1 | is.na(t[1])) {
       prev_docu$Mode[j] = 'Empty'
     } else {
       if (t[1] == "@param") {
