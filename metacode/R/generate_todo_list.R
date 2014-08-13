@@ -3,12 +3,14 @@
 
 ## TODO: [C-functionality] add C processing also
 
+#' Generates TODO list
+#'    
 #' This function generates a TODO list by looking for all #/## TODO: in the code base. 
 #' Of course, this only works for R code... 
 #' 
 #' @param dir Directory to search recursively for code files
 #' 
-#' @return text
+#' @return none
 #' 
 #' @export
 #' 
