@@ -1,13 +1,6 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
 
-extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
-  files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
-  code = extract_code(res)
-  return(list(files = files, code = code))
-}
-
-
 #' Find all files with appropriate file extensions and extract code
 #' 
 #' @param dir Directory to search recursively for code files
@@ -15,6 +8,23 @@ extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return list : $files, $code
+#' 
+#' @export
+#' 
+extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
+  files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
+  code = extract_code(res)
+  return(list(files = files, code = code))
+}
+
+
+#' Find all files with appropriate file extensions
+#' 
+#' @param dir Directory to search recursively for code files
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' 
+#' @return Character vector of filenames
 #' 
 #' @export
 #' 
@@ -49,7 +59,7 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 #' 
 #' @param files Vector of filenames
 #' 
-#' @return list : $files, $code
+#' @return List of code files
 #' 
 #' @export
 #' 
