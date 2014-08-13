@@ -1,6 +1,12 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
 
+extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
+  files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
+  code = extract_code(res)
+  return(list(files = files, code = code))
+}
+
 
 #' Find all files with appropriate file extensions and extract code
 #' 
@@ -35,7 +41,7 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
     res = res[matches]
   }
 
-  return(extract_code(res))
+  return(res)
 }
 
 
@@ -48,9 +54,9 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 #' @export
 #' 
 extract_code = function(files) {
-  res = list(files = files, code = list())
+  res = list()
   for(j in seq_along(files)) {
-    res$code[[j]] = readLines(files[j])
+    res[[j]] = readLines(files[j])
   }
   return(res)
 }
