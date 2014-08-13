@@ -74,8 +74,6 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
 #' Adds comments into the code, and write to file if necessary
 #' 
 #' @param matchesL Regex match list : this is output of search_code_matches
-#|       ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
 #' @param comment_heads Length 2 vector: A short and long comment header to add to comments
 #' @param mark If TRUE: Includes as a comment the location of replaced text 
@@ -88,23 +86,13 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
 #' @export
 #' 
 add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#|----##"), 
-#|                            ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
                                mark = FALSE, mark_replace_len = NULL, marker = "*",
                                write = FALSE) {
   for(j in seq_along(matchesL$files)) { 
-#|                  ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
     text = matchesL$code[[j]][matchesL$matchlines[[j]]]
-#|                       ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
     if (mark) {
       for(k in seq_along(matchesL$matchlines[[j]])) {
-#|                      ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
         com = mark_strlocate(matchesL$matchlocs[[j]][[k]])
-#|                          ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
         str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
         
         if (!is.null(mark_replace_len)) { 
@@ -117,16 +105,10 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
     text = paste(text, "\n", comment_heads[2], add_comment, " --", date(), "--", sep = "")
     
     matchesL$code[[j]][matchesL$matchlines[[j]]] = text
-#|                ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   }
   
   if (write) { write_matchlist(matchesL)}
-#|                            ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   return(matchesL)
-#|      ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 }
 
 
@@ -137,22 +119,14 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
 #' This function does just that. 
 #' 
 #' @param matchesL Regex match list : this is output of search_code_matches
-#|       ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #' 
 #' @return none
 #' 
 #' @export
 #' 
 write_matchlist = function(matchesL) {
-#|                        ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   for(j in seq_along(matchesL$files)) {
-#|                  ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
     writeLines(text = matchesL$code[[j]], con = matchesL$files[j])
-#|                                         ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   }
   invisible(0)
 }

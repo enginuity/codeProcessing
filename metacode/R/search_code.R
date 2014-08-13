@@ -20,12 +20,8 @@ search_code = function(regexp = "Default Search...", add_comment = NULL, regex_e
   
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
   matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
-#|********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
   if (!is.null(add_comment)) { add_comment_matches(matchesL, add_comment, write = TRUE) }
-#|                                                ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   return("Search is done!")
 }
 
@@ -52,18 +48,11 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
                         dir = DIR, mode = "R", file_regex = NULL) {
 
   matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
-#|********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
-#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual replacement: 
   for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], regexp, replace) }
-#|                                                                  ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
   matchesL = add_comment_matches(matchesL = matchesL, add_comment = add_comment, comment_heads = comment_heads, 
-#|                                 ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
   return("Replacements are done!")
@@ -83,17 +72,10 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
 #' 
 clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
   matchesL = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
-#|********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
-#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual comment clearing: 
   for (j in seq_along(matchesL$files)) { matchesL$code[[j]] = matchesL$code[[j]][-matchesL$matchlines[[j]]] }
-#|                                                                   ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   write_matchlist(matchesL)
-#|               ********
-#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
   return("Comment clearing is done!")
 }
