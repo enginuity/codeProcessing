@@ -10,6 +10,7 @@
 # Helper Functions --------------------------------------------------------
 
 
+
 #' Locates regex matches in codebase
 #'    
 #' This function searches the code in the 'dir'ectory (with 'file_regex' as needed, and of 'mode'). 
@@ -24,6 +25,7 @@
 #' }
 #' 
 #' @param regexp Regular Expression to search for
+#' @param regex_exact If TRUE: Adjusts regexp so that matches must have non-word characters before and after
 #' @param dir Directory to search recursively for code files
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
@@ -34,7 +36,6 @@
 #' @export
 #' 
 search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
-#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
                                dir = DIR, mode = "R", file_regex = NULL, 
                                logged = NULL) {
 
