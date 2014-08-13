@@ -50,13 +50,13 @@ logfile_namecreation = function(logtype, query) {
 #' 
 #' @param logtype Type-identifier to be added to the logfile name
 #' @param query regexp that was searched for, to be added to filename
-#' @param m search result match list. 
+#' @param matchesL Regex match list : this is output of search_code_matches
 #' 
-#' @return Nothing
+#' @return none
 #' 
 #' @export
 #' 
-create_search_log = function(logtype, query, m) {
+create_search_log = function(logtype, query, matchesL) {
   ## This function writes a search logfile (only does this; this shall be called by search_code)
   ## m = match list
   
@@ -64,16 +64,16 @@ create_search_log = function(logtype, query, m) {
   log_result('Searching for "', query, '"', "\n", header = TRUE)
   
   ## Log actual matches. 
-  for(j in seq_along(m$files)) {
+  for(j in seq_along(matchesL$files)) {
     ## Insert file information
     log_result(str_pad("\n", 80, 'right', "*"),str_pad("\n", 80, 'right', "*"),"\n",
-               "Matches found in '", m$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
+               "Matches found in '", matchesL$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
     
     ## Insert match info
-    for(k in seq_along(m$matchlines[[j]])) {
-      codeline = m$matchlines[[j]][k]
-      log_result(str_pad(codeline, 4, 'right', " "), "||", m$code[[j]][codeline], "\n",
-                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(m$matchlocs[[j]][[k]]), "\n")
+    for(k in seq_along(matchesL$matchlines[[j]])) {
+      codeline = matchesL$matchlines[[j]][k]
+      log_result(str_pad(codeline, 4, 'right', " "), "||", matchesL$code[[j]][codeline], "\n",
+                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(matchesL$matchlocs[[j]][[k]]), "\n")
     }
   }
   log_result("\n--- Search Done! ---\n", header = TRUE)
