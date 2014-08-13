@@ -7,7 +7,7 @@
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (gen_depend_R)
 #' <<BasicInfo>> 
 #' 
-#' @param dir temp
+#' @param dir Directory to search recursively for code files
 #' 
 #' @return temp
 #' 
@@ -169,7 +169,7 @@ gen_depend_C = function(file, leading_spaces = 0) {
 #' 
 #' @param fxs text
 #' @param calls temp
-#' @param out_file text
+#' @param out_file File to plot the dependency tree to
 #' 
 #' @return text
 #' 
@@ -238,9 +238,9 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param dir temp
-#' @param mode text
-#' @param out_file text
+#' @param dir Directory to search recursively for code files
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
+#' @param out_file File to plot the dependency tree to
 #' @param leading_spaces text
 #' 
 #' @return text

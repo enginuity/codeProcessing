@@ -3,12 +3,14 @@
 
 ## TODO: [C-functionality] add C processing also
 
+#' Generates TODO list
+#'    
 #' This function generates a TODO list by looking for all #/## TODO: in the code base. 
 #' Of course, this only works for R code... 
 #' 
 #' @param dir Directory to search recursively for code files
 #' 
-#' @return text
+#' @return none
 #' 
 #' @export
 #' 
@@ -20,7 +22,7 @@ generate_todolist = function(dir = ".") {
   todo_type = NULL
   todolist = NULL
 
-  for(j in seq_along(all_code)) {
+  for(j in seq_along(all_code$files)) {
     addition = paste("--In file:", gsub(dir, "", all_code$files[[j]]))
     f = all_code$code[[j]]
     ## Grab all TODO entries, that start a line
