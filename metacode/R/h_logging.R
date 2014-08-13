@@ -1,8 +1,9 @@
 ##@S This file contains functions for logging
 
 
+
 #' Log object (characters usually)
-#' 
+#'    
 #' Writes line to the logfile, and perhaps prints to screen
 #' 
 #' @param ... Objects to log
