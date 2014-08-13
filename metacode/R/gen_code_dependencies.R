@@ -1,31 +1,29 @@
 ## Reads code and plots dependency chart for well-formatted code
 
 # library(Rgraphviz)
-
 ## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (gen_depend_R)
-#' <<BasicInfo>> 
+
+#' Searches directory for code files, and extracts dependency information
+#'     
+#' Needs to have well-formatted functions (and only cares about globally defined functions)
+#' Well-formatted => starts at first character, and ends with a lone left-justified }. 
 #' 
 #' @param dir Directory to search recursively for code files
 #' 
-#' @return temp
+#' @return list : $function_table, $calls
 #' 
 #' @export
 #' 
 gen_depend_R = function(dir) {
-  ## Start over again! Use new functions written... 
-  ## Only accepts well-formatted functions (and no non-globally defined functions)
-  ##   [well-formatted => starts at first character, and ends with a lone left-justified }. 
-  
-  fs = extract_all_code(dir, mode = "R")
-  files = fs$files
+  all_code = extract_all_code(dir, mode = "R")
+  files = all_code$files
   
   # Find functions within the code
   
   fxlist = list()
   for(k in seq_along(files)) {
-    code = fs$code[[k]]
+    code = all_code$code[[k]]
     
     ## TODO: Generalize this section? can ideas be pulled from other areas
     poss_function_starts = grep("^[A-Za-z]+.*?= *function", code)
@@ -54,14 +52,14 @@ gen_depend_R = function(dir) {
     ## TODO: [Idea] write this into a function? this is generally useful? checks for words...
     
     for(j in seq_along(fxtable$name)) {  
-      if (length(grep(reg, fs$code[[fxtable$fileID[j]]][(fxtable$start[j]+1):(fxtable$end[j]-1)])) > 0) {
+      if (length(grep(reg, all_code$code[[fxtable$fileID[j]]][(fxtable$start[j]+1):(fxtable$end[j]-1)])) > 0) {
         ## TODO: [Idea] Incorporate the call line numbers? does this matter?
         call_list[[length(call_list) + 1]] = data.frame(caller = j, called = i)
       }
     }
   }
   all_calls = do.call(rbind, call_list)
-  fxtable$filename = fs$files[fxtable$fileID]
+  fxtable$filename = all_code$files[fxtable$fileID]
   
   # Identify uncalled functions
   uncalled = setdiff(seq_along(fxtable$name), all_calls$called)
