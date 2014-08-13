@@ -1,7 +1,9 @@
 ## Reads code and plots dependency chart for well-formatted code
 
 # library(Rgraphviz)
-## TODO: Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
+## TODO: [Dependency] Need library Rgraphviz. Do this more systematically?
+## TODO: [Idea] Need to write a code processor (in R, or find one..), to treat it as 'XML'... 
+## TODO: [Documentation] Add documentation of function_table, calls
 
 
 #' Searches directory for code files, and extracts dependency information
@@ -72,23 +74,13 @@ gen_depend_R = function(dir) {
 }
 
 
-
-
-
-
-
-
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot)
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot_depend)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Plot a depedency tree given functions and call information
 #' 
-#' @param fxs text
-#' @param calls temp
+#' @param fxs Function data.frame
+#' @param calls Function call matrix
 #' @param out_file File to plot the dependency tree to
 #' 
-#' @return text
+#' @return none
 #' 
 #' @export
 #' 
@@ -148,31 +140,32 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
   plot(g, "dot", attrs = list(graph=graphAttr), nodeAttrs = nodeAttr,
        edgeAttrs = edgeAttr)
   dev.off()
+  invisible(0)
 }
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot)
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot_dependency)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' This plots a dependency tree given a directory (and more information)
 #' 
 #' @param dir Directory to search recursively for code files
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param out_file File to plot the dependency tree to
 #' @param leading_spaces text
 #' 
-#' @return text
+#' @return list : $function_table, $calls
 #' 
 #' @export
 #' 
 plot_dependency = function(dir, mode = c("R", "C"),
                            out_file = "depend_out.pdf", leading_spaces = NULL) {
   if (mode == "C") {
-    stop("Does this still work? probably needs fixing?")
+    stop("Does this still work? needs fixing/checking!")
+    
     LS = 2
     if (!is.null(leading_spaces)) {
       LS = leading_spaces
     }
     temp = gen_depend_C(file = codefile, leading_spaces = LS)
+    
   } else if (mode == "R") {
     temp = gen_depend_R(dir)
   } else {
@@ -182,24 +175,5 @@ plot_dependency = function(dir, mode = c("R", "C"),
   plot_depend(fxs = temp$function_table, calls = temp$calls, out_file = out_file)
   invisible(temp)
 }
-
-# ## For now, this will look for all functions, and look at all function calls in C++ code.
-# setwd("../")
-# plot_dependency("src_cpp/allcode.cpp", mode = "C")
-# plot_dependency("src_r/distance_distrib_samp.R", mode = "R")
-# 
-# 
-# plot_dependency("src_r/allcode-general.R", mode = "R")
-# ## errors
-# plot_dependency("src_r/distance_distrib_samp.R", mode = "R")
-# 
-# plot_dependency("src_r/distance_distrib_samp.R", mode = "R")
-# 
-# plot_dependency("src_r/simscripts/alt_dist_parallel_fx.R", mode = "R")
-
-
-
-
-
 
 
