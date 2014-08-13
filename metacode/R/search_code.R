@@ -14,10 +14,11 @@
 #' 
 #' @export
 #' 
-search_code = function(regexp = "Default Search...", add_comment = NULL, 
+search_code = function(regexp = "Default Search...", add_comment = NULL, regex_exact = TRUE,
                        dir = DIR, mode = "R", file_regex = NULL) {
   
-  mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
+  ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
+  mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
   
   if (!is.null(add_comment)) { add_comment_matches(mats, add_comment, write = TRUE) }
   return("Search is done!")
@@ -39,11 +40,11 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' 
 #' @export
 #' 
-replace_code = function(regexp = "Default Search...", replace, 
+replace_code = function(regexp = "Default Search...", replace, regex_exact = TRUE,
                         add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
                         dir = DIR, mode = "R", file_regex = NULL) {
 
-  mats = search_code_matches(regexp = regexp, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
+  mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
   
   ## Do actual replacement: 
   for(j in seq_along(mats$files)) { mats$code[[j]] = str_replace_all(mats$code[[j]], regexp, replace) }
