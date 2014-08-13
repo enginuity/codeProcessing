@@ -19,6 +19,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL, regex_e
   
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
   mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
+#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   if (!is.null(add_comment)) { add_comment_matches(mats, add_comment, write = TRUE) }
   return("Search is done!")
@@ -45,6 +46,7 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
                         dir = DIR, mode = "R", file_regex = NULL) {
 
   mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
+#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual replacement: 
   for(j in seq_along(mats$files)) { mats$code[[j]] = str_replace_all(mats$code[[j]], regexp, replace) }
@@ -69,6 +71,7 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
 #' 
 clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
   mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
+#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual comment clearing: 
   for (j in seq_along(mats$files)) { mats$code[[j]] = mats$code[[j]][-mats$matchlines[[j]]] }
