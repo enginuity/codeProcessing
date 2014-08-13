@@ -33,9 +33,19 @@
 #' 
 #' @export
 #' 
-search_code_matches = function(regexp = "Default Search", 
+search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
                                dir = DIR, mode = "R", file_regex = NULL, 
                                logged = NULL) {
+
+  ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
+  if (regex_exact) {
+    regexp = paste("(^|[^[:alnum:]_])(", regexp, ")($|[^[:alnum:]_])", sep = "")
+  }
+  ## TODO: [Test] is the following code necessary?
+  # else {
+  #  regexp = paste("(", regexp, ")", sep = "")
+  #}
+  
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
   all_code = find_files(dir = dir, mode = mode, file_regex = file_regex)
   
