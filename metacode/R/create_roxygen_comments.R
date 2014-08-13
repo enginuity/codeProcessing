@@ -92,7 +92,7 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
   } else { replace_text = paste("#' @param", param_name, replace_text) }
   
   if (length(inds) == 0) { return("[No matching parameter names]") }
-
+  
   ## The following code isn't particularly efficient (many read/writes of same file), but implemented much easier!
   for (i in inds) {
     if (replace_all || strsplit(locate_df$paramval[i], " ")[[1]][4] %in% c("temp", "text")) {
@@ -102,14 +102,14 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
     }
   }
   ## TODO: [Cleanup] Remove the following code as long as this function works. 
-#   
-#   files = unique(locate_df$filename)
-#   for(f in files) {
-#     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
-#     code = readLines(f)
-#     for (l in lines) { if(replace_all || locate_df$paramval[] %in% c("temp", "test")) { code[l] = new_param_doc } }
-#     writeLines(text = code, con = f)
-#   }
+  #   
+  #   files = unique(locate_df$filename)
+  #   for(f in files) {
+  #     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
+  #     code = readLines(f)
+  #     for (l in lines) { if(replace_all || locate_df$paramval[] %in% c("temp", "test")) { code[l] = new_param_doc } }
+  #     writeLines(text = code, con = f)
+  #   }
   return("[Parameter Documentation replacement done!]")
 }
 
@@ -443,15 +443,20 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
     if (length(t) <= 1 | is.na(t[1])) {
       prev_docu$Mode[j] = 'Empty'
     } else {
-      if (t[1] == "@param") {
-        prev_docu$Mode[j] = "@param"
-        prev_docu$Mode2[j] = t[2]
-      } else if (t[1] == "@return") {
-        prev_docu$Mode[j] = "@return"
-      } else if (t[1] == "@export") {
-        prev_docu$Mode[j] = "@export"
-      } else {
+      t = t[t != ""]
+      if (length(t) == 0) {
         prev_docu$Mode[j] = "Text"
+      } else {
+        if (t[1] == "@param") {
+          prev_docu$Mode[j] = "@param"
+          prev_docu$Mode2[j] = t[2]
+        } else if (t[1] == "@return") {
+          prev_docu$Mode[j] = "@return"
+        } else if (t[1] == "@export") {
+          prev_docu$Mode[j] = "@export"
+        } else {
+          prev_docu$Mode[j] = "Text"
+        }
       }
     }
     prev_docu$Value[j] = text[prev_lines[j]]
