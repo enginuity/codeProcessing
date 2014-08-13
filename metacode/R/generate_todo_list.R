@@ -31,7 +31,7 @@ generate_todolist = function(dir = ".") {
     linematches = grep("^ *#+ TODO:", f)      
     if (length(linematches) > 0) {
         todolist = c(todolist, addition, 
-          paste(fix_length(t=linematches, len = 5), 
+          paste(str_pad(string = linematches, width = 5, side = "right"),
               gsub("^ *", "", f[linematches]), sep = " ::: "), 
         "##########", "##########", "##########")
       todo_type = c(todo_type, gsub("^ *#+ TODO: ", "", f[linematches]))
@@ -53,8 +53,8 @@ generate_todolist = function(dir = ".") {
     for(j in 1:length(table_type)) {
       todolist = c(todolist, 
         paste("-----", 
-              fix_length(names(table_type)[j], len = max_len),
-              "**", fix_length(table_type[j], len = 3), sep = " "))
+              str_pad(names(table_type)[j], width = max_len, side = 'right'),
+              "**", str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
     }
   }
   
