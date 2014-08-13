@@ -8,17 +8,26 @@
 
 # Helper Functions --------------------------------------------------------
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (search)
-#' Searches code for certain regular expressions. This is a helper function that should be called by 
-#' any function that requires searching. 
+#' Locates regex matches in codebase
+#'    
+#' This function searches the code in the 'dir'ectory (with 'file_regex' as needed, and of 'mode'). 
+#' This should be a helper function called by any function that uses searching... 
+#' 
+#' The returned object is a list with the following elements:
+#' \itemize{
+#' \item $files -- A vector of filenames
+#' \item $code -- A list of : source codes (individual character vectors)
+#' \item $matchlines -- A list of : line-location of matches (individual numeric vectors)
+#' \item $matchlocs -- A list of : str_locate_all output (for 'regex' on each file)
+#' }
 #' 
 #' @param regexp Regular Expression to search for
 #' @param dir Directory to search recursively for code files
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
-#' @param logged if non_null, then this is the logtype
+#' @param logged If non-NULL, then this is the logtype (to write in filename)
 #' 
-#' @return a list of search result matches. 
+#' @return A list of files, code, and match locations
 #' 
 #' @export
 #' 
