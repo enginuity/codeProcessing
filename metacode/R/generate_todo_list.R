@@ -17,6 +17,7 @@
 generate_todolist = function(dir = ".") {
   ## TODO: [Document] this.
   ## TODO: [Test] this function. 
+  ## TODO: [Refactor] this function to fit more inline with the remaining code
   
   ## Find files
   all_code = find_files(dir = dir, mode = "R", file_regex = NULL)
@@ -26,8 +27,8 @@ generate_todolist = function(dir = ".") {
   todolist = NULL
 
   for(j in seq_along(all_code)) {
-    addition = paste("--In file:", gsub(dir, "", all_code[[j]]$filename))
-    f = all_code[[j]]$code
+    addition = paste("--In file:", gsub(dir, "", all_code$files[[j]]))
+    f = all_code$code[[j]]
     ## Grab all TODO entries, that start a line
     linematches = grep("^ *#+ TODO:", f)      
     if (length(linematches) > 0) {
