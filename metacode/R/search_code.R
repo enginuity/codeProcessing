@@ -14,7 +14,7 @@
 #' 
 #' @param regexp Regular Expression to search for
 #' @param dir Directory to search recursively for code files
-#' @param mode appropraite file extensions
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param logged if non_null, then this is the logtype
 #' 
@@ -52,7 +52,7 @@ search_code_matches = function(regexp = "Default Search",
 #' Adds comments into the code, and writes if necessary
 #' 
 #' @param mats search match list
-#' @param add_comment comment to add in code
+#' @param add_comment If non-NULL, this is added to the source code as a next-line comment.
 #' @param comment_heads length 2 vector: short/long comment header
 #' @param mark T/F: True includes location of replace match. 
 #' @param mark_replace_len if non NULL, length of replacement (to modify search markers)
@@ -115,9 +115,9 @@ write_matchlist = function(mats) {
 #' Search code, and potentially add comments. 
 #' 
 #' @param regexp Regular Expression to search for
-#' @param add_comment adds a next line comment to original files where the regexp is found
+#' @param add_comment If non-NULL, this is added to the source code as a next-line comment.
 #' @param dir Directory to search recursively for code files
-#' @param mode text
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
@@ -140,11 +140,11 @@ search_code = function(regexp = "Default Search...", add_comment = NULL,
 #' 
 #' @param regexp Regular Expression to search for
 #' @param replace text
-#' @param add_comment text
+#' @param add_comment If non-NULL, this is added to the source code as a next-line comment.
 #' @param comment_heads text
 #' @param replace_mark text
 #' @param dir Directory to search recursively for code files
-#' @param mode text
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
@@ -172,7 +172,7 @@ replace_code = function(regexp = "Default Search...", replace,
 #' 
 #' @param comment_regex text
 #' @param dir Directory to search recursively for code files
-#' @param mode text
+#' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
 #' @return text
