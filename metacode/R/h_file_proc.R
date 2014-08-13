@@ -1,14 +1,14 @@
 ##@S This file contains function to aid with repeating file processing tasks (file-name processing, etc.)
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' Find all files with appropriate file extensions, and extract code
+
+#' Find all files with appropriate file extensions and extract code
 #' 
 #' @param dir Directory to search recursively for code files
 #' @param mode "R" or "C" -- looks for appropriate filename extensions
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' 
-#' @return vector of all appropriate filenames 
+#' @return list : $files, $code
 #' 
 #' @export
 #' 
@@ -29,7 +29,7 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 
   ## Apply regex of file_regex when appropriate
   if (!is.null(file_regex)) {
-    ## TODO: This only has the functionality ot look at the entire filename.
+    ## TODO: [Idea] This only has the functionality ot look at the entire filename.
     ## TODO: -- Should this be edited to only look at the last portion of the filename?
     matches = grep(file_regex, res)
     res = res[matches]
@@ -39,12 +39,11 @@ find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract)
-#' reads code for files into memory
+#' Extracts code for each file input
 #' 
-#' @param files vector of filenames
+#' @param files Vector of filenames
 #' 
-#' @return list of filenames, code
+#' @return list : $files, $code
 #' 
 #' @export
 #' 
