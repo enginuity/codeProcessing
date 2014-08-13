@@ -20,8 +20,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ##   content
   ## }
   
-  matchesL = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
-#|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
+  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]

@@ -30,6 +30,7 @@ search_code(regexp = "search_code", add_comment = "this function has been split 
 search_code(regexp = "clear_comments", add_comment = "This function has been rewritten")
 clear_comments()
 
+search_code("mark_gregexpr_loc")
 
 
 
