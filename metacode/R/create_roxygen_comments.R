@@ -20,12 +20,20 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   ##   content
   ## }
   
-  mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
+  matchesL = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
+#|********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
-  for(j in seq_along(mats$files)) {
-    txt = mats$code[[j]]
-    matchlines = mats$matchlines[[j]]
+  for(j in seq_along(matchesL$files)) {
+#|                  ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
+    txt = matchesL$code[[j]]
+#|       ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
+    matchlines = matchesL$matchlines[[j]]
+#|              ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
     param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
     
     lines_to_clear = NULL
@@ -44,10 +52,14 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
     }
     
     if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
-    mats$code[[j]] = txt
+    matchesL$code[[j]] = txt
+#| ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   }
   
-  if (!test_run) { write_matchlist(mats) }
+  if (!test_run) { write_matchlist(matchesL) }
+#|                                ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
 
@@ -148,14 +160,22 @@ Mode_nontemp = function(text) {
 #' @export
 #' 
 roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
-  mats = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+  matchesL = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+#|********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
   
-  for(j in seq_along(mats$files)) {
-    txt = mats$code[[j]]
-    matchlines = mats$matchlines[[j]]
+  for(j in seq_along(matchesL$files)) {
+#|                  ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
+    txt = matchesL$code[[j]]
+#|       ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
+    matchlines = matchesL$matchlines[[j]]
+#|              ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
     param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
     
     for(k in seq_along(matchlines)) {
@@ -164,7 +184,9 @@ roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:
       if (is.data.frame(cur_doc)) {
         fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
         agg_params = rbind(agg_params, 
-                           data.frame(filename = mats$files[j], funcname = fn_name, 
+                           data.frame(filename = matchesL$files[j], funcname = fn_name, 
+#|                                              ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
                                       paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
                                       lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE))
       }

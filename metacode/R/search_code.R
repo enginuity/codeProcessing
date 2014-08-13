@@ -19,9 +19,13 @@ search_code = function(regexp = "Default Search...", add_comment = NULL, regex_e
                        dir = DIR, mode = "R", file_regex = NULL) {
   
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
-  mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
+  matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "SEARCH")
+#|********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
-  if (!is.null(add_comment)) { add_comment_matches(mats, add_comment, write = TRUE) }
+  if (!is.null(add_comment)) { add_comment_matches(matchesL, add_comment, write = TRUE) }
+#|                                                ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   return("Search is done!")
 }
 
@@ -47,13 +51,19 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
                         add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE,
                         dir = DIR, mode = "R", file_regex = NULL) {
 
-  mats = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
+  matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, dir = dir, mode = mode, file_regex = file_regex, logged = "REPLACE")
+#|********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual replacement: 
-  for(j in seq_along(mats$files)) { mats$code[[j]] = str_replace_all(mats$code[[j]], regexp, replace) }
+  for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], regexp, replace) }
+#|                                                                  ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
-  mats = add_comment_matches(mats = mats, add_comment = add_comment, comment_heads = comment_heads, 
+  matchesL = add_comment_matches(matchesL = matchesL, add_comment = add_comment, comment_heads = comment_heads, 
+#|                                 ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
   return("Replacements are done!")
@@ -72,12 +82,18 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
 #' @export
 #' 
 clear_comments = function(comment_regex = "^#[|]", dir = DIR, mode = "R", file_regex = NULL) {
-  mats = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
+  matchesL = search_code_matches(regexp = comment_regex, dir = dir, mode = mode, file_regex = file_regex, logged = "CLEAR-COMMENTS")
+#|********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
 #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
   
   ## Do actual comment clearing: 
-  for (j in seq_along(mats$files)) { mats$code[[j]] = mats$code[[j]][-mats$matchlines[[j]]] }
-  write_matchlist(mats)
+  for (j in seq_along(matchesL$files)) { matchesL$code[[j]] = matchesL$code[[j]][-matchesL$matchlines[[j]]] }
+#|                                                                   ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
+  write_matchlist(matchesL)
+#|               ********
+#|----##Rename mats -> matchesL --Wed Aug 13 15:37:29 2014--
   
   return("Comment clearing is done!")
 }
