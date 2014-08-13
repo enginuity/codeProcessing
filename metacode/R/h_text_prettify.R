@@ -23,22 +23,20 @@ create_space_chars = function(v, ch = " ") {
 }
 
 
-
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (mark)
-#' Like mark_gregexpr_loc, except for str_locate output. 
+## TODO: [Update] This function probably needs update to handle str_locate_all? is there a bug with this?
+#' Marks the location of str_locate output 
 #' 
-#' @param s single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows
-#' @param fill what to use as indicator text
+#' @param strLoc Single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows)
+#' @param marker What to use as indicator text
 #' 
-#' @return character singleton that denotes where in the code the matches were. 
+#' @return String with mostly spaces, except with matching locations marked
 #' 
 #' @export
 #' 
-mark_strlocate = function(s, fill = "*") {
-  res = str_dup(" ", max(s[,2]))
-  for(k in nrow(s)) {
-    str_sub(res, s[k,1], s[k,2]) <- str_dup(fill, s[k,2] - s[k,1]+1)
+mark_strlocate = function(strLoc, marker = "*") {
+  res = str_dup(" ", max(strLoc[,2]))
+  for(k in nrow(strLoc)) {
+    str_sub(res, strLoc[k,1], strLoc[k,2]) <- str_dup(marker, strLoc[k,2] - strLoc[k,1]+1)
   }
   return(res)
 }
