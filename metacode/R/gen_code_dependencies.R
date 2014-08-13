@@ -163,11 +163,12 @@ gen_depend_C = function(file, leading_spaces = 0) {
 
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot)
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (plot_depend)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
 #' @param fxs text
-#' @param mat text
+#' @param calls temp
 #' @param out_file text
 #' 
 #' @return text
