@@ -1,15 +1,16 @@
 ##@S This file contains generic text-prettifying functions
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
+
 #' Creates a character vector of a varying amount of 'ch' characters
+#'   
 #' This is mainly used to space out text for pretty displaying (in printing dataframes)
 #' Example: If v = c(5,1), returns c("     ", " ")
 #' 
-#' @param v numeric vector
-#' @param ch character to repeat
+#' @param v Numeric vector
+#' @param ch Character to repeat
 #' 
-#' @return character vector of length(v)
+#' @return Character vector of length(v)
 #' 
 #' @export
 #' 
