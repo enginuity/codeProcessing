@@ -1,8 +1,6 @@
 ##@S Code for searching the entire codebase (all '.R' files) for certain text. 
 ##@S   Search results are output inside this directory (metadata)
 
-## TODO: [Find code] Get my 'todo' finder...  
-
 ## mode: 'R' or 'C' depending on whether to look in R or C code.
 ## -- R code => looks at all .R files.
 ## -- C code => looks at all .c, .cc, .cpp, .h, .hh files.
