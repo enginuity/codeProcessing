@@ -45,11 +45,11 @@ logfile_namecreation = function(logtype, query) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (create)
-#' Writes a logfile, for various search operations. 
+
+#' Outputs a logfile for various search operations 
 #' 
 #' @param logtype Type-identifier to be added to the logfile name
-#' @param query regexp that was searched for, to be added to filename
+#' @param query Usually is regexp; this is added to the logfile name
 #' @param matchesL Regex match list : this is output of search_code_matches
 #' 
 #' @return none
