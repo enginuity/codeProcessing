@@ -20,7 +20,7 @@ generate_todolist = function(dir = ".") {
   todo_type = NULL
   todolist = NULL
 
-  for(j in seq_along(all_code)) {
+  for(j in seq_along(all_code$files)) {
     addition = paste("--In file:", gsub(dir, "", all_code$files[[j]]))
     f = all_code$code[[j]]
     ## Grab all TODO entries, that start a line
