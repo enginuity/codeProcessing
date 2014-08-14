@@ -9,7 +9,7 @@
 #' Searches directory for code files, and extracts dependency information
 #'     
 #' Needs to have well-formatted functions (and only cares about globally defined functions)
-#' Well-formatted => starts at first character, and ends with a lone left-justified }. 
+#' Well-formatted => starts at first character, and ends with a lone left-justified \}. 
 #' 
 #' @param dir Directory to search recursively for code files
 #' 

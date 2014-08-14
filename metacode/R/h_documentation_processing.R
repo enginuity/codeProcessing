@@ -2,8 +2,9 @@
 
 
 
+
 #' Compute Mode of parameter documentation (ignoring certain types)
-#' 
+#'     
 #' Ignores all values that are equal to 'test' or 'temp', and computes the mode of the remaining text values
 #' 
 #' @param text Character vector

@@ -1,7 +1,8 @@
 ## Helper functions for searching for enclosed text
 
+
 #' Searches for enclosed text
-#' 
+#'    
 #' Looks for the next open/close parethesis set, accounting for parenthesis embedding
 #' Allows for arbitrary types of open/close parens. 
 #' 
@@ -107,8 +108,9 @@ find_next_location = function(loc_list, ln, cn) {
 }
 
 
+
 #' Compares locations
-#' 
+#'   
 #' Returns the earlier location (loc1 or loc2, represented by 1 or 2)
 #' 
 #' @param loc1 Location (Line, Character)

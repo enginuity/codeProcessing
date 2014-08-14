@@ -7,6 +7,15 @@ library(stringr)
 DIR = "."
 log_file = "results/test.txt"
 
+
+
+
+
+
+
+
+
+
 replace_code(regexp="find_files", replace = "extract_all_code", add_comment = "Rename find_files -> extract_all_code")
 
 replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
