@@ -25,7 +25,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
     matchlines = matchesL$matchlines[[j]]
-    param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
+    param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
     
     lines_to_clear = NULL
     for(k in seq_along(matchlines)) {
@@ -155,7 +155,7 @@ roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
     matchlines = matchesL$matchlines[[j]]
-    param_segments = find_all_enclosed(text = txt, startpositions = cbind(matchlines, 1))
+    param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
     
     for(k in seq_along(matchlines)) {
       params = find_current_params(param_segments[k])  
@@ -230,26 +230,29 @@ find_current_params = function(text) {
 }
 
 
+
+#' Searches for enclosed text
+#' 
 #' Looks for the next open/close parethesis set, accounting for parenthesis embedding
 #' Allows for arbitrary types of open/close parens. 
 #' 
-#' @param text code to process
-#' @param startposition a vector(lineno, charpos) denoting where to find 
-#' @param regex_s regex to find 'open-paren'
-#' @param regex_e regex to find 'close-paren'
+#' @param text Source code
+#' @param startlocation A vector(lineno, charpos) denoting where to start searching
+#' @param regex_s Regex to find 'open-paren'
+#' @param regex_e Regex to find 'close-paren'
 #' 
-#' @return contents of next open/close paren set
+#' @return Content of next open/close paren set
 #' 
 #' @export
 #' 
-find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = "[)]") {
+find_single_enclosed = function(text, startlocation, regex_s = "[(]", regex_e = "[)]") {
   ## text is a vector; this looks for things that span multiple entries. 
   ## 
   starts = str_locate_all(text, regex_s)
   ends = str_locate_all(text, regex_e)  
   
-  lineno = startposition[1]
-  charno = startposition[2]
+  lineno = startlocation[1]
+  charno = startlocation[2]
   
   locs = find_next_location(starts, lineno, charno)
   loce = find_next_location(ends, lineno, charno)
@@ -282,9 +285,9 @@ find_single_enclosed = function(text, startposition, regex_s = "[(]", regex_e = 
 
 #' Extracts all text between the starting and ending vector pairs.
 #' 
-#' @param text text
-#' @param start starting vector(lineno, charno) pair
-#' @param end ending vector(lineno, charno) pair
+#' @param text Source code
+#' @param start Starting vector(lineno, charno) pair
+#' @param end Ending vector(lineno, charno) pair
 #' 
 #' @return All text (as character singleton) between starting/ending pairs
 #' 
@@ -309,15 +312,13 @@ extract_location_pair = function(text, start, end) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Finds the next location in the list
 #' 
-#' @param loc_list text
-#' @param ln text
-#' @param cn text
+#' @param loc_list List of possible locations
+#' @param ln Line number
+#' @param cn Character number
 #' 
-#' @return text
+#' @return Location pair (Line,Character) which is after the given (ln,cn) pair
 #' 
 #' @export
 #' 
@@ -337,14 +338,14 @@ find_next_location = function(loc_list, ln, cn) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (compare)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Compares locations
 #' 
-#' @param loc1 text
-#' @param loc2 text
+#' Returns the earlier location (loc1 or loc2, represented by 1 or 2)
 #' 
-#' @return text
+#' @param loc1 Location (Line, Character)
+#' @param loc2 Location (Line, Character)
+#' 
+#' @return Either '1' or '2', whichever is earlier in the document
 #' 
 #' @export
 #' 
@@ -364,12 +365,10 @@ compare_locations = function(loc1, loc2) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Extracts the text within the next 'regex_s -- regex_e' pair, for each startlocation
 #' 
 #' @param text Source code
-#' @param startpositions Matrix of start positions (Line, Character)
+#' @param startlocations Matrix of start positions (Line, Character)
 #' @param regex_s Regex match for start of enclosed section
 #' @param regex_e Regex match for end of enclosed section
 #' 
@@ -377,11 +376,11 @@ compare_locations = function(loc1, loc2) {
 #' 
 #' @export
 #' 
-find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[)]") {
-  N = nrow(startpositions)
+find_all_enclosed = function(text, startlocations, regex_s = "[(]", regex_e = "[)]") {
+  N = nrow(startlocations)
   res = rep("", N)
   for(j in 1:N) {
-    res[j] = find_single_enclosed(text=text, startposition=startpositions[j,], regex_s=regex_s, regex_e = regex_e)
+    res[j] = find_single_enclosed(text=text, startlocation=startlocations[j,], regex_s=regex_s, regex_e = regex_e)
   }
   return(res)
 }
