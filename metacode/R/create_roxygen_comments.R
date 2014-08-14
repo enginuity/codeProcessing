@@ -51,6 +51,45 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_locate)
+#' ********** WARNING -- INSERTED CODE **************
+#' <<BasicInfo>> 
+#' 
+#' @param dir Directory to search recursively for code files
+#' @param file_regex text
+#' @param regexp_fxstart text
+#' 
+#' @return text
+#' 
+#' @export
+#' 
+roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+  matchesL = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+  #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
+  
+  agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
+  
+  for(j in seq_along(matchesL$files)) {
+    txt = matchesL$code[[j]]
+    matchlines = matchesL$matchlines[[j]]
+    param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
+    
+    for(k in seq_along(matchlines)) {
+      params = find_current_params(param_segments[k])  
+      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+      if (is.data.frame(cur_doc)) {
+        fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        agg_params = rbind(agg_params, 
+                           data.frame(filename = matchesL$files[j], funcname = fn_name, 
+                                      paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
+                                      lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE))
+      }
+    }
+  }
+  return(agg_params[-1,])
+}
+
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_subset)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
