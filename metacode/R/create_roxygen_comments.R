@@ -3,7 +3,13 @@
 # Function to create Roxygen comments -------------------------------------
 
 #' Create roxygen templates (and fix/reorder them as necessary)
+#'    
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
+#'     
+#' Assumes functions are of the format 
+#' FUNCTION_NAME = function( .... ) \{
+#'   content
+#' \}
 #' 
 #' @param dir Directory to search recursively for code files
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
@@ -15,12 +21,8 @@
 #' @export
 #' 
 create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-  ## Assumes functions are of the format 
-  ## FUNCTION_NAME = function( .... ) {
-  ##   content
-  ## }
-  
-  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
+  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
+                                 dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
@@ -56,7 +58,7 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 #' <<BasicInfo>> 
 #' 
 #' @param dir Directory to search recursively for code files
-#' @param file_regex text
+#' @param file_regex If non-NULL: restrict to filenames that match this regex
 #' @param regexp_fxstart text
 #' 
 #' @return text
@@ -64,8 +66,8 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 #' @export
 #' 
 roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
-  matchesL = search_code_matches(regexp = regexp_fxstart, dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
-  #|----##This function has new parameter (regex_exact) added --Wed Aug 13 15:14:32 2014--
+  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
+                                 dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
   
   agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
   
@@ -107,7 +109,7 @@ roxyparam_subset = function(locate_df, param_name) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
+
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 

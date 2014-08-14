@@ -46,9 +46,11 @@ search_code("mark_gregexpr_loc")
 test = roxyparam_locate(dir = "metacode/")
 test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
 test[order(test$paramname),-which(names(test) == "paramval")]
-
 roxyparam_subset(test, "logtype")
 
+roxyparam_overwrite(test, "file_regex")
+
+roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 roxyparam_overwrite(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 
