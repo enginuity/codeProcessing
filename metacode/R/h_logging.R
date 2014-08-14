@@ -57,10 +57,7 @@ logfile_namecreation = function(logtype, query) {
 #' 
 #' @export
 #' 
-create_search_log = function(logtype, query, matchesL) {
-  ## This function writes a search logfile (only does this; this shall be called by search_code)
-  ## m = match list
-  
+create_search_log = function(logtype, query, matchesL) {  
   log_file <<- logfile_namecreation(logtype = logtype, query = query)
   log_result('Searching for "', query, '"', "\n", header = TRUE)
   

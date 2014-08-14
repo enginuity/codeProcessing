@@ -51,19 +51,14 @@ roxyparam_subset(test, "logtype")
 
 roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 roxyparam_overwrite(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
-# roxyparam_overwrite(test, "out_file", replace_text = "File to plot the dependency tree to")
-# roxyparam_overwrite(test, "regex_exact", replace_text = "If TRUE: Adjusts regexp so that matches must have non-word characters before and after")
-# roxyparam_overwrite(test, "comment_heads")
-# roxyparam_overwrite(test, "add_comment", replace_text = "If non-NULL, this is added to the source code as a next-line comment", replace_all = TRUE)
-# roxyparam_overwrite(test, "mode", replace_text = "\"R\" or \"C\" -- looks for appropriate filename extensions", replace_all = TRUE)
-# roxyparam_overwrite(test, "file_regex", "If non-NULL: restrict to filenames that match this regex")
- 
+
 
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
 
 
-
+search_code(regexp = "search_code")
 gen_depend_R(".") -> test
+
 plot_dependency(".", mode = "R", out_file = "results/ztestplot.pdf")
 
 plot_dependency("../27may_user_engagement/source/fxForUserchurn/R/", mode = "R", out_file = "results/znewproj.pdf")
