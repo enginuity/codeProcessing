@@ -368,12 +368,12 @@ compare_locations = function(loc1, loc2) {
 #' ********** WARNING -- INSERTED CODE **************
 #' <<BasicInfo>> 
 #' 
-#' @param text text
-#' @param startpositions text
-#' @param regex_s text
-#' @param regex_e text
+#' @param text Source code
+#' @param startpositions Matrix of start positions (Line, Character)
+#' @param regex_s Regex match for start of enclosed section
+#' @param regex_e Regex match for end of enclosed section
 #' 
-#' @return text
+#' @return Character singleton of enclosed text
 #' 
 #' @export
 #' 
@@ -387,21 +387,18 @@ find_all_enclosed = function(text, startpositions, regex_s = "[(]", regex_e = "[
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' Locates all previous lines that start with specific header type
 #' 
-#' @param text text
-#' @param lineno text
-#' @param header text
+#' @param text Source code
+#' @param lineno Line number
+#' @param header Documentation header
 #' 
-#' @return text
+#' @return Vector of line numbers (can be NA)
 #' 
 #' @export
 #' 
 find_all_prev_headers = function(text, lineno, header="^#'") {
-  ## Finds all previous lines (compared to lineno) that start with the specific header type
-  ## reutnrs linenumbres
   z = grep(header, text) 
   breaks = c(0,setdiff(seq_along(text), z))
   closest_break = max(breaks[breaks < lineno])
@@ -416,15 +413,14 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+
+#' Extracts documentation prior to a current line (function start line)
 #' 
-#' @param text text
-#' @param lineno text
-#' @param header text
+#' @param text Source code
+#' @param lineno Line number
+#' @param header Documentation header
 #' 
-#' @return text
+#' @return Character vector of documentation lines
 #' 
 #' @export
 #' 
