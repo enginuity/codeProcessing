@@ -114,17 +114,18 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (Mode_nontemp)
-#' <<BasicInfo>> 
+#' Compute Mode of parameter documentation (ignoring certain types)
 #' 
-#' @param text temp
+#' Ignores all values that are equal to 'test' or 'temp', and computes the mode of the remaining text values
 #' 
-#' @return temp
+#' @param text Character vector
+#' 
+#' @return Mode of 'text'
 #' 
 #' @export
 #' 
 Mode_nontemp = function(text) {
-  ## Returns "mode" of text, ignoring values that are equal to "test" or "temp"
+  
   ## TODO: Move function from this file? if necessary?
   t = text[text != "test" & text != "temp"]
   if (length(t) == 0) { return("temp") }
