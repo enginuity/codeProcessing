@@ -18,8 +18,6 @@ generate_todolist = function(dir = ".") {
   
   ## Find files
   all_code = extract_all_code(dir = dir, mode = "R", file_regex = NULL)
-#|          ****************
-#|----##Rename find_files -> extract_all_code --Wed Aug 13 16:08:27 2014--
 
   todo_type = NULL
   todolist = NULL

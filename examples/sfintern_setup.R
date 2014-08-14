@@ -8,7 +8,6 @@ source("load_all.R")
 
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
-#|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
 
 create_roxy_templates(dir="../27may_user_engagement/source/fxForUserchurn/R/")
 
