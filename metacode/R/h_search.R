@@ -73,7 +73,7 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
 
 #' Adds comments into the code, and write to file if necessary
 #' 
-#' @param matchesL Regex match list : this is output of search_code_matches
+#' @param matchesL Regex match list : this is output of search-code-matches
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
 #' @param comment_heads Length 2 vector: A short and long comment header to add to comments
 #' @param mark If TRUE: Includes as a comment the location of replaced text 
@@ -118,7 +118,7 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
 #' If a match list was modified (ie the $code portions were modified), the changes could be written to file. 
 #' This function does just that. 
 #' 
-#' @param matchesL Regex match list : this is output of search_code_matches
+#' @param matchesL Regex match list : this is output of search-code-matches
 #' 
 #' @return none
 #' 

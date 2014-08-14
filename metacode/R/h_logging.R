@@ -51,7 +51,7 @@ logfile_namecreation = function(logtype, query) {
 #' 
 #' @param logtype Type-identifier to be added to the logfile name
 #' @param query Usually is regexp; this is added to the logfile name
-#' @param matchesL Regex match list : this is output of search_code_matches
+#' @param matchesL Regex match list : this is output of search-code-matches
 #' 
 #' @return none
 #' 

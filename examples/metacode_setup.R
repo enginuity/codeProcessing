@@ -50,7 +50,7 @@ test[order(test$paramname),-which(names(test) == "paramval")]
 roxyparam_subset(test, "logtype")
 
 roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-roxyparam_overwrite(test, "matchesL")
+roxyparam_overwrite(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 # roxyparam_overwrite(test, "out_file", replace_text = "File to plot the dependency tree to")
 # roxyparam_overwrite(test, "regex_exact", replace_text = "If TRUE: Adjusts regexp so that matches must have non-word characters before and after")
 # roxyparam_overwrite(test, "comment_heads")
