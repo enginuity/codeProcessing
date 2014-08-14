@@ -48,7 +48,7 @@ test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
 test[order(test$paramname),-which(names(test) == "paramval")]
 roxyparam_subset(test, "logtype")
 
-roxyparam_overwrite(test, "file_regex")
+roxyparam_overwrite(test, "regexp_fxstart")
 
 roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)

@@ -53,15 +53,13 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_locate)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Extract roxygen2 parameter documentation
 #' 
 #' @param dir Directory to search recursively for code files
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
-#' @param regexp_fxstart text
+#' @param regexp_fxstart Regex to determine function starts; default should work
 #' 
-#' @return text
+#' @return Data frame of all parameter documentation
 #' 
 #' @export
 #' 
@@ -92,14 +90,13 @@ roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_subset)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+## TODO: [Obselete] This function is kind of silly/simple.. is it necessary? Either upgrade / delete
+#' Examine subset of roxygen parameters
 #' 
-#' @param locate_df text
-#' @param param_name text
+#' @param locate_df Complete parameter data frame
+#' @param param_name Parameter name to subset
 #' 
-#' @return text
+#' @return Subset of parameter data frame, only containing certain parameter name
 #' 
 #' @export
 #' 
@@ -110,21 +107,18 @@ roxyparam_subset = function(locate_df, param_name) {
 
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (roxyparam_overwrite)
-#' ********** WARNING -- INSERTED CODE **************
-#' <<BasicInfo>> 
+#' Overwrite parameter documentation
 #' 
-#' @param locate_df text
-#' @param param_name text
+#' @param locate_df Complete parameter data frame
+#' @param param_name Parameter name to subset
 #' @param replace_text If NULL: replaces with most frequent non(text/temp). Otherwise, replaces with replace_text.
-#' @param replace_all temp
+#' @param replace_all If TRUE: replaces also lines that already have non-trivial parameter documentation
 #' 
-#' @return text
+#' @return none
 #' 
 #' @export
 #' 
 roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, replace_all = FALSE) {
-  ## replace_all = FALSE: only replaces temp/text. otherwise, replaces all of them... 
   
   inds = which(locate_df$paramname == param_name)
   if (is.null(replace_text)) { 
@@ -142,15 +136,7 @@ roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, repla
       writeLines(text = code, con = locate_df$filename[i])
     }
   }
-  ## TODO: [Cleanup] Remove the following code as long as this function works. 
-  #   
-  #   files = unique(locate_df$filename)
-  #   for(f in files) {
-  #     lines = locate_df$lineno[intersect(inds, which(f == locate_df$filename))]
-  #     code = readLines(f)
-  #     for (l in lines) { if(replace_all || locate_df$paramval[] %in% c("temp", "test")) { code[l] = new_param_doc } }
-  #     writeLines(text = code, con = f)
-  #   }
+
   return("[Parameter Documentation replacement done!]")
 }
 
