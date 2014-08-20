@@ -20,7 +20,8 @@
 #' 
 #' @export
 #' 
-update_fx_documentation = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
+update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam = TRUE,
+                                   regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
@@ -113,7 +114,7 @@ update_param_docu = function(locate_df, param_name, replace_text = NULL, replace
   
   ## The following code isn't particularly efficient (many read/writes of same file), but implemented much easier!
   for (i in inds) {
-    if (replace_all || strsplit(locate_df$paramval[i], " ")[[1]][4] %in% c("temp", "text")) {
+    if (replace_all || strsplit(locate_df$paramval[i], " ")[[1]][4] %in% c("temp")) {
       code = readLines(locate_df$filename[i])
       code[locate_df$lineno[i]] = replace_text
       writeLines(text = code, con = locate_df$filename[i])

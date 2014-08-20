@@ -5,7 +5,7 @@
 
 #' Compute Mode of parameter documentation (ignoring certain types)
 #'     
-#' Ignores all values that are equal to 'test' or 'temp', and computes the mode of the remaining text values
+#' Ignores all values that are equal to 'temp', and computes the mode of the remaining text values
 #' 
 #' @param text Character vector
 #' 
@@ -15,8 +15,7 @@
 #' 
 Mode_nontemp = function(text) {
   
-  ## TODO: Move function from this file? if necessary?
-  t = text[text != "test" & text != "temp"]
+  t = text[text != "temp"]
   if (length(t) == 0) { return("temp") }
   
   tab = table(t)
