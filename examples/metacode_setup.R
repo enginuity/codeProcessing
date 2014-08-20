@@ -37,20 +37,16 @@ search_code("mark_gregexpr_loc")
 
 
 
-test = roxyparam_locate(dir = "metacode/")
+
 test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
 test[order(test$paramname),-which(names(test) == "paramval")]
 
+paramdf = extract_param_docu(dir = "metacode/")
+
 update_param_docu(test, "regexp_fxstart")
-#|*****************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
 
 update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-#|*****************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
 update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-#|*****************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
 update_param_docu(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 
 

@@ -2,6 +2,7 @@
 
 # Function to create Roxygen comments -------------------------------------
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (update_fx_documentation)
 #' Create roxygen templates (and fix/reorder them as necessary)
 #'    
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
@@ -13,6 +14,7 @@
 #' 
 #' @param dir Directory to search recursively for code files
 #' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' @param fill_emptyparam temp
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run Won't write any changes to file, unless test_run is FALSE
 #' 
@@ -64,12 +66,13 @@ update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam =
 #' 
 #' @export
 #' 
-extract_param_docu = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+extract_param_docu = function(dir, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+  
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
   
-  agg_params = data.frame(filename="", funcname="", paramname = "", paramval = "", lineno = 0, stringsAsFactors = FALSE)
-  
+  param_list = list()
+  i = 1
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
     matchlines = matchesL$matchlines[[j]]
@@ -80,14 +83,16 @@ extract_param_docu = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnu
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
       if (is.data.frame(cur_doc)) {
         fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
-        agg_params = rbind(agg_params, 
-                           data.frame(filename = matchesL$files[j], funcname = fn_name, 
-                                      paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
-                                      lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE))
+        
+        param_list[[i]] = data.frame(filename = matchesL$files[j], funcname = fn_name, 
+                                     paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
+                                     lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE)
+        i = i + 1
       }
     }
   }
-  return(agg_params[-1,])
+  agg_params = do.call(rbind, param_list)
+  return()
 }
 
 
@@ -120,7 +125,7 @@ update_param_docu = function(locate_df, param_name, replace_text = NULL, replace
       writeLines(text = code, con = locate_df$filename[i])
     }
   }
-
+  
   return("[Parameter Documentation replacement done!]")
 }
 
