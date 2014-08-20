@@ -21,8 +21,6 @@
 #' @export
 #' 
 update_fx_documentation = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-#|***********************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
@@ -66,8 +64,6 @@ update_fx_documentation = function(dir=DIR, file_regex = NULL, regexp_fxstart = 
 #' @export
 #' 
 extract_param_docu = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
-#|******************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:38:51 2014--
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
   
@@ -94,23 +90,6 @@ extract_param_docu = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnu
 }
 
 
-## TODO: [Obselete] This function is kind of silly/simple.. is it necessary? Either upgrade / delete
-#' Examine subset of roxygen parameters
-#' 
-#' @param locate_df Complete parameter data frame
-#' @param param_name Parameter name to subset
-#' 
-#' @return Subset of parameter data frame, only containing certain parameter name
-#' 
-#' @export
-#' 
-roxyparam_subset = function(locate_df, param_name) {
-  inds = which(locate_df$paramname == param_name)
-  return(cbind(locate_df[inds,"funcname"], gsub(paste("#' @param ",param_name, " ", sep = ""), "", locate_df[inds, "paramval"])))
-}
-
-
-
 #' Overwrite parameter documentation
 #' 
 #' @param locate_df Complete parameter data frame
@@ -122,7 +101,7 @@ roxyparam_subset = function(locate_df, param_name) {
 #' 
 #' @export
 #' 
-roxyparam_overwrite = function(locate_df, param_name, replace_text = NULL, replace_all = FALSE) {
+update_param_docu = function(locate_df, param_name, replace_text = NULL, replace_all = FALSE) {
   
   inds = which(locate_df$paramname == param_name)
   if (is.null(replace_text)) { 

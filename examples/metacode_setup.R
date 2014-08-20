@@ -10,14 +10,6 @@ log_file = "results/test.txt"
 
 
 
-
-replace_code(regexp = "roxyparam_locate", replace = "extract_param_docu", add_comment = "Rename create_roxy_temp -> update_fx_doc")
-#|                    ***********************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
-
-
-
-
 replace_code(regexp="find_files", replace = "extract_all_code", add_comment = "Rename find_files -> extract_all_code")
 
 replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
@@ -26,8 +18,6 @@ replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> 
 # For fixing templates
 # DIR = "metacode/"
 # update_fx_documentation(dir = DIR)
-#|***********************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 search_code(regexp = "search_code_matches", add_comment = "This function has new parameter (regex_exact) added")
 
@@ -50,13 +40,18 @@ search_code("mark_gregexpr_loc")
 test = roxyparam_locate(dir = "metacode/")
 test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
 test[order(test$paramname),-which(names(test) == "paramval")]
-roxyparam_subset(test, "logtype")
 
-roxyparam_overwrite(test, "regexp_fxstart")
+update_param_docu(test, "regexp_fxstart")
+#|*****************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
 
-roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-roxyparam_overwrite(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-roxyparam_overwrite(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
+update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
+#|*****************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
+update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
+#|*****************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:41:14 2014--
+update_param_docu(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 
 
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
