@@ -1,8 +1,6 @@
 library(metacode)
 library(stringr)
 update_fx_documentation(dir = "metacode/")
-#|***********************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 detach(package:metacode)
 
