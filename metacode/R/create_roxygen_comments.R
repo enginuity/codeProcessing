@@ -20,7 +20,9 @@
 #' 
 #' @export
 #' 
-create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
+update_fx_documentation = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
+#|***********************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
   
@@ -63,7 +65,9 @@ create_roxy_templates = function(dir=DIR, file_regex = NULL, regexp_fxstart = "(
 #' 
 #' @export
 #' 
-roxyparam_locate = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+extract_param_docu = function(dir,file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+#|******************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:38:51 2014--
   matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
                                  dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
   

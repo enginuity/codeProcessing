@@ -11,7 +11,9 @@ log_file = "results/test.txt"
 
 
 
-
+replace_code(regexp = "roxyparam_locate", replace = "extract_param_docu", add_comment = "Rename create_roxy_temp -> update_fx_doc")
+#|                    ***********************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 
 
@@ -23,7 +25,9 @@ replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> 
 
 # For fixing templates
 # DIR = "metacode/"
-# create_roxy_templates(dir = DIR)
+# update_fx_documentation(dir = DIR)
+#|***********************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 search_code(regexp = "search_code_matches", add_comment = "This function has new parameter (regex_exact) added")
 

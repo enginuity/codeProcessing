@@ -9,7 +9,9 @@ source("load_all.R")
 ## Search code (and add comments)
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
 
-create_roxy_templates(dir="../27may_user_engagement/source/fxForUserchurn/R/")
+update_fx_documentation(dir="../27may_user_engagement/source/fxForUserchurn/R/")
+#|***********************
+#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 
 # search_code(dir = DIR, mode = "R", regexp = "Create_features_v2", fixed = TRUE)
