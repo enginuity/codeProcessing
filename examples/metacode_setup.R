@@ -41,7 +41,7 @@ search_code("mark_gregexpr_loc")
 test$paramvalshort = substr(test$paramval, start = 1, stop = 40)
 test[order(test$paramname),-which(names(test) == "paramval")]
 
-paramdf = extract_param_docu(dir = "metacode/")
+
 
 update_param_docu(test, "regexp_fxstart")
 

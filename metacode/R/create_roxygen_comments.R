@@ -52,6 +52,12 @@ update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam =
   }
   
   if (!test_run) { write_matchlist(matchesL) }
+  if (fill_emptyparam) {
+    paramdf = extract_param_docu(dir = "metacode/")
+    for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
+      update_param_docu(paramdf, param_name = s)
+    }
+  }
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
 
@@ -73,6 +79,7 @@ extract_param_docu = function(dir, file_regex = NULL, regexp_fxstart = "(^[[:aln
   
   param_list = list()
   i = 1
+  
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
     matchlines = matchesL$matchlines[[j]]
@@ -92,7 +99,7 @@ extract_param_docu = function(dir, file_regex = NULL, regexp_fxstart = "(^[[:aln
     }
   }
   agg_params = do.call(rbind, param_list)
-  return()
+  return(agg_params)
 }
 
 
