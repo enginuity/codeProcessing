@@ -1,9 +1,10 @@
 ##@S This is examples of how to run this for the netcomp project.
 
-DIR = "../network-comparison/netcomp-project/"
+library(stringr)
+library(metacode)
 
-## Load all available programs
-source("load_all.R")
+
+DIR = "../network-comparison/netcomp-project/"
 
 
 # ## Search code (and add comments)
@@ -13,4 +14,14 @@ source("load_all.R")
 # #|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
 
 ## Generate todo list
-generate_todolist(dir = DIR)
+# generate_todolist(dir = DIR)
+search_code("sim_results")
+search_code("single.procedure.test")
+#replace_code("depth[.]from[.]parents", "depth_from_parents", "replace . with _")
+#replace_code("display[.]tree", "display_tree", "replace . with _")
+
+
+
+
+
+clear_comments()
