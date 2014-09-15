@@ -3,9 +3,11 @@
 library(stringr)
 library(metacode)
 
-
+## yoga ubuntu
 DIR = "../network-comparison/netcomp-project/"
 
+## Desktop
+DIR = "../netcomp-project/"
 
 # ## Search code (and add comments)
 # #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
@@ -21,7 +23,10 @@ search_code("single.procedure.test")
 #replace_code("display[.]tree", "display_tree", "replace . with _")
 
 
+search_code("mle_loglik", add_comment = "Need to Use updated version of mle_loglik in lrt_functions.R; more parameters to pass in")
 
+search_code("cmn_network")
 
+search_code("gen_tree", add_comment = "Check usage; this function updated to having 'random_plimit' as a parameter 9/15/2014", )
 
-clear_comments()
+## clear_comments()

@@ -53,7 +53,7 @@ update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam =
   
   if (!test_run) { write_matchlist(matchesL) }
   if (fill_emptyparam) {
-    paramdf = extract_param_docu(dir = "metacode/")
+    paramdf = extract_param_docu(dir = dir)
     for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
       update_param_docu(paramdf, param_name = s)
     }
