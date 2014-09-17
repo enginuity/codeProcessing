@@ -5,11 +5,11 @@ library(metacode)
 
 ## yoga ubuntu
 DIR = "../network-comparison/netcomp-project/"
+plot_dependency(dir = "../network-comparison/netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
 
 ## Desktop
 DIR = "../netcomp-project/"
-
-plot_dependency(dir = "../network-comparison/netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
+plot_dependency(dir = "../netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
 
 
 # ## Search code (and add comments)
