@@ -39,7 +39,9 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 #' @export
 #' 
 logfile_namecreation = function(logtype, query) {
-  res = paste("results/z", logtype, "_", gsub("[^[:alnum:]]", "", query),
+  querylog = gsub("\\[.*?\\]", "", query)
+  querylog = gsub("[^[:alnum:]]", "", querylog)
+  res = paste("results/z", logtype, "_", querylog,
               "_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", 
               sep = "")
   return(res)
