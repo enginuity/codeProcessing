@@ -5,9 +5,10 @@ library(metacode)
 library(stringr)
 
 DIR = "."
-log_file = "results/test.txt"
+log_file = "metacode_logs/test.txt"
 
 
+search_code("results")
 
 
 search_code("log_result")

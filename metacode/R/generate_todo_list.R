@@ -57,7 +57,7 @@ generate_todolist = function(dir = ".") {
   }
   
   ## Output to file
-  writeLines(todolist, con = "results/zGEN_todolist.txt")
+  writeLines(todolist, con = "GEN_todolist.txt")
   
   return("Done! [Todo-list generation]")
 }
