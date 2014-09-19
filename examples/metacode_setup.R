@@ -5,9 +5,13 @@ library(metacode)
 library(stringr)
 
 DIR = "."
-log_file = "results/test.txt"
+log_file = "metacode_logs/test.txt"
 
 
+search_code("results")
+
+
+search_code("log_result")
 
 
 replace_code(regexp="find_files", replace = "extract_all_code", add_comment = "Rename find_files -> extract_all_code")

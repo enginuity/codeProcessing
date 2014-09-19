@@ -96,7 +96,9 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
   graphAttr = list(rankdir = "LR")
   
   ## Setup node attributes
-  label_vec = paste(fxs$name, "\\\n", fxs$filename, "\\\n",
+  
+  shortfn = process_common_paths(fxs$filename, drop = length(fxs$filename))
+  label_vec = paste(fxs$name, "\\\n", shortfn$shortfn, "\\\n",
                     "lines (",fxs$start,"-",fxs$end,")", sep = "")
   names(label_vec) = 1:NN
   
@@ -138,7 +140,7 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
   
   ## Plot / output
   plot(g, "dot", attrs = list(graph=graphAttr), nodeAttrs = nodeAttr,
-       edgeAttrs = edgeAttr)
+       edgeAttrs = edgeAttr, main = paste("Functions in", shortfn$classes$path))
   dev.off()
   invisible(0)
 }
