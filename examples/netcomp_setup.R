@@ -10,6 +10,7 @@ plot_dependency(dir = "../network-comparison/netcomp-project/netcomplib/", mode 
 ## Desktop
 DIR = "../netcomp-project/"
 plot_dependency(dir = "../netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
+search_code("heat", regex_exact = FALSE)
 
 
 # ## Search code (and add comments)
@@ -19,7 +20,7 @@ plot_dependency(dir = "../netcomp-project/netcomplib/", mode = "R", out_file = "
 # #|----##this function has been split (order of args changed) --Sun Jul 13 00:43:19 2014--
 
 ## Generate todo list
-
+search_code("compute_likelihood")
 search_code("update_probabilities")
 
 
