@@ -30,11 +30,9 @@ search_code("single.procedure.test")
 #replace_code("depth[.]from[.]parents", "depth_from_parents", "replace . with _")
 #replace_code("display[.]tree", "display_tree", "replace . with _")
 search_code("cmn_mcmc", add_comment = "Updated this function (see model_mcmc.R), so need to update usages as necessary")
-
+search_code("compute_df_adjustment2", add_comment = "Removed the first parameter (mle). Also, function is moved to the library")
 search_code("mle_loglik", add_comment = "Need to Use updated version of mle_loglik in lrt_functions.R; more parameters to pass in")
 
-search_code("cmn_network")
-
-search_code("gen_tree", add_comment = "Check usage; this function updated to having 'random_plimit' as a parameter 9/15/2014", )
+search_code("compute_pval_multtrees", add_comment = "Check that the parameterization is correct; updated version of this had been written")
 
 ## clear_comments()
