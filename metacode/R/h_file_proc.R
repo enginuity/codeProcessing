@@ -11,7 +11,9 @@
 #' 
 #' @export
 #' 
-extract_all_code = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
+extract_Codebase = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
+#|****************
+#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
   files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
   code = extract_code(files)
   return(Codebase(files = files, code = code))

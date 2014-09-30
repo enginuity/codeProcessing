@@ -18,7 +18,9 @@
 #' @export
 #' 
 gen_depend_R = function(dir) {
-  all_code = extract_all_code(dir, mode = "R")
+  all_code = extract_Codebase(dir, mode = "R")
+#|          ****************
+#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
   files = all_code$files
   
   # Find functions within the code

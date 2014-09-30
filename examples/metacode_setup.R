@@ -14,7 +14,9 @@ search_code("results")
 search_code("log_result")
 
 
-replace_code(regexp="find_files", replace = "extract_all_code", add_comment = "Rename find_files -> extract_all_code")
+replace_code(regexp="find_files", replace = "extract_Codebase", add_comment = "Rename find_files -> extract_Codebase")
+#|                                                                                                 ****************
+#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
 
 replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
 
