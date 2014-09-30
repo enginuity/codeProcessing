@@ -4,19 +4,14 @@
 library(metacode)
 library(stringr)
 
-base_FD = FilesDescription(mode = "R", dirlist = ".")
-find_files(base_FD)
+package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
+examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
+find_files(examples_FD)
 
-DIR = "."
-log_file = "metacode_logs/test.txt"
+
 
 search_code("extract_param_docu")
 
-search_code("search_code_matches", add_comment = "Need to change this parent function to use FilesDescription...")
-#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
-search_code("results", FD = base_FD)
-search_code_matches
-#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
 
 search_code("log_result")
 
