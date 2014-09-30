@@ -44,3 +44,22 @@ MatchedCodebase = function(Codebase, matchlines, matchlocs, regex, regex_exact, 
   return(res)
 }
 
+
+#' Class FilesDescription
+#' 
+#' This represents a description for a collection of files. Function find_files will process members of this class and produce a vector of filenames that fit all the rules given in the description (ie. it will take all element of 'files' and process all appropriate elements of 'dirlist')
+#' 
+#' @param mode "R" or "C" -- looks for appropriate filename extensions. Defaults to "R".
+#' @param dirlist Either a vector of directories, or a list of lists: Inner lists have $dir = some path; $file_regex = NULL or some regex. If input is instead a vector of 'dir's, then it will be converted into list form. Can be NULL. 
+#' @param filelist temp
+#' 
+#' @return Object of class FilesDescription
+#' 
+#' @export
+#' 
+FilesDescription = function(mode = "R", dirlist = NULL, filelist = NULL) {
+  if (!(mode %in% c("R", "C"))) { stop("mode value is not allowed")}
+  if (is.vector(dirlist) & length(dirlist) > 0) { dirlist = lapply(dirlist, function(x) {list(dir = x, file_regex = NULL)}) }
+  return(structure(list(mode = mode, dirlist = dirlist, filelist = filelist), class = "FilesDescription"))
+}
+

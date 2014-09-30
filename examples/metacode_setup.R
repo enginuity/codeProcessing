@@ -4,19 +4,19 @@
 library(metacode)
 library(stringr)
 
+base_FD = FilesDescription(mode = "R", dirlist = ".")
+find_files_FD(base_FD)
+
 DIR = "."
 log_file = "metacode_logs/test.txt"
 
-
+search_code("extract_Codebase", add_comment = "Need to change this parent function to use FilesDescription...")
+#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
 search_code("results")
 
 
 search_code("log_result")
 
-
-replace_code(regexp="find_files", replace = "extract_Codebase", add_comment = "Rename find_files -> extract_Codebase")
-#|                                                                                                 ****************
-#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
 
 replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
 
@@ -29,12 +29,14 @@ search_code(regexp = "search_code_matches", add_comment = "This function has new
 
 
 search_code(regexp = "find_files")
+#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
 search_code(regexp = "is_roxy")
 
 search_code(regexp = "search_code", add_comment = "this function has been split (order of args changed)")
 
 #Example -- 
 #replace_code(regexp = "find_files", replace = "testtest", add_comment = "TESTING!")
+#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
 
 search_code(regexp = "clear_comments", add_comment = "This function has been rewritten")
 clear_comments()

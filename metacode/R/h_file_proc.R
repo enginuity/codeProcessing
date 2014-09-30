@@ -11,49 +11,51 @@
 #' 
 #' @export
 #' 
-extract_Codebase = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
-#|****************
-#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
-  files = find_files(dir = dir, mode = mode, file_regex = file_regex) 
+extract_Codebase = function(FilesDescription) {
+  files = find_files(FilesDescription = FilesDescription) 
   code = extract_code(files)
   return(Codebase(files = files, code = code))
 }
 
 
-#' Find all files with appropriate file extensions
+#' Find all files
 #' 
-#' @param dir Directory to search recursively for code files
-#' @param mode "R" or "C" -- looks for appropriate filename extensions
-#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' See documentation on class FilesDescription to see how to describe a file. 
+#' 
+#' @param FilesDescription Object of class FilesDescription; describes files to look for
 #' 
 #' @return Character vector of filenames
 #' 
-#' @export
+#' @export 
 #' 
-find_files = function(dir = ".", mode = c("R","C"), file_regex = NULL) {
-  res = list.files(path = dir, recursive = TRUE, full.names = TRUE)
+find_files = function(FilesDescription) {
+  if (!inherits(x = FilesDescription, "FilesDescription")) {stop("Input class is not of class FilesDescription")} 
 
-  ## Find files with correct filename extension
-  if (mode == "R") {
-    matches = grep("[.]R$", res)
-    comment_head = "\n  ##**##----- "
-  } else if (mode == "C") {
-    matches = grep("[.](c|cc|cpp|h|hh)$", res)
-    comment_head = "\n  //**##----- "
-  } else {
-    stop("Invalid mode (Not \"R\" or \"C\"")
+  ## Find appropriate filename extension
+  if (FilesDescription$mode == "R") {
+    ext_regex = "[.]R$"
+  } else if (FilesDescription$mode == "C") {
+    ext_regex = "[.](c|cc|cpp|h|hh)$"
   }
-  res = res[matches]
+  
+  ## Start with exact files if any
+  allfiles = FilesDescription$files
+  
+  ## Check file directories if any
+  for(j in seq_along(FilesDescription$dirlist)) {
+    temp = list.files(path = FilesDescription$dirlist[[j]]$dir, recursive = TRUE, full.names = TRUE)
+    
+    ## Find files with correct filename extension
+    temp = temp[grep(ext_regex, temp)]
+    
+    ## Apply file_regex as appropriate 
+    if (!is.null(FilesDescription$dirlist[[j]]$file_regex)) {
+      temp = temp[grep(file_regex, temp)]
+    }
 
-  ## Apply regex of file_regex when appropriate
-  if (!is.null(file_regex)) {
-    ## TODO: [Idea] This only has the functionality ot look at the entire filename.
-    ## TODO: -- Should this be edited to only look at the last portion of the filename?
-    matches = grep(file_regex, res)
-    res = res[matches]
+    allfiles = c(allfiles, temp)
   }
-
-  return(res)
+  return(allfiles)
 }
 
 
