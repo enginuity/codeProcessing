@@ -10,8 +10,6 @@ source("load_all.R")
 #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
 
 update_fx_documentation(dir="../27may_user_engagement/source/fxForUserchurn/R/")
-#|***********************
-#|----##Rename create_roxy_temp -> update_fx_doc --Tue Aug 19 21:36:55 2014--
 
 
 clear_comments(dir = DIR, mode = "R")

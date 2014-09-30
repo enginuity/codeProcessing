@@ -94,8 +94,6 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
   }
   
   if (write) { write_MatchedCodebase(matchesL)}
-#|             *********************
-#|----##Rename write_matchlist --Tue Sep 30 14:38:43 2014--
   return(matchesL)
 }
 
@@ -113,8 +111,6 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
 #' @export
 #' 
 write_MatchedCodebase = function(matchesL) {
-#|*********************
-#|----##Rename write_matchlist --Tue Sep 30 14:38:43 2014--
   for(j in seq_along(matchesL$files)) {
     writeLines(text = matchesL$code[[j]], con = matchesL$files[j])
   }
