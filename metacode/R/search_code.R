@@ -4,7 +4,7 @@
 
 #' Search code and potentially add comments
 #' 
-#' @param RE Object of class Regex: what to search for?
+#' @param RE Object of class Regex, OR a simple regular expression. What to search for?
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
@@ -13,6 +13,9 @@
 #' @export
 #' 
 search_code = function(RE, add_comment = NULL, FD = DEFAULT_FD) {
+  
+  ## If input is a regular expression instead of Regex object, use default settings. 
+  if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
   
   ## Find matches in MatchedCodebase format
   matchesL = search_code_matches(RE = RE, FD = FD, logged = "SEARCH")
@@ -25,9 +28,8 @@ search_code = function(RE, add_comment = NULL, FD = DEFAULT_FD) {
 
 #' Replace the regex of the code, comments added by default. 
 #' 
-#' @param regexp Regular Expression to search for
+#' @param RE Object of class Regex, OR a simple regular expression. What to search for?
 #' @param replace What to replace 'regexp' with?
-#' @param regex_exact If TRUE: Adjusts regexp so that matches must have non-word characters before and after
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
 #' @param comment_heads Length 2 vector: A short and long comment header to add to comments
 #' @param replace_mark IF TRUE: Adds additional line of comment denoting location of replacement
@@ -37,10 +39,13 @@ search_code = function(RE, add_comment = NULL, FD = DEFAULT_FD) {
 #' 
 #' @export
 #' 
-replace_code = function(regexp = "Default Search...", replace, regex_exact = TRUE,
-                        add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD = DEFAULT_FD) {
+replace_code = function(RE, replace, add_comment, 
+                        comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD = DEFAULT_FD) {
 
-  matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, FD = FD, logged = "REPLACE")
+  ## If input is a regular expression instead of Regex object, use default settings. 
+  if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
+  
+  matchesL = search_code_matches(RE = RE, FD = FD, logged = "REPLACE")
   
   ## Do actual replacement: 
   for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], regexp, replace) }
@@ -62,7 +67,7 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
 #' @export
 #' 
 clear_comments = function(comment_regex = "^#[|]", FD = DEFAULT_FD) {
-  matchesL = search_code_matches(regexp = comment_regex, regex_exact = FALSE, FD = FD, logged = "CLEAR-COMMENTS")
+  matchesL = search_code_matches(RE = Regex(base = comment_regex), FD = FD, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 
   for (j in seq_along(matchesL$files)) { matchesL$code[[j]] = matchesL$code[[j]][-matchesL$matchlines[[j]]] }

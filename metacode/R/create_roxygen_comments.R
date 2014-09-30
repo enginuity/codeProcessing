@@ -23,7 +23,7 @@
 #' 
 update_fx_documentation = function(FD, fill_emptyparam = TRUE,
                                    regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, FD = FD, logged = "ROXY-TEMPLATES")
+  matchesL = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
@@ -71,7 +71,7 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
 #' 
 extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
   
-  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, FD, logged = "ROXY-param-matching")
+  matchesL = search_code_matches(RE = Regex(base = regexp_fxstart), FD, logged = "ROXY-param-matching")
   
   param_list = list()
   i = 1
