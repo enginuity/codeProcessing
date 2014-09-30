@@ -11,16 +11,15 @@
 #' Needs to have well-formatted functions (and only cares about globally defined functions)
 #' Well-formatted => starts at first character, and ends with a lone left-justified \}. 
 #' 
-#' @param dir Directory to search recursively for code files
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
 #' @return list : $function_table, $calls
 #' 
 #' @export
 #' 
-gen_depend_R = function(dir) {
-  all_code = extract_Codebase(dir, mode = "R")
-#|          ****************
-#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
+gen_depend_R = function(FD) {
+  all_code = extract_Codebase(FD = FD)
+
   files = all_code$files
   
   # Find functions within the code
@@ -150,8 +149,7 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
 
 #' This plots a dependency tree given a directory (and more information)
 #' 
-#' @param dir Directory to search recursively for code files
-#' @param mode "R" or "C" -- looks for appropriate filename extensions
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param out_file File to plot the dependency tree to
 #' @param leading_spaces text
 #' 
@@ -159,9 +157,8 @@ plot_depend = function(fxs, calls, out_file = "test_depend.pdf") {
 #' 
 #' @export
 #' 
-plot_dependency = function(dir, mode = c("R", "C"),
-                           out_file = "depend_out.pdf", leading_spaces = NULL) {
-  if (mode == "C") {
+plot_dependency = function(FD, out_file = "depend_out.pdf", leading_spaces = NULL) {
+  if (FD$mode == "C") {
     stop("Does this still work? needs fixing/checking!")
     
     LS = 2
@@ -170,8 +167,8 @@ plot_dependency = function(dir, mode = c("R", "C"),
     }
     temp = gen_depend_C(file = codefile, leading_spaces = LS)
     
-  } else if (mode == "R") {
-    temp = gen_depend_R(dir)
+  } else if (FD$mode == "R") {
+    temp = gen_depend_R(FD = FD)
   } else {
     stop("Unallowed mode")
   }

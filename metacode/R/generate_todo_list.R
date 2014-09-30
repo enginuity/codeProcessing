@@ -8,18 +8,17 @@
 #' This function generates a TODO list by looking for all #/## TODO: in the code base. 
 #' Of course, this only works for R code... 
 #' 
-#' @param dir Directory to search recursively for code files
+#' 
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
 #' @return none
 #' 
 #' @export
 #' 
-generate_todolist = function(dir = ".") {
+generate_todolist = function(FD) {
   
   ## Find files
-  all_code = extract_Codebase(dir = dir, mode = "R", file_regex = NULL)
-#|          ****************
-#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
+  all_code = extract_Codebase(FD = FD)
 
   todo_type = NULL
   todolist = NULL

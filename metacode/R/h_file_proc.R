@@ -3,16 +3,14 @@
 
 #' Find all files with appropriate file extensions and extract code
 #' 
-#' @param dir Directory to search recursively for code files
-#' @param mode "R" or "C" -- looks for appropriate filename extensions
-#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files#' 
 #' 
-#' @return list : $files, $code
+#' @return Object of class Codebase
 #' 
 #' @export
 #' 
-extract_Codebase = function(FilesDescription) {
-  files = find_files(FilesDescription = FilesDescription) 
+extract_Codebase = function(FD) {
+  files = find_files(FD = FD) 
   code = extract_code(files)
   return(Codebase(files = files, code = code))
 }
@@ -22,34 +20,34 @@ extract_Codebase = function(FilesDescription) {
 #' 
 #' See documentation on class FilesDescription to see how to describe a file. 
 #' 
-#' @param FilesDescription Object of class FilesDescription; describes files to look for
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files
 #' 
 #' @return Character vector of filenames
 #' 
 #' @export 
 #' 
-find_files = function(FilesDescription) {
-  if (!inherits(x = FilesDescription, "FilesDescription")) {stop("Input class is not of class FilesDescription")} 
+find_files = function(FD) {
+  if (!inherits(x = FD, "FilesDescription")) {stop("Input class is not of class FilesDescription")} 
 
   ## Find appropriate filename extension
-  if (FilesDescription$mode == "R") {
+  if (FD$mode == "R") {
     ext_regex = "[.]R$"
-  } else if (FilesDescription$mode == "C") {
+  } else if (FD$mode == "C") {
     ext_regex = "[.](c|cc|cpp|h|hh)$"
   }
   
   ## Start with exact files if any
-  allfiles = FilesDescription$files
+  allfiles = FD$files
   
   ## Check file directories if any
-  for(j in seq_along(FilesDescription$dirlist)) {
-    temp = list.files(path = FilesDescription$dirlist[[j]]$dir, recursive = TRUE, full.names = TRUE)
+  for(j in seq_along(FD$dirlist)) {
+    temp = list.files(path = FD$dirlist[[j]]$dir, recursive = TRUE, full.names = TRUE)
     
     ## Find files with correct filename extension
     temp = temp[grep(ext_regex, temp)]
     
     ## Apply file_regex as appropriate 
-    if (!is.null(FilesDescription$dirlist[[j]]$file_regex)) {
+    if (!is.null(FD$dirlist[[j]]$file_regex)) {
       temp = temp[grep(file_regex, temp)]
     }
 

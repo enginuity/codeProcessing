@@ -26,9 +26,7 @@
 #' 
 #' @param regexp Regular Expression to search for
 #' @param regex_exact If TRUE: Adjusts regexp so that matches must have non-word characters before and after
-#' @param dir Directory to search recursively for code files
-#' @param mode "R" or "C" -- looks for appropriate filename extensions
-#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param logged If non-NULL, then this is the logtype (to write in filename)
 #' 
 #' @return A list of files, code, and match locations
@@ -36,8 +34,7 @@
 #' @export
 #' 
 search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
-                               dir = DIR, mode = "R", file_regex = NULL, 
-                               logged = NULL) {
+                               FD, logged = NULL) {
 
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
   if (regex_exact) {
@@ -49,9 +46,7 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
   #}
   
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
-  all_code = extract_Codebase(dir = dir, mode = mode, file_regex = file_regex)
-#|          ****************
-#|----##Rename extract_all_code --> extract_Codebase --Tue Sep 30 11:24:25 2014--
+  all_code = extract_Codebase(FD = FD)
   
   ## Matching texts:
   files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, regexp))}))

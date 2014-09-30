@@ -10,10 +10,9 @@ find_files_FD(base_FD)
 DIR = "."
 log_file = "metacode_logs/test.txt"
 
-search_code("extract_Codebase", add_comment = "Need to change this parent function to use FilesDescription...")
-#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
+search_code("search_code_matches", add_comment = "Need to change this parent function to use FilesDescription...")
 search_code("results")
-
+search_code_matches
 
 search_code("log_result")
 

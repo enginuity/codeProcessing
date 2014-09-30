@@ -24,7 +24,7 @@ Codebase = function(files, code) {
 #' Extends Codebase.
 #' In addition to Codebase, this stores where 'regex' matchings occur in the source. 
 #' 
-#' @param Codebase Object of class Codebase
+#' @param CB Object of class Codebase
 #' @param matchlines List of line-location of matches, as individual vectors
 #' @param matchlocs List of str_locate_all output (for 'regex' on each file)
 #' @param regex Original regular expression to match
@@ -35,11 +35,11 @@ Codebase = function(files, code) {
 #' 
 #' @export
 #' 
-MatchedCodebase = function(Codebase, matchlines, matchlocs, regex, regex_exact, regex_word) {
-  if (!inherits(Codebase, what = "Codebase")) { stop("Input Codebase is not of the appropriate class") }
+MatchedCodebase = function(CB, matchlines, matchlocs, regex, regex_exact, regex_word) {
+  if (!inherits(CB, what = "Codebase")) { stop("Input Codebase is not of the appropriate class") }
   
-  res = append(Codebase, list(matchlines = matchlines, matchlocs = matchlocs, regex = regex, regex_exact = regex_exact, regex_word = regex_word))
-  class(res) = append("MatchedCodebase", class(Codebase))
+  res = append(CB, list(matchlines = matchlines, matchlocs = matchlocs, regex = regex, regex_exact = regex_exact, regex_word = regex_word))
+  class(res) = append("MatchedCodebase", class(CB))
   
   return(res)
 }
