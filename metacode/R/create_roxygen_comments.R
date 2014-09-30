@@ -49,7 +49,9 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
     matchesL$code[[j]] = txt
   }
   
-  if (!test_run) { write_matchlist(matchesL) }
+  if (!test_run) { write_MatchedCodebase(matchesL) }
+#|                 *********************
+#|----##Rename write_matchlist --Tue Sep 30 14:38:43 2014--
   if (fill_emptyparam) {
     paramdf = extract_param_docu(FD = FD)
     for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {

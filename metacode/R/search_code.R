@@ -73,7 +73,9 @@ clear_comments = function(comment_regex = "^#[|]", FD = DEFAULT_FD) {
   
   ## Do actual comment clearing: 
   for (j in seq_along(matchesL$files)) { matchesL$code[[j]] = matchesL$code[[j]][-matchesL$matchlines[[j]]] }
-  write_matchlist(matchesL)
+  write_MatchedCodebase(matchesL)
+#|*********************
+#|----##Rename write_matchlist --Tue Sep 30 14:38:43 2014--
   
   return("Comment clearing is done!")
 }

@@ -8,6 +8,10 @@ package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
+replace_code(RE = "write_MatchedCodebase", replace = "write_MatchedCodebase", add_comment = "Rename write_MatchedCodebase")
+#|                                                                                            *********************
+#|----##Rename write_matchlist --Tue Sep 30 14:38:43 2014--
+
 search_code(Regex("search_code_matches"))
 search_code("create_search_log")
 
