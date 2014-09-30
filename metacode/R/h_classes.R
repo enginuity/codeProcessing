@@ -25,6 +25,7 @@ Codebase = function(files, code) {
 #' In addition to Codebase, this stores where 'regex' matchings occur in the source. 
 #' 
 #' @param CB Object of class Codebase
+#' @param CB_subset If non-NULL, this specifies a subset of the files/code in CB to keep
 #' @param matchlines List of line-location of matches, as individual vectors
 #' @param matchlocs List of str_locate_all output (for 'regex' on each file)
 #' @param regex Original regular expression to match
@@ -35,8 +36,13 @@ Codebase = function(files, code) {
 #' 
 #' @export
 #' 
-MatchedCodebase = function(CB, matchlines, matchlocs, regex, regex_exact, regex_word) {
+MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, regex, regex_exact, regex_word) {
   if (!inherits(CB, what = "Codebase")) { stop("Input Codebase is not of the appropriate class") }
+  
+  if (!is.null(CB_subset)) {
+    CB$files = CB$files[CB_subset]
+    CB$code = CB$code[CB_subset]
+  }
   
   res = append(CB, list(matchlines = matchlines, matchlocs = matchlocs, regex = regex, regex_exact = regex_exact, regex_word = regex_word))
   class(res) = append("MatchedCodebase", class(CB))

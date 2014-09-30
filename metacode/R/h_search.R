@@ -35,7 +35,7 @@
 #' 
 search_code_matches = function(regexp = "Default Search", regex_exact = TRUE, FD, logged = NULL) {
 
-  ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
+  input_regex = regexp
   if (regex_exact) {
     regexp = paste("(^|[^[:alnum:]_])(", regexp, ")($|[^[:alnum:]_])", sep = "")
   }
@@ -57,8 +57,9 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE, FD
     matchloc_list[[j]] = str_locate_all(text[matchline_list[[j]]], regexp)
   }
   
-  res = list(files = all_code$files[files_with_matches], code = all_code$code[files_with_matches], 
-             matchlines = matchline_list, matchlocs = matchloc_list)
+  res = MatchedCodebase(CB = all_code, CB_subset = files_with_matches, 
+                        matchlines = matchline_list, matchlocs = matchloc_list, 
+                        regex = input_regex, regex_exact = FALSE, regex_word = regex_exact)
   
   ## Log if necessary. Then return. 
   if (!is.null(logged)) { create_search_log(logtype = logged, query = regexp, m = res) }

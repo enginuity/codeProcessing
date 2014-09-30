@@ -14,8 +14,7 @@
 #' @export
 #' 
 search_code = function(regexp = "Default Search...", add_comment = NULL, regex_exact = TRUE, FD = DEFAULT_FD) {
-  
-  ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
+  ## Find matches in MatchedCodebase format
   matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, FD = FD, logged = "SEARCH")
   
   if (!is.null(add_comment)) { add_comment_matches(matchesL, add_comment, write = TRUE) }
