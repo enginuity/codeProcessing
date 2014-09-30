@@ -2,7 +2,6 @@
 
 # Function to create Roxygen comments -------------------------------------
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (update_fx_documentation)
 #' Create roxygen templates (and fix/reorder them as necessary)
 #'    
 #' DO NOT DO THIS WITHOUT VERSION CONTROL!
@@ -13,7 +12,7 @@
 #' \}
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
-#' @param fill_emptyparam temp
+#' @param fill_emptyparam Should empty parameters be filled in by "default" value? 
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run Won't write any changes to file, unless test_run is FALSE
 #' 
