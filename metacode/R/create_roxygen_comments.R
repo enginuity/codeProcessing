@@ -51,7 +51,7 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
   
   if (!test_run) { write_matchlist(matchesL) }
   if (fill_emptyparam) {
-    paramdf = extract_param_docu(dir = dir)
+    paramdf = extract_param_docu(FD = FD)
     for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
       update_param_docu(paramdf, param_name = s)
     }
