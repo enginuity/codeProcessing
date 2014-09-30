@@ -62,7 +62,7 @@ search_code_matches = function(regexp = "Default Search", regex_exact = TRUE, FD
                         regex = input_regex, regex_exact = FALSE, regex_word = regex_exact)
   
   ## Log if necessary. Then return. 
-  if (!is.null(logged)) { create_search_log(logtype = logged, query = regexp, m = res) }
+  if (!is.null(logged)) { create_search_log(logtype = logged, MCB = res) }
   
   return(res)
 }

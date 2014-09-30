@@ -56,28 +56,27 @@ logfile_namecreation = function(logtype, query) {
 #' Outputs a logfile for various search operations 
 #' 
 #' @param logtype Type-identifier to be added to the logfile name
-#' @param query Usually is regexp; this is added to the logfile name
-#' @param matchesL Regex match list : this is output of search-code-matches
+#' @param MCB Object of class MatchedCodebase: contains output of matched location/pairs
 #' 
 #' @return none
 #' 
 #' @export
 #' 
-create_search_log = function(logtype, query, matchesL) {  
-  log_file <<- logfile_namecreation(logtype = logtype, query = query)
-  log_result('Searching for "', query, '"', "\n", header = TRUE)
+create_search_log = function(logtype, MCB) {  
+  log_file <<- logfile_namecreation(logtype = logtype, query = MCB$regex)
+  log_result('Searching for "', MCB$regex, '"', "\n", header = TRUE)
   
   ## Log actual matches. 
-  for(j in seq_along(matchesL$files)) {
+  for(j in seq_along(MCB$files)) {
     ## Insert file information
     log_result(str_pad("\n", 80, 'right', "*"),str_pad("\n", 80, 'right', "*"),"\n",
-               "Matches found in '", matchesL$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
+               "Matches found in '", MCB$files[j],"'", str_pad("\n", 80, 'right', "*"), "\n")
     
     ## Insert match info
-    for(k in seq_along(matchesL$matchlines[[j]])) {
-      codeline = matchesL$matchlines[[j]][k]
-      log_result(str_pad(codeline, 4, 'right', " "), "||", matchesL$code[[j]][codeline], "\n",
-                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(matchesL$matchlocs[[j]][[k]]), "\n")
+    for(k in seq_along(MCB$matchlines[[j]])) {
+      codeline = MCB$matchlines[[j]][k]
+      log_result(str_pad(codeline, 4, 'right', " "), "||", MCB$code[[j]][codeline], "\n",
+                 str_pad(" ", 4, 'right', " "), "||", mark_strlocate(MCB$matchlocs[[j]][[k]]), "\n")
     }
   }
   log_result("\n--- Search Done! ---\n", header = TRUE)
