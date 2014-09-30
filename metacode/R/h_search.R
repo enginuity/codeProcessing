@@ -2,9 +2,6 @@
 
 
 ## TODO: [WriteHTMLDocument] This info should be added to documentation somehow?
-## mode: 'R' or 'C' depending on whether to look in R or C code.
-## -- R code => looks at all .R files.
-## -- C code => looks at all .c, .cc, .cpp, .h, .hh files.
 
 
 # Helper Functions --------------------------------------------------------
@@ -15,20 +12,12 @@
 #'    
 #' This function searches the code in the 'dir'ectory (with 'file_regex' as needed, and of 'mode'). 
 #' This should be a helper function called by any function that uses searching... 
-#'    
-#' The returned object is a list with the following elements:
-#' \itemize{
-#' \item $files -- A vector of filenames
-#' \item $code -- A list of : source codes (individual character vectors)
-#' \item $matchlines -- A list of : line-location of matches (individual numeric vectors)
-#' \item $matchlocs -- A list of : str_locate_all output (for 'regex' on each file)
-#' }
 #' 
 #' @param REGEX Object of class Regex. What to search for? 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param logged If non-NULL, then this is the logtype (to write in filename)
 #' 
-#' @return A list of files, code, and match locations
+#' @return A MatchedCodebase object
 #' 
 #' @export
 #' 
@@ -59,7 +48,7 @@ search_code_matches = function(REGEX, FD, logged = NULL) {
 
 #' Adds comments into the code, and write to file if necessary
 #' 
-#' @param matchesL Regex match list : this is output of search-code-matches
+#' @param MCB Regex match list : this is output of search-code-matches
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
 #' @param comment_heads Length 2 vector: A short and long comment header to add to comments
 #' @param mark If TRUE: Includes as a comment the location of replaced text 
@@ -71,14 +60,14 @@ search_code_matches = function(REGEX, FD, logged = NULL) {
 #' 
 #' @export
 #' 
-add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#|----##"), 
+add_comment_matches = function(MCB, add_comment, comment_heads = c("#|", "#|----##"), 
                                mark = FALSE, mark_replace_len = NULL, marker = "*",
                                write = FALSE) {
-  for(j in seq_along(matchesL$files)) { 
-    text = matchesL$code[[j]][matchesL$matchlines[[j]]]
+  for(j in seq_along(MCB$files)) { 
+    text = MCB$code[[j]][MCB$matchlines[[j]]]
     if (mark) {
-      for(k in seq_along(matchesL$matchlines[[j]])) {
-        com = mark_strlocate(matchesL$matchlocs[[j]][[k]])
+      for(k in seq_along(MCB$matchlines[[j]])) {
+        com = mark_strlocate(MCB$matchlocs[[j]][[k]])
         str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
         
         if (!is.null(mark_replace_len)) { 
@@ -90,11 +79,11 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
     }
     text = paste(text, "\n", comment_heads[2], add_comment, " --", date(), "--", sep = "")
     
-    matchesL$code[[j]][matchesL$matchlines[[j]]] = text
+    MCB$code[[j]][MCB$matchlines[[j]]] = text
   }
   
-  if (write) { write_MatchedCodebase(matchesL)}
-  return(matchesL)
+  if (write) { write_MatchedCodebase(MCB)}
+  return(MCB)
 }
 
 
@@ -104,15 +93,15 @@ add_comment_matches = function(matchesL, add_comment, comment_heads = c("#|", "#
 #' If a match list was modified (ie the $code portions were modified), the changes could be written to file. 
 #' This function does just that. 
 #' 
-#' @param matchesL Regex match list : this is output of search-code-matches
+#' @param MCB Regex match list : this is output of search-code-matches
 #' 
 #' @return none
 #' 
 #' @export
 #' 
-write_MatchedCodebase = function(matchesL) {
-  for(j in seq_along(matchesL$files)) {
-    writeLines(text = matchesL$code[[j]], con = matchesL$files[j])
+write_MatchedCodebase = function(MCB) {
+  for(j in seq_along(MCB$files)) {
+    writeLines(text = MCB$code[[j]], con = MCB$files[j])
   }
   invisible(0)
 }

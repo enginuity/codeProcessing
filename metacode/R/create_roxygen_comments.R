@@ -23,11 +23,11 @@
 #' 
 update_fx_documentation = function(FD, fill_emptyparam = TRUE,
                                    regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-  matchesL = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
+  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
-  for(j in seq_along(matchesL$files)) {
-    txt = matchesL$code[[j]]
-    matchlines = matchesL$matchlines[[j]]
+  for(j in seq_along(MCB$files)) {
+    txt = MCB$code[[j]]
+    matchlines = MCB$matchlines[[j]]
     param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
     
     lines_to_clear = NULL
@@ -46,10 +46,10 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
     }
     
     if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
-    matchesL$code[[j]] = txt
+    MCB$code[[j]] = txt
   }
   
-  if (!test_run) { write_MatchedCodebase(matchesL) }
+  if (!test_run) { write_MatchedCodebase(MCB) }
   if (fill_emptyparam) {
     paramdf = extract_param_docu(FD = FD)
     for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
@@ -71,14 +71,14 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
 #' 
 extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
   
-  matchesL = search_code_matches(RE = Regex(base = regexp_fxstart), FD, logged = "ROXY-param-matching")
+  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD, logged = "ROXY-param-matching")
   
   param_list = list()
   i = 1
   
-  for(j in seq_along(matchesL$files)) {
-    txt = matchesL$code[[j]]
-    matchlines = matchesL$matchlines[[j]]
+  for(j in seq_along(MCB$files)) {
+    txt = MCB$code[[j]]
+    matchlines = MCB$matchlines[[j]]
     param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
     
     for(k in seq_along(matchlines)) {
@@ -87,7 +87,7 @@ extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +functio
       if (is.data.frame(cur_doc)) {
         fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
         
-        param_list[[i]] = data.frame(filename = matchesL$files[j], funcname = fn_name, 
+        param_list[[i]] = data.frame(filename = MCB$files[j], funcname = fn_name, 
                                      paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
                                      lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE)
         i = i + 1

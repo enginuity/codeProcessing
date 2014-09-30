@@ -20,9 +20,9 @@ search_code = function(RE, add_comment = NULL, comment_heads = c("#|", "#|----##
   if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
   
   ## Find matches in MatchedCodebase format
-  matchesL = search_code_matches(RE = RE, FD = FD, logged = "SEARCH")
+  MCB = search_code_matches(RE = RE, FD = FD, logged = "SEARCH")
   
-  if (!is.null(add_comment)) { add_comment_matches(matchesL, add_comment, comment_heads = comment_heads, write = TRUE) }
+  if (!is.null(add_comment)) { add_comment_matches(MCB, add_comment, comment_heads = comment_heads, write = TRUE) }
   return("Search is done!")
 }
 
@@ -47,12 +47,12 @@ replace_code = function(RE, replace, add_comment,
   ## If input is a regular expression instead of Regex object, use default settings. 
   if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
   
-  matchesL = search_code_matches(RE = RE, FD = FD, logged = "REPLACE")
+  MCB = search_code_matches(RE = RE, FD = FD, logged = "REPLACE")
   
   ## Do actual replacement: 
-  for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], RE$regex, replace) }
+  for(j in seq_along(MCB$files)) { MCB$code[[j]] = str_replace_all(MCB$code[[j]], RE$regex, replace) }
   
-  matchesL = add_comment_matches(matchesL = matchesL, add_comment = add_comment, comment_heads = comment_heads, 
+  MCB = add_comment_matches(MCB = MCB, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)
   
   return("Replacements are done!")
@@ -69,11 +69,11 @@ replace_code = function(RE, replace, add_comment,
 #' @export
 #' 
 clear_comments = function(comment_regex = "^#[|]", FD = DEFAULT_FD) {
-  matchesL = search_code_matches(RE = Regex(base = comment_regex), FD = FD, logged = "CLEAR-COMMENTS")
+  MCB = search_code_matches(RE = Regex(base = comment_regex), FD = FD, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 
-  for (j in seq_along(matchesL$files)) { matchesL$code[[j]] = matchesL$code[[j]][-matchesL$matchlines[[j]]] }
-  write_MatchedCodebase(matchesL)
+  for (j in seq_along(MCB$files)) { MCB$code[[j]] = MCB$code[[j]][-MCB$matchlines[[j]]] }
+  write_MatchedCodebase(MCB)
   
   return("Comment clearing is done!")
 }

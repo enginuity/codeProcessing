@@ -18,9 +18,9 @@ search_code("extract_param_docu")
 
 
 search_code("log_result")
+replace_code("MCB", replace = "MCB", add_comment = "Rename MCB -> MCB")
 
-
-replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
+replace_code(regexp="mats", replace = "MCB", add_comment = "Rename mats -> MCB")
 
 
 
@@ -35,7 +35,7 @@ update_param_docu(test, "regexp_fxstart")
 
 update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
-update_param_docu(test, "matchesL", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
+update_param_docu(test, "MCB", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 
 
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
