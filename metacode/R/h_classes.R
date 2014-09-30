@@ -46,7 +46,7 @@ MatchedCodebase = function(CB, matchlines, matchlocs, regex, regex_exact, regex_
 
 
 #' Class FilesDescription
-#' 
+#'   
 #' This represents a description for a collection of files. Function find_files will process members of this class and produce a vector of filenames that fit all the rules given in the description (ie. it will take all element of 'files' and process all appropriate elements of 'dirlist')
 #' 
 #' @param mode "R" or "C" -- looks for appropriate filename extensions. Defaults to "R".

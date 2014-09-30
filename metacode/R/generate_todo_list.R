@@ -8,7 +8,6 @@
 #' This function generates a TODO list by looking for all #/## TODO: in the code base. 
 #' Of course, this only works for R code... 
 #' 
-#' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
 #' @return none

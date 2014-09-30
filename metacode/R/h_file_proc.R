@@ -17,14 +17,14 @@ extract_Codebase = function(FD) {
 
 
 #' Find all files
-#' 
+#'     
 #' See documentation on class FilesDescription to see how to describe a file. 
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files
 #' 
 #' @return Character vector of filenames
 #' 
-#' @export 
+#' @export
 #' 
 find_files = function(FD) {
   if (!inherits(x = FD, "FilesDescription")) {stop("Input class is not of class FilesDescription")} 
