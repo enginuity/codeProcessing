@@ -3,7 +3,7 @@
 
 #' Find all files with appropriate file extensions and extract code
 #' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files#' 
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
 #' @return Object of class Codebase
 #' 

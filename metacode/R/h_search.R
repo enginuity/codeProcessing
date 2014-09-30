@@ -33,8 +33,7 @@
 #' 
 #' @export
 #' 
-search_code_matches = function(regexp = "Default Search", regex_exact = TRUE,
-                               FD, logged = NULL) {
+search_code_matches = function(regexp = "Default Search", regex_exact = TRUE, FD, logged = NULL) {
 
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
   if (regex_exact) {

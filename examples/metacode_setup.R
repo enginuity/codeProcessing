@@ -11,8 +11,10 @@ DIR = "."
 log_file = "metacode_logs/test.txt"
 
 search_code("search_code_matches", add_comment = "Need to change this parent function to use FilesDescription...")
+#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
 search_code("results")
 search_code_matches
+#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
 
 search_code("log_result")
 
@@ -25,6 +27,7 @@ replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> 
 # update_fx_documentation(dir = DIR)
 
 search_code(regexp = "search_code_matches", add_comment = "This function has new parameter (regex_exact) added")
+#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
 
 
 search_code(regexp = "find_files")

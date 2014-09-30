@@ -12,8 +12,7 @@
 #'   content
 #' \}
 #' 
-#' @param dir Directory to search recursively for code files
-#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param fill_emptyparam temp
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run Won't write any changes to file, unless test_run is FALSE
@@ -22,10 +21,9 @@
 #' 
 #' @export
 #' 
-update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam = TRUE,
+update_fx_documentation = function(FD, fill_emptyparam = TRUE,
                                    regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
-                                 dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-TEMPLATES")
+  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, FD = FD, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(matchesL$files)) {
     txt = matchesL$code[[j]]
@@ -64,18 +62,16 @@ update_fx_documentation = function(dir=DIR, file_regex = NULL, fill_emptyparam =
 
 #' Extract roxygen2 parameter documentation
 #' 
-#' @param dir Directory to search recursively for code files
-#' @param file_regex If non-NULL: restrict to filenames that match this regex
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' 
 #' @return Data frame of all parameter documentation
 #' 
 #' @export
 #' 
-extract_param_docu = function(dir, file_regex = NULL, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
   
-  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, 
-                                 dir = dir, mode = "R", file_regex = file_regex, logged = "ROXY-param-matching")
+  matchesL = search_code_matches(regexp = regexp_fxstart, regex_exact = FALSE, FD, logged = "ROXY-param-matching")
   
   param_list = list()
   i = 1
