@@ -50,7 +50,7 @@ replace_code = function(RE, replace, add_comment,
   matchesL = search_code_matches(RE = RE, FD = FD, logged = "REPLACE")
   
   ## Do actual replacement: 
-  for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], regexp, replace) }
+  for(j in seq_along(matchesL$files)) { matchesL$code[[j]] = str_replace_all(matchesL$code[[j]], RE$regex, replace) }
   
   matchesL = add_comment_matches(matchesL = matchesL, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)

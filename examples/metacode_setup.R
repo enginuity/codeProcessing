@@ -20,29 +20,6 @@ search_code("log_result")
 replace_code(regexp="mats", replace = "matchesL", add_comment = "Rename mats -> matchesL")
 
 
-# For fixing templates
-# DIR = "metacode/"
-# update_fx_documentation(dir = DIR)
-
-search_code(regexp = "search_code_matches", add_comment = "This function has new parameter (regex_exact) added")
-#|----##Need to change this parent function to use FilesDescription... --Tue Sep 30 12:38:13 2014--
-
-
-search_code(regexp = "find_files")
-#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
-search_code(regexp = "is_roxy")
-
-search_code(regexp = "search_code", add_comment = "this function has been split (order of args changed)")
-
-#Example -- 
-#replace_code(regexp = "find_files", replace = "testtest", add_comment = "TESTING!")
-#|----##Need to change this code to use FilesDescription... --Tue Sep 30 12:22:19 2014--
-
-search_code(regexp = "clear_comments", add_comment = "This function has been rewritten")
-clear_comments()
-
-search_code("mark_gregexpr_loc")
-
 
 
 
