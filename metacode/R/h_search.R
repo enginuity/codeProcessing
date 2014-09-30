@@ -24,8 +24,7 @@
 #' \item $matchlocs -- A list of : str_locate_all output (for 'regex' on each file)
 #' }
 #' 
-#' @param regexp Regular Expression to search for
-#' @param regex_exact If TRUE: Adjusts regexp so that matches must have non-word characters before and after
+#' @param RE Object of class Regex, OR a simple regular expression. What to search for? 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param logged If non-NULL, then this is the logtype (to write in filename)
 #' 
@@ -33,33 +32,25 @@
 #' 
 #' @export
 #' 
-search_code_matches = function(regexp = "Default Search", regex_exact = TRUE, FD, logged = NULL) {
-
-  input_regex = regexp
-  if (regex_exact) {
-    regexp = paste("(^|[^[:alnum:]_])(", regexp, ")($|[^[:alnum:]_])", sep = "")
-  }
-  ## TODO: [Test] is the following code necessary?
-  # else {
-  #  regexp = paste("(", regexp, ")", sep = "")
-  #}
+search_code_matches = function(RE, FD, logged = NULL) {
+  ## If input is a regular expression instead of Regex object, use default settings. 
+  if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
   
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
   all_code = extract_Codebase(FD = FD)
   
   ## Matching texts:
-  files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, regexp))}))
+  files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, RE$regex))}))
   matchline_list = list()
   matchloc_list = list()
   for(j in seq_along(files_with_matches)) {
     text = all_code$code[[files_with_matches[j]]]
-    matchline_list[[j]] = which(str_detect(text, regexp))
-    matchloc_list[[j]] = str_locate_all(text[matchline_list[[j]]], regexp)
+    matchline_list[[j]] = which(str_detect(text, RE$regex))
+    matchloc_list[[j]] = str_locate_all(text[matchline_list[[j]]], RE$regex)
   }
   
-  res = MatchedCodebase(CB = all_code, CB_subset = files_with_matches, 
-                        matchlines = matchline_list, matchlocs = matchloc_list, 
-                        regex = input_regex, regex_exact = FALSE, regex_word = regex_exact)
+  ## Format matched results properly
+  res = MatchedCodebase(CB = all_code, CB_subset = files_with_matches, matchlines = matchline_list, matchlocs = matchloc_list, REGEX = RE)
   
   ## Log if necessary. Then return. 
   if (!is.null(logged)) { create_search_log(logtype = logged, MCB = res) }

@@ -8,7 +8,8 @@ package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
-
+search_code(Regex("search_code_matches"))
+search_code("create_search_log")
 
 search_code("extract_param_docu")
 

@@ -4,18 +4,18 @@
 
 #' Search code and potentially add comments
 #' 
-#' @param regexp Regular Expression to search for
+#' @param RE Object of class Regex: what to search for?
 #' @param add_comment If non-NULL, this is added to the source code as a next-line comment
-#' @param regex_exact If TRUE: Adjusts regexp so that matches must have non-word characters before and after
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
 #' @return none
 #' 
 #' @export
 #' 
-search_code = function(regexp = "Default Search...", add_comment = NULL, regex_exact = TRUE, FD = DEFAULT_FD) {
+search_code = function(RE, add_comment = NULL, FD = DEFAULT_FD) {
+  
   ## Find matches in MatchedCodebase format
-  matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, FD = FD, logged = "SEARCH")
+  matchesL = search_code_matches(RE = RE, FD = FD, logged = "SEARCH")
   
   if (!is.null(add_comment)) { add_comment_matches(matchesL, add_comment, write = TRUE) }
   return("Search is done!")

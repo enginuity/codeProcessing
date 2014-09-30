@@ -63,8 +63,8 @@ logfile_namecreation = function(logtype, query) {
 #' @export
 #' 
 create_search_log = function(logtype, MCB) {  
-  log_file <<- logfile_namecreation(logtype = logtype, query = MCB$regex)
-  log_result('Searching for "', MCB$regex, '"', "\n", header = TRUE)
+  log_file <<- logfile_namecreation(logtype = logtype, query = MCB$REGEX$base)
+  log_result('Searching for "', MCB$REGEX$base, '"', "\n", header = TRUE)
   
   ## Log actual matches. 
   for(j in seq_along(MCB$files)) {

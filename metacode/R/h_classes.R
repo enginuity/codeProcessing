@@ -28,15 +28,13 @@ Codebase = function(files, code) {
 #' @param CB_subset If non-NULL, this specifies a subset of the files/code in CB to keep
 #' @param matchlines List of line-location of matches, as individual vectors
 #' @param matchlocs List of str_locate_all output (for 'regex' on each file)
-#' @param regex Original regular expression to match
-#' @param regex_exact Was 'exact' parameter used in the regex?
-#' @param regex_word Was the regex converted to match exact words?
+#' @param REGEX Object of class Regex: storing search request
 #' 
 #' @return Object of class MatchedCodebase
 #' 
 #' @export
 #' 
-MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, regex, regex_exact, regex_word) {
+MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, REGEX) {
   if (!inherits(CB, what = "Codebase")) { stop("Input Codebase is not of the appropriate class") }
   
   if (!is.null(CB_subset)) {
@@ -44,7 +42,7 @@ MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, regex, r
     CB$code = CB$code[CB_subset]
   }
   
-  res = append(CB, list(matchlines = matchlines, matchlocs = matchlocs, regex = regex, regex_exact = regex_exact, regex_word = regex_word))
+  res = append(CB, list(matchlines = matchlines, matchlocs = matchlocs, REGEX = REGEX))
   class(res) = append("MatchedCodebase", class(CB))
   
   return(res)
@@ -69,3 +67,25 @@ FilesDescription = function(mode = "R", dirlist = NULL, filelist = NULL) {
   return(structure(list(mode = mode, dirlist = dirlist, filelist = filelist), class = "FilesDescription"))
 }
 
+
+#' Create object of class Regex
+#'     
+#' This should store all the information needed to do regex matching. Thus, there will be a consistent method to input parameters. 
+#' 
+#' @param base Base regex to search for
+#' @param isexact Use 'exact = TRUE' in regex; might be outdated. 
+#' @param isword Edit base regex to look for a 'word'
+#' @param ignorecommentlines When doing regex; wish to ignore all lines with comments. 
+#' 
+#' @return Object of class Regex
+#' 
+#' @export
+#' 
+Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FALSE) {
+  regex = base
+  
+  ## If want word-only matches, modify regex
+  if (isword) { regex = paste("(^|[^[:alnum:]_])(", base, ")($|[^[:alnum:]_])", sep = "") }
+  
+  return(structure(list(regex = regex, base = base, isexact = isexact, isword = isword, ignorecommentlines = ignorecommentlines), class = "Regex"))
+}
