@@ -85,7 +85,7 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
   regex = base
   
   ## If want word-only matches, modify regex
-  if (isword) { regex = paste("(^|[^[:alnum:]_])(", base, ")($|[^[:alnum:]_])", sep = "") }
+  if (isword) { regex = paste("\\<", base, "\\>", sep = "") }
   
   return(structure(list(regex = regex, base = base, isexact = isexact, isword = isword, ignorecommentlines = ignorecommentlines), class = "Regex"))
 }
