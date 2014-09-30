@@ -1,6 +1,7 @@
 library(metacode)
 library(stringr)
-update_fx_documentation(dir = "metacode/")
+
+update_fx_documentation(FD = FilesDescription(dirlist = "metacode/"))
 
 detach(package:metacode)
 

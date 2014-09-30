@@ -13,7 +13,7 @@
 #' 
 #' @export
 #' 
-search_code = function(regexp = "Default Search...", add_comment = NULL, regex_exact = TRUE, FD) {
+search_code = function(regexp = "Default Search...", add_comment = NULL, regex_exact = TRUE, FD = DEFAULT_FD) {
   
   ## new feature: regex_exact => want to add something to regex to make the match word-wise the given regexp. 
   matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, FD = FD, logged = "SEARCH")
@@ -39,7 +39,7 @@ search_code = function(regexp = "Default Search...", add_comment = NULL, regex_e
 #' @export
 #' 
 replace_code = function(regexp = "Default Search...", replace, regex_exact = TRUE,
-                        add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD) {
+                        add_comment, comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD = DEFAULT_FD) {
 
   matchesL = search_code_matches(regexp = regexp, regex_exact = regex_exact, FD = FD, logged = "REPLACE")
   
@@ -62,7 +62,7 @@ replace_code = function(regexp = "Default Search...", replace, regex_exact = TRU
 #' 
 #' @export
 #' 
-clear_comments = function(comment_regex = "^#[|]", FD) {
+clear_comments = function(comment_regex = "^#[|]", FD = DEFAULT_FD) {
   matchesL = search_code_matches(regexp = comment_regex, regex_exact = FALSE, FD = FD, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 
