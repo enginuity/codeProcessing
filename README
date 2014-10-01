@@ -2,6 +2,7 @@ General Description of Project:
 
 This R package will contain a set of functions that can be thought of as developer tools for R, in the sense that it will make your coding either more efficient or more structured. 
 
+NOTE OF WARNING: DO NOT RUN THIS CODE ON ANY DIRECTORY WITHOUT VERSION CONTROL... [maybe a check could be performed to look for [.git] folders or something]
 
 Things to think about for collaboration: 
 I guess some research should be done to see of these things exist... I've done some, but I've not found a good solution, though I guess that doesn't mean one doesn't exist. This doesn't really matter if we don't plan to publish the package, but if that's part of the plan, this is really important. 

@@ -23,10 +23,6 @@ Mode_nontemp = function(text) {
 }
 
 
-
-
-
-
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' 
 #' @param cur_doc old documentation (as data frame output)
@@ -38,7 +34,7 @@ Mode_nontemp = function(text) {
 #' @export
 #' 
 reformat_documentation = function(cur_doc, params, function_name) {
-  ## TODO: [Remove function] This should be rendered obselete.. 
+  ## TODO: [Remove function] This should be rendered obselete somehow. 
   ## Wanted roxy output: 
   ## #` some title/description
   ## #` ...
@@ -217,6 +213,7 @@ find_all_prev_documentation_v2 = function(text, lineno, header = "^#'") {
 }
 
 
+
 process_documentation = function(raw_docu_df) {
   ## General format of documentation: 
   ## 1. Title, Description, Details. These are separated by single empty lines. 
@@ -230,10 +227,13 @@ process_documentation = function(raw_docu_df) {
   ## Empty lines have a single space after #'. (This won't be done in THIS function...)
   ## There should never be multiple empty lines in a row. 
   
+  ## NEED TO CHECK FOR MISSING ITEMS. 
+  
+  
   n = nrow(raw_docu_df)
   types = raw_docu_df$Type
   
-  ## TODO: [Refactor] This code is VERY ugly...
+  ## TODO: [Refactor] This code is VERY ugly... Logic needs to be rethought... 
   matches = find_type_section(types, start_line = 1, end_marker = c("@param", "@return"), keep_empty = TRUE)
   raw_docu_df$TypeOrder[matches] = 1
   raw_docu_df$SubOrder[matches] = seq_along(matches)
@@ -262,6 +262,8 @@ process_documentation = function(raw_docu_df) {
   ## Add #'s for spaces: at positions 1.5, 2.5, 3.5, 10.5
   raw_docu_df = rbind(raw_docu_df, data.frame(LineNo=-1, Value = "#' ", Type ="Empty", ParamName = "", TypeOrder = c(1.5, 2.5, 3.5, 10.5), ParamOrder = 0, SubOrder = 1, stringsAsFactors=FALSE))
   
+  ## TODO: [Fix] Run reform_params
+  
   ## Reorder rows
   raw_docu_df = raw_docu_df[order(raw_docu_df$TypeOrder, raw_docu_df$ParamOrder, raw_docu_df$SubOrder),]
   
@@ -271,6 +273,51 @@ process_documentation = function(raw_docu_df) {
   
   return(raw_docu_df)
 }
+
+
+
+reform_params = function(raw_docu_df, correct_param_order, default_param_doc = NULL) {
+  ## Given a vector of the correct parameter order, reorder raw_docu_df as necessary. Add missing parameters with 'temp' documentation as necessary. 
+  ## default_param_doc should be a data.frame: $ParamName & $Doc
+  ## This assumes default documentation is one line. 
+  ## TODO: [Idea] improve to assume that parameter documentation can be more than one line. 
+  
+  temp_order = raw_docu_df$ParamOrder
+  
+  ## Set current parameter ordering to a negative number. 
+  temp_order = temp_order * -1
+  correct_locations = match(correct_param_order, raw_docu_df$ParamName)
+  
+  params_toadd = NULL
+  param_nums = NULL
+  for(j in seq_along(correct_param_order)) {
+    if (!is.na(correct_locations[j])) {
+      temp_order[temp_order == temp_order[correct_locations[j]]] = j
+    } else {
+      ## Note to add parameter, since it doesn't exist. 
+      params_toadd = c(params_toadd, correct_param_order[j])
+      param_nums = c(param_nums, j)
+    }
+  }
+  
+  raw_docu_df$ParamOrder = temp_order
+  
+  if (length(params_toadd) > 0) {
+    param_doc = rep("temp", times = length(params_toadd))
+    param_doc[which(!is.na(match(params_toadd, default_param_doc$ParamName)))] = default_param_doc$Doc[match(params_toadd, default_param_doc$ParamName, nomatch = 0)]
+    print(param_doc)
+    
+    raw_docu_df = rbind(raw_docu_df, data.frame(LineNo=-1, Value = paste( "#' @param", param_doc), Type ="@param", ParamName = params_toadd, TypeOrder = 2, ParamOrder = param_nums, SubOrder = 1, stringsAsFactors=FALSE))
+  }
+  
+  return(raw_docu_df)
+}
+## Test
+# reform_params(raw_docu_df, correct_param_order = c("RE", "FD", "add_comment",  "blah","comment_heads"), data.frame(ParamName = c("blah", "test"), Doc = c("lalalla", "lalallala"), stringsAsFactors = FALSE))
+
+
+
+
 
 find_type_section = function(x, start_line, end_marker, keep_empty = FALSE, keep_one = FALSE) {
   if (length(which(x %in% end_marker)) == 0) {
