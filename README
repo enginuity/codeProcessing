@@ -1,7 +1,24 @@
-Conventions: 
+General Description of Project: 
 
+This R package will contain a set of functions that can be thought of as developer tools for R, in the sense that it will make your coding either more efficient or more structured. 
+
+
+Things to think about for collaboration: 
+I guess some research should be done to see of these things exist... I've done some, but I've not found a good solution, though I guess that doesn't mean one doesn't exist. This doesn't really matter if we don't plan to publish the package, but if that's part of the plan, this is really important. 
+
+We'll need a version map (plan) and a versioning system. Think about this later. 
+
+We'll need a good way to do version control properly. (use of branches? etc.)
+
+We'll need code conventions: 
+-- maybe? think about this. THis has not been implemented yet. Only care about this 
 Functions starting with upper-case letter => typically only helper functions
 Functions starting with lower-case letters => intended to be called from outside
+
+etc.. probably lots more issues, but we can discuss. 
+
+
+
 
  --- placeholder --- 
 # README #

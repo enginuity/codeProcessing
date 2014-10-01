@@ -36,7 +36,8 @@ plot_dependency(".", mode = "R", out_file = "results/ztestplot.pdf")
 plot_dependency("../27may_user_engagement/source/fxForUserchurn/R/", mode = "R", out_file = "results/znewproj.pdf")
 
 
+plot_dependency(FD = package_FD, out_file = "test.pdf")
 
-generate_todolist(dir = "metacode/")
+generate_todolist(FD = package_FD)
 
 

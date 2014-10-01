@@ -1,0 +1,168 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+
+
+
+\begin{document}
+
+\title{Demo for current existing functions/package (badly) named as `metacode'}
+
+\maketitle
+
+\tableofcontents
+\pagebreak
+
+
+\section{Introduction}
+This R package will contain a set of functions that can be thought of as developer tools for R, in the sense that it will make your coding either more efficient or more structured. \\
+
+It contains functions that do the following: 
+\begin{itemize}
+\item Search/replace through entire codebase, and output results to a logfile OR add comments in the code. 
+\item Extract TODO list from entire code base
+\item Generate dependency chart of functions
+\item Generate Roxygen2 style documentation for functions
+\end{itemize}
+
+\section{Package Dependencies}
+Probably this should be somewhere: 
+\begin{itemize}
+\item Rgraphviz
+\item stringr
+\item Roxygen2
+\item ??
+\end{itemize}
+
+\section{Demo}
+\subsection{Dependency chart}
+Draw an dependency chart for a selection of R code. This, at one point, also worked for C++ code (although there probably exists much better development environments that does this for C++ code...). I haven't done anything with that code for at least a year, so it doesn't work currently. 
+
+\subsubsection{Example}
+Here is an example: This is the dependency chart of the current state of the project. If you zoom in in your PDF viewer, you should be able to read the text. Obviously text size issues could be modified/improved. 
+
+\subsubsection{Future}
+Ideally, this becomes more integrated with the documentation for R packages, the dependency chart only shows the functions, but would not be very useful without accompanying documentation of the functions. This interaction is potentially through `shiny' or `d3js (maybe through shiny too)'. A potential alternative is to generate a latex file that combines the documentation with links in the dependency chart [maybe not possible?]. 
+
+
+
+\pagebreak
+\begin{figure}[!h]
+\includegraphics[scale=0.5]{dependency.pdf}
+\caption{Image of entire Dependency Plot for `metacode' package. Functions are colored by file the code falls in.}
+\end{figure}
+
+
+\pagebreak
+\subsection{Search and replace through entire codebase}
+Here is an example: Searched for the text `find\_all\_prev\_documentation', and line numbers and files where it exists is listed. 
+\subsubsection{Example}
+
+\begin{verbatim}
+---Wed Oct  1 15:52:48 2014---
+
+*******************************************************************************
+*******************************************************************************
+Matches found in './metacode/R/create_roxygen_comments.R'
+*******************************************************************************
+
+38  ||      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+    ||                ***************************
+
+88  ||      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+    ||                ***************************
+
+
+*******************************************************************************
+*******************************************************************************
+Matches found in './metacode/R/h_documentation_processing.R'
+*******************************************************************************
+
+125 ||find_all_prev_documentation = function(text, lineno, header = "^#'") {
+    ||***************************
+
+\end{verbatim}
+
+\pagebreak
+
+\subsection{Extract TODO list}
+Apparently I broke something recently. But this is what it's supposed to do. This is code from another project... 
+
+What it does is to allow extraction of a TODO list based on 'TODO' objects in source code. This is kind of old code: Just looks for patterns of the type "# TODO"
+
+\subsubsection{Example}
+\begin{verbatim}
+--In file: network_visualization/plot_functions/default_params.R
+36    ::: # TODO: When using create_plot_params, if there is a new 'setting', it will crash. Need alternate solution... Make it add the new setting as an additional entry in the list?
+152   ::: # TODO: add settings for black and white plots for ego and dyad
+162   ::: # TODO: Try to implement old functional code for weighted edge distances
+##########
+##########
+##########
+--In file: network_visualization/plot_functions/main.R
+24    ::: # TODO: Need to think/implement plan to save old drawn network
+25    ::: # TODO: [Idea] A way to do dotted lines and such on edges?
+26    ::: # TODO: Dyad plot: want to enforce distance between central nodes. 
+27    ::: # TODO: allow weighting node locations by edge weight
+55    ::: # TODO: [Document] this function  
+92    ::: # TODO: [Document] this function
+##########
+##########
+##########
+----- There are 77 outstanding TODO lines
+----- There are 44 unsorted TODO lines
+-----
+----- --                      ** 4  
+----- [CLEANUP]               ** 1  
+----- [Document]              ** 17 
+----- [idea]                  ** 1  
+----- [Idea]                  ** 3  
+----- [Move]                  ** 1  
+----- [somewhathighpriority]  ** 1  
+----- [TEST]                  ** 5  
+\end{verbatim}
+
+
+\pagebreak
+\subsection{Generate Roxygen2 style documentation}
+For a function, it automatically generates a documentation skeleton. 
+
+This code can also reorder the documentation automatically if parameter order is changed, and can be used to generate uniform documentation across different functions if the same parameter name is used (and means the same thing). It can update the documentation when parameters change, and insert TODO's when it changes documentation. 
+
+\subsubsection{Example}
+\begin{verbatim}
+
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (network_comparison)
+#' <<BasicInfo>> 
+#' 
+#' @param first.network temp
+#' @param second.network temp
+#' @param verbose temp
+#' @param iterations temp
+#' @param new.replicates temp
+#' @param run.id temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
+network_comparison = function (first.network,
+                               second.network,
+                               verbose=TRUE,
+                               iterations=NULL,
+                               new.replicates=100,
+                               run.id=NULL) {
+.
+.
+.
+\end{verbatim}
+
+\subsubsection{Future}
+A lot more functionality can be made with respect to this (see some ideas in Issues log)
+
+\begin{itemize}
+\item Not enforce putting @export in every single function
+\item Allow more features than just @param, @return, @export
+\end{itemize}
+
+\end{document}
