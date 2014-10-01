@@ -31,11 +31,6 @@ update_param_docu(test, "MCB", "Regex match list : this is output of search-code
 search_code(regexp = "search_code")
 gen_depend_R(".") -> test
 
-plot_dependency(".", mode = "R", out_file = "results/ztestplot.pdf")
-
-plot_dependency("../27may_user_engagement/source/fxForUserchurn/R/", mode = "R", out_file = "results/znewproj.pdf")
-
-
 plot_dependency(FD = package_FD, out_file = "test.pdf")
 
 generate_todolist(FD = package_FD)
