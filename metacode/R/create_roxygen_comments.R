@@ -23,6 +23,8 @@
 #' 
 update_fx_documentation = function(FD, fill_emptyparam = TRUE,
                                    regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
+  
+  ## Search for function headers
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
   for(j in seq_along(MCB$files)) {
