@@ -11,8 +11,11 @@ find_files(examples_FD)
 one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentation_processing.R"))
 
 
-update_fx_documentation_v2(package_FD, test_run = FALSE)
+update_fx_documentation(one_FD, test_run = FALSE)
 
+
+
+search_code("update_fx_documentation")
 
 replace_code("find_all_prev_documentation_v2", replace = "find_all_prev_documentation", add_comment = "Remove _v2 from name", FD = package_FD)
 replace_code("reformat_documentation_v2", replace = "reformat_documentation", add_comment = "Remove _v2 from name", FD = package_FD)

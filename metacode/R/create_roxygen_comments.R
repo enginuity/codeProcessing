@@ -98,9 +98,10 @@ extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +functio
       if (is.data.frame(cur_doc)) {
         fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
         
+        paramvals = gsub("^#' @param [[:alnum:]]+", "", cur_doc$Value[cur_doc$Type == "@param"])
         param_list[[i]] = data.frame(filename = MCB$files[j], funcname = fn_name, 
-                                     paramname = params, paramval = cur_doc$Value[cur_doc$Mode == "@param"],
-                                     lineno = cur_doc$LineNo[cur_doc$Mode == "@param"], stringsAsFactors = FALSE)
+                                     paramname = params, paramval = paramvals,
+                                     lineno = cur_doc$LineNo[cur_doc$Type == "@param"], stringsAsFactors = FALSE)
         i = i + 1
       }
     }
