@@ -1,12 +1,12 @@
-## Hepler functions for processing documentation
+## Helper functions for processing documentation
 
 
-#' Compute Mode, ignoring certain values
-#'     
+#' Compute mode of text ignoring certain values
+#' 
 #' Ignores all values that are equal to "temp", and computes the mode of the remaining text values
 #' (or ignores all values in 'ignore_type')
 #' 
-#' @param text Character vector
+#' @param text Character vector whose mode is desired
 #' @param ignore_type Character vector of elements to ignore. 
 #' 
 #' @return Mode of 'text'
@@ -23,7 +23,11 @@ Mode_nontemp = function(text, ignore_type = "temp") {
 }
 
 
-#' Processes function parameters and attempts to extract out all parameter names
+#' Extract parameter names for a function
+#' 
+#' This function will ignore default parameter values (hopefully?). 
+#' It might be possible to beat it with clever/strange choices for parameter default values, or perhaps weird ways to denote parameter values. 
+#' Currently CANNOT deal with parameter values that are line-separated with a comment line. 
 #' 
 #' @param text Should be all the code 'here' in [function() { ..here.. }]
 #' 
