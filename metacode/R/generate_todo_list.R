@@ -23,7 +23,7 @@ generate_todolist = function(FD) {
   todolist = NULL
 
   for(j in seq_along(all_code$files)) {
-    addition = paste("--In file:", gsub(dir, "", all_code$files[[j]]))
+    addition = paste("--In file:", all_code$files[[j]])
     f = all_code$code[[j]]
     ## Grab all TODO entries, that start a line
     linematches = grep("^ *#+ TODO:", f)      

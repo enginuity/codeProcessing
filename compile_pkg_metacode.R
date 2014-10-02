@@ -15,7 +15,7 @@ roxygenise("metacode/", clean = TRUE)
 system("R CMD INSTALL metacode")
 
 ## For unix
-#  install.packages(pkgs="metacode_1.0.tar.gz")
+## install.packages(pkgs="metacode_1.0.tar.gz")
 
 library(metacode)
 library(stringr)

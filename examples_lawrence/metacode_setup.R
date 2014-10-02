@@ -9,7 +9,7 @@ examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_program
 find_files(examples_FD)
 
 one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentation_processing.R"))
-
+FD = package_FD
 
 update_fx_documentation(one_FD, test_run = FALSE)
 
