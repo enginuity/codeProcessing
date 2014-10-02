@@ -41,7 +41,7 @@ update_fx_documentation_v2 = function(FD, fill_emptyparam = TRUE,
       params = find_current_params(param_segments[k])  
       
       cur_doc = find_all_prev_documentation_v2(text = txt, lineno = matchlines[k])
-      proper_doc = reformat_documentation_v2(cur_doc = cur_docv2, params = params)
+      proper_doc = reformat_documentation_v2(cur_doc = cur_doc, params = params)
       
       
       ## Only change documentation if format does not match completely

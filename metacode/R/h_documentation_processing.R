@@ -217,7 +217,6 @@ find_all_prev_documentation_v2 = function(text, lineno, header = "^#'") {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reformat_documentation_v2)
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' Then outputs what it thinks the new format should be. Then, need to separately check whether it matches what it thinks it should be. 
 #' 
@@ -280,6 +279,7 @@ reformat_documentation_v2 = function(cur_doc, params, default_param_doc = NULL) 
     matches = find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@return"))
     new_doc$TypeOrder[matches] = 2
     new_doc$SubOrder[matches] = seq_along(matches)
+    new_doc$TypeOrder[intersect(matches, which(types == "Empty"))] = 1000
   }
   
   matches = find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@export"))

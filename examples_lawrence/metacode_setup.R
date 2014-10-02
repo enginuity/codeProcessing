@@ -8,6 +8,11 @@ package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
+one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentation_processing.R"))
+
+
+update_fx_documentation_v2(package_FD, test_run = FALSE)
+
 search_code("test")
 
 

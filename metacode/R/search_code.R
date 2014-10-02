@@ -2,7 +2,6 @@
 ##@S   Search results are output inside this directory (metadata)
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (search_code)
 #' Search code and potentially add comments
 #' 
 #' @param RE Object of class Regex, OR a simple regular expression. What to search for?

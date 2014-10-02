@@ -53,6 +53,10 @@ find_files = function(FD) {
 
     allfiles = c(allfiles, temp)
   }
+  
+  ## Add files from file-listing
+  allfiles = c(allfiles, c(FD$filelist, recursive = TRUE))
+  
   return(allfiles)
 }
 
