@@ -3,7 +3,7 @@
 
 
 
-#' Compute Mode of parameter documentation (ignoring certain types)
+#' Compute Mode, ignoring certain values
 #'     
 #' Ignores all values that are equal to 'temp', and computes the mode of the remaining text values
 #' 
@@ -13,10 +13,10 @@
 #' 
 #' @export
 #' 
-Mode_nontemp = function(text) {
+Mode_nontemp = function(text, ignore_type = "temp") {
   
-  t = text[text != "temp"]
-  if (length(t) == 0) { return("temp") }
+  t = text[!(text %in% ignore_type)]
+  if (length(t) == 0) { return(ignore_type[1]) }
   
   tab = table(t)
   return(names(tab)[which(tab == max(tab))[1]])
@@ -156,6 +156,10 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
 }
 
 
+
+
+
+# New version.. rewrite. --------------------------------------------------
 
 #' Extracts documentation prior to a current line (function start line)
 #' 
