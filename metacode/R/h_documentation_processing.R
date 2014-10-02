@@ -79,7 +79,7 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 #' 
 #' @export
 #' 
-find_all_prev_documentation_v2 = function(text, lineno, header = "^#'") {
+find_all_prev_documentation = function(text, lineno, header = "^#'") {
   ## Testing vals
   if (FALSE) {
     text = readLines("metacode/R/search_code.R")
@@ -134,7 +134,7 @@ find_all_prev_documentation_v2 = function(text, lineno, header = "^#'") {
 #' 
 #' @export
 #' 
-reformat_documentation_v2 = function(cur_doc, params, default_param_doc = NULL) {
+reformat_documentation = function(cur_doc, params, default_param_doc = NULL) {
   
   if (FALSE) {
     cur_doc = NA

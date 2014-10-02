@@ -13,6 +13,13 @@ one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentatio
 
 update_fx_documentation_v2(package_FD, test_run = FALSE)
 
+
+replace_code("find_all_prev_documentation_v2", replace = "find_all_prev_documentation", add_comment = "Remove _v2 from name", FD = package_FD)
+replace_code("reformat_documentation_v2", replace = "reformat_documentation", add_comment = "Remove _v2 from name", FD = package_FD)
+
+replace_code("update_fx_documentation_v2", replace = "update_fx_documentation", add_comment = "Remove _v2 from name", FD = package_FD)
+clear_comments(FD = package_FD)
+
 search_code("test")
 
 

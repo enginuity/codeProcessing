@@ -20,7 +20,7 @@
 #' 
 #' @export
 #' 
-update_fx_documentation_v2 = function(FD, fill_emptyparam = TRUE,
+update_fx_documentation = function(FD, fill_emptyparam = TRUE,
                                    regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
   if (FALSE) {
     FD = FilesDescription(dirlist = list("."))
@@ -40,8 +40,8 @@ update_fx_documentation_v2 = function(FD, fill_emptyparam = TRUE,
     for(k in seq_along(matchlines)) {
       params = find_current_params(param_segments[k])  
       
-      cur_doc = find_all_prev_documentation_v2(text = txt, lineno = matchlines[k])
-      proper_doc = reformat_documentation_v2(cur_doc = cur_doc, params = params)
+      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+      proper_doc = reformat_documentation(cur_doc = cur_doc, params = params)
       
       
       ## Only change documentation if format does not match completely
