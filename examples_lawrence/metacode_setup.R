@@ -13,7 +13,7 @@ one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentatio
 
 update_fx_documentation(one_FD, test_run = FALSE)
 
-
+search_code("process_documentation")
 
 search_code("update_fx_documentation")
 

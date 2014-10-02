@@ -174,6 +174,7 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL) {
   
   n = nrow(new_doc)  
   types = new_doc$Type
+  
   ## Assign arrangement of regular sections
   ## TODO: [Refactor] This code is VERY ugly... Logic needs to be rethought... 
   matches = find_type_section(types, start_line = 1, end_marker = c("@param", "@return"), keep_empty = TRUE)
@@ -205,6 +206,7 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL) {
     }
   }
   
+  
   ## Add #'s for spaces: at positions 1.5, 2.5, 3.5, 10.5
   new_doc = rbind(new_doc, data.frame(LineNo=-1, Value = "#' ", Type ="Empty", ParamName = "", TypeOrder = c(1.5, 2.5, 3.5, 10.5), ParamOrder = 0, SubOrder = 1, stringsAsFactors=FALSE))
   
@@ -220,79 +222,6 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL) {
   
   return(new_doc)
 }
-
-
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (process_documentation)
-#' <<BasicInfo>> 
-#' 
-#' @param raw_docu_df temp
-#' 
-#' @return temp
-#' 
-#' @export
-#' 
-process_documentation = function(raw_docu_df) {
-  ## TODO: [Clear this]
-  ## General format of documentation: 
-  ## 1. Title, Description, Details. These are separated by single empty lines. 
-  ## 2. Param documentation. These lead by @param <paramname> <documentation> and can span multiple lines. 
-  ##    NO empty lines, so these will be removed. 
-  ## 3. Return documentation. This can span multiple lines. 
-  ## 10. @export. This is followed by a single line, and then the function name. This does NOT have to exist, though. 
-  ## The Numbering here is type numbering to be placed in TypeOrder. 
-  ##
-  ## General rules: 
-  ## Empty lines have a single space after #'. (This won't be done in THIS function...)
-  ## There should never be multiple empty lines in a row. 
-  
-  ## NEED TO CHECK FOR MISSING ITEMS. 
-  
-  
-  n = nrow(raw_docu_df)
-  types = raw_docu_df$Type
-  
-  ## TODO: [Refactor] This code is VERY ugly... Logic needs to be rethought... 
-  matches = find_type_section(types, start_line = 1, end_marker = c("@param", "@return"), keep_empty = TRUE)
-  raw_docu_df$TypeOrder[matches] = 1
-  raw_docu_df$SubOrder[matches] = seq_along(matches)
-  
-  matches = find_type_section(types, start_line = 1 + max(which(raw_docu_df$TypeOrder > 0)), end_marker = c("@return"))
-  raw_docu_df$TypeOrder[matches] = 2
-  raw_docu_df$SubOrder[matches] = seq_along(matches)
-  
-  matches = find_type_section(types, start_line = 1 + max(which(raw_docu_df$TypeOrder > 0)), end_marker = c("@export"))
-  raw_docu_df$TypeOrder[matches] = 3
-  raw_docu_df$SubOrder[matches] = seq_along(matches)
-  
-  matches = find_type_section(types, start_line = 1 + max(which(raw_docu_df$TypeOrder > 0 )), end_marker = c("endofdocu"))
-  raw_docu_df$TypeOrder[matches] = 10
-  raw_docu_df$SubOrder[matches] = seq_along(matches)
-  
-  
-  if (any(raw_docu_df$TypeOrder == 2)) {
-    for(j in seq_along(unique(raw_docu_df$ParamName[raw_docu_df$ParamName != ""]))) {
-      matches = find_type_section(types, start_line = min(which((raw_docu_df$TypeOrder == 2) & (raw_docu_df$ParamOrder == 0))), end_marker = c("@param", "@return"), keep_one = TRUE)
-      raw_docu_df$ParamOrder[matches] = j
-      raw_docu_df$SubOrder[matches] = seq_along(matches)
-    }
-  }
-  
-  ## Add #'s for spaces: at positions 1.5, 2.5, 3.5, 10.5
-  raw_docu_df = rbind(raw_docu_df, data.frame(LineNo=-1, Value = "#' ", Type ="Empty", ParamName = "", TypeOrder = c(1.5, 2.5, 3.5, 10.5), ParamOrder = 0, SubOrder = 1, stringsAsFactors=FALSE))
-  
-  ## TODO: [Fix] Run reform_params
-  
-  ## Reorder rows
-  raw_docu_df = raw_docu_df[order(raw_docu_df$TypeOrder, raw_docu_df$ParamOrder, raw_docu_df$SubOrder),]
-  
-  ## Check for multiple empty lines in a row. Set TypeOrder to 0
-  double_empty_rows = which((raw_docu_df$Type[-1] == "Empty") & (raw_docu_df$Type[-1] == raw_docu_df$Type[-length(raw_docu_df$Type)]))
-  if (length(double_empty_rows) > 0) { raw_docu_df = raw_docu_df[-double_empty_rows,] }
-  
-  return(raw_docu_df)
-}
-
 
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reform_params)
