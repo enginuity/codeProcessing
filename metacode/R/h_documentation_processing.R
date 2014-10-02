@@ -1,8 +1,6 @@
 ## Hepler functions for processing documentation
 
 
-
-
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (Mode_nontemp)
 #' Compute Mode, ignoring certain values
 #'     
@@ -25,44 +23,6 @@ Mode_nontemp = function(text, ignore_type = "temp") {
 }
 
 
-#' Takes old (or non-existent) roxygen documentation, and reformats it
-#' 
-#' @param cur_doc old documentation (as data frame output)
-#' @param params function parameters
-#' @param function_name function name
-#' 
-#' @return character vector: correct roxygen documentation
-#' 
-#' @export
-#' 
-reformat_documentation = function(cur_doc, params, function_name) {
-  ## TODO: [Remove function] This should be rendered obselete somehow. 
-  ## Wanted roxy output: 
-  ## #` some title/description
-  ## #` ...
-  ## #` @param ... 
-  ## #` @result ...
-  ## #` @export
-  
-  head_doc = "#' <<BasicInfo>> "
-  param_doc = paste("#' @param", params, "temp")
-  return_doc = "#' @return temp"
-  
-  if (class(cur_doc) == "data.frame") {
-    if (any(cur_doc$Mode == "Text")) { head_doc = cur_doc$Value[cur_doc$Mode == "Text"] }
-    if (any(cur_doc$Mode == "@return")) { return_doc = cur_doc$Value[cur_doc$Mode == "@return"] }
-    if (any(cur_doc$Mode == "@param")) {
-      for(j in which(cur_doc$Mode == "@param")) {
-        param_doc[which(params == cur_doc$Mode2[j])] = cur_doc$Value[j]
-      }
-    }
-  }
-  
-  return(c(paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = ""),
-           head_doc, "#' ", param_doc, "#' ", return_doc, "#' ", "#' @export", "#' "))
-}
-
-
 #' Processes function parameters and attempts to extract out all parameter names
 #' 
 #' @param text Should be all the code 'here' in [function() { ..here.. }]
@@ -81,7 +41,6 @@ find_current_params = function(text) {
   text = gsub(" ", "", text)
   return(text)
 }
-
 
 
 #' Locates all previous lines that start with specific header type
@@ -109,59 +68,6 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
-
-#' Extracts documentation prior to a current line (function start line)
-#' 
-#' @param text Source code
-#' @param lineno Line number
-#' @param header Documentation header
-#' 
-#' @return Character vector of documentation lines
-#' 
-#' @export
-#' 
-find_all_prev_documentation = function(text, lineno, header = "^#'") {
-  prev_lines = find_all_prev_headers(text, lineno, header)
-  if (is.na(prev_lines[1])) {
-    return(NA)
-  }
-  prev_docu = data.frame(LineNo=prev_lines, Mode="", Mode2 ="", Value = "", stringsAsFactors=FALSE)
-  
-  text_clean = gsub(header, "", text[prev_lines])
-  ## Mode is either 'Empty', 'Text', or "@something"
-  tsplit = strsplit(text_clean, " ")
-  
-  for(j in seq_along(prev_lines)) {
-    t = tsplit[[j]]
-    if (length(t) <= 1 | is.na(t[1])) {
-      prev_docu$Mode[j] = 'Empty'
-    } else {
-      t = t[t != ""]
-      if (length(t) == 0) {
-        prev_docu$Mode[j] = "Text"
-      } else {
-        if (t[1] == "@param") {
-          prev_docu$Mode[j] = "@param"
-          prev_docu$Mode2[j] = t[2]
-        } else if (t[1] == "@return") {
-          prev_docu$Mode[j] = "@return"
-        } else if (t[1] == "@export") {
-          prev_docu$Mode[j] = "@export"
-        } else {
-          prev_docu$Mode[j] = "Text"
-        }
-      }
-    }
-    prev_docu$Value[j] = text[prev_lines[j]]
-  }
-  return(prev_docu)
-}
-
-
-
-
-
-# New version.. rewrite. --------------------------------------------------
 
 #' Extracts documentation prior to a current line (function start line)
 #' 

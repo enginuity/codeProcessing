@@ -71,67 +71,6 @@ update_fx_documentation_v2 = function(FD, fill_emptyparam = TRUE,
 }
 
 
-
-
-#' Create roxygen templates (and fix/reorder them as necessary)
-#'    
-#' DO NOT DO THIS WITHOUT VERSION CONTROL!
-#'     
-#' Assumes functions are of the format 
-#' FUNCTION_NAME = function( .... ) \{
-#'   content
-#' \}
-#' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
-#' @param fill_emptyparam Should empty parameters be filled in by "default" value? 
-#' @param regexp_fxstart Regex to determine function starts; default should work
-#' @param test_run Won't write any changes to file, unless test_run is FALSE
-#' 
-#' @return none
-#' 
-#' @export
-#' 
-update_fx_documentation = function(FD, fill_emptyparam = TRUE,
-                                   regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
-  
-  ## Search for function headers
-  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
-  
-  for(j in seq_along(MCB$files)) {
-    txt = MCB$code[[j]]
-    matchlines = MCB$matchlines[[j]]
-    param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
-    
-    lines_to_clear = NULL
-    for(k in seq_along(matchlines)) {
-      params = find_current_params(param_segments[k])  
-      cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
-      proper_doc = reformat_documentation(cur_doc, params, str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+"))
-      
-      ## Only change documentation if format does not match completely
-      if (class(cur_doc) != "data.frame" || length(proper_doc[-1]) != length(cur_doc$Value) || !all(proper_doc[-1] == cur_doc$Value)) {
-        if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
-        
-        doc = paste(proper_doc, collapse = "\n")
-        txt[matchlines[k]] = paste(doc, "\n", txt[matchlines[k]], sep = "")
-      }
-    }
-    
-    if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
-    MCB$code[[j]] = txt
-  }
-  
-  if (!test_run) { write_MatchedCodebase(MCB) }
-  if (fill_emptyparam) {
-    paramdf = extract_param_docu(FD = FD)
-    for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
-      update_param_docu(paramdf, param_name = s)
-    }
-  }
-  return("Done! [Inserting/formatting documentation (roxygen) templates]")
-}
-
-
 #' Extract roxygen2 parameter documentation
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
