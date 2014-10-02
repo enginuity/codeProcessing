@@ -1,3 +1,6 @@
+## TODO: [Generalize] This code here is intended to rebuild the package, assuming the package already exists. This should probably be more documented. 
+
+
 library(metacode)
 library(stringr)
 
