@@ -1,13 +1,13 @@
 ## Hepler functions for processing documentation
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (Mode_nontemp)
 #' Compute Mode, ignoring certain values
 #'     
-#' Ignores all values that are equal to 'temp', and computes the mode of the remaining text values
+#' Ignores all values that are equal to "temp", and computes the mode of the remaining text values
+#' (or ignores all values in 'ignore_type')
 #' 
 #' @param text Character vector
-#' @param ignore_type temp
+#' @param ignore_type Character vector of elements to ignore. 
 #' 
 #' @return Mode of 'text'
 #' 
@@ -224,20 +224,18 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reform_params)
-#' <<BasicInfo>> 
+## TODO: [General Documentation] Have to improve documentation for the data frame used here. 
+#' Reorder parameters based on order in function. 
 #' 
-#' @param raw_docu_df temp
-#' @param correct_param_order temp
-#' @param default_param_doc temp
+#' @param raw_docu_df Data frame describing the documentation for a specific function. 
+#' @param correct_param_order Character vector: correct order for parameters
+#' @param default_param_doc Data frame: columns ParamName and Doc (parameter name and documentation for parameter)
 #' 
-#' @return temp
+#' @return Data frame describing documentation for the specific function. 
 #' 
 #' @export
 #' 
 reform_params = function(raw_docu_df, correct_param_order, default_param_doc = NULL) {
-  ## Given a vector of the correct parameter order, reorder raw_docu_df as necessary. Add missing parameters with 'temp' documentation as necessary. 
-  ## default_param_doc should be a data.frame: $ParamName & $Doc
   ## This assumes default documentation is one line. 
   ## TODO: [Idea] improve to assume that parameter documentation can be more than one line. 
   
@@ -274,19 +272,19 @@ reform_params = function(raw_docu_df, correct_param_order, default_param_doc = N
 # reform_params(raw_docu_df, correct_param_order = c("RE", "FD", "add_comment",  "blah","comment_heads"), data.frame(ParamName = c("blah", "test"), Doc = c("lalalla", "lalallala"), stringsAsFactors = FALSE))
 
 
-
-
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find_type_section)
-#' <<BasicInfo>> 
+#' Extract matching entries until certain match. SPECIFIC USE CASE
 #' 
-#' @param x temp
-#' @param start_line temp
-#' @param end_marker temp
-#' @param keep_empty temp
-#' @param keep_one temp
+#' Given a character vector 'x' with different values, extract a section of 'x' (returning only the indices).
+#' The section must start at 'start_line', and ends BEFORE the first match of 'end_marker' in 'x'. 
+#' If 'keep_empty', this section is returned; otherwise, the section, minus all matches of 'Empty' is returned.
 #' 
-#' @return temp
+#' @param x Vector
+#' @param start_line Index of match starting
+#' @param end_marker Elements of x that mark end of the match
+#' @param keep_empty If TRUE: then keep x's marked as "Empty", otherwise discard these
+#' @param keep_one Not implemented. 
+#' 
+#' @return Vector identifying where the matches are
 #' 
 #' @export
 #' 

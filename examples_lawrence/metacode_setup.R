@@ -8,6 +8,10 @@ package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
+plot_dependency(FD = package_FD, out_file = "test.pdf")
+generate_todolist(FD = package_FD)
+
+
 one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentation_processing.R"))
 FD = package_FD
 
@@ -43,11 +47,9 @@ update_param_docu(test, "MCB", "Regex match list : this is output of search-code
 ## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
 
 
-search_code(regexp = "search_code")
+search_code("reform_params")
 gen_depend_R(".") -> test
 
-plot_dependency(FD = package_FD, out_file = "test.pdf")
 
-generate_todolist(FD = package_FD)
 
 

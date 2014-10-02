@@ -1,23 +1,17 @@
 ##@S Functions to perform filename processing -- extract common proportions of filenames
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (process_common_paths)
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (process_common_paths)
-#' <<BasicInfo>> 
+
+#' Shorten filenames (that contain paths)
 #' 
-#' @param filenames temp
-#' @param maxclass temp
-#' @param drop temp
+#' @param filenames Vector of filenames to shorten
+#' @param maxclass Maximum number of classes of files (not implemented for maxclass != 1)
+#' @param drop Indices of filenames to ignore when applying this function. 
 #' 
-#' @return temp
+#' @return A list with $shortfn = shortened function names, $classes = data frame with $path and $shortname. 
 #' 
 #' @export
 #' 
 process_common_paths = function(filenames, maxclass = 1, drop = NULL) {
-  ## Returns a list: 
-  #  $shortfn = shortened fn's
-  #  $classes = data frame with $path & $shortname
-  ## drop = drop indices of filenames as necessary
-  
   ## TODO: [Idea] Extend functionality to allow for multiple classes of files
   
   if(length(filenames) == 1) {

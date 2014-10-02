@@ -1,12 +1,12 @@
 ##@S This file is a script that pulls all '# TODO:' (or ## TODO:) sections in the code and outputs the entries into 'zGEN_todolist.txt'
 ##@L Goal: Produce a project-wide todo list
 
-## TODO: [C-functionality] add C processing also
+## TODO: [C-functionality Extension] add C processing also to this. 
 
 #' Generates TODO list
 #'    
 #' This function generates a TODO list by looking for all #/## TODO: in the code base. 
-#' Of course, this only works for R code... 
+#' Of course, this only works for R code. 
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' 
@@ -26,7 +26,9 @@ generate_todolist = function(FD) {
     addition = paste("--In file:", all_code$files[[j]])
     f = all_code$code[[j]]
     ## Grab all TODO entries, that start a line
-    linematches = grep("^ *#+ TODO:", f)      
+    linematches = grep("^ *#+ TODO:", f)  
+    
+    ## TODO: [Refactor] Generalize this sort of printing, or use the printing mechanisms used in search_code and others. 
     if (length(linematches) > 0) {
         todolist = c(todolist, addition, 
           paste(str_pad(string = linematches, width = 5, side = "right"),
