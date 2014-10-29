@@ -4,8 +4,8 @@
 library(metacode)
 library(stringr)
 
-process_code(dir = ".", mode = "dependencyplot", out_file = "test.pdf")
-
+process_code(dir = ".", mode = "dep", out_file = "test.pdf")
+process_code()
 package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)

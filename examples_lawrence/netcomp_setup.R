@@ -4,14 +4,27 @@ library(stringr)
 library(metacode)
 
 ## yoga ubuntu
-DIR = "../network-comparison/netcomp-project/"
-plot_dependency(dir = "../network-comparison/netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
+DIR = FilesDescription(dirlist = "../network-comparison/netcomp-project/")
+plot_dependency(FD = FilesDescription(dirlist = "../network-comparison/netcomp-project/netcomplib/"), out_file = "test.pdf")
 
 ## Desktop
 DIR = "../netcomp-project/"
 plot_dependency(dir = "../netcomp-project/netcomplib/", mode = "R", out_file = "results/test.pdf")
-search_code("heat", regex_exact = FALSE)
 
+search_code("sim_one_set", FD = DIR)
+
+search_code("gen_network_pair", FD = DIR, add_comment = "Edited parameters! ")
+
+search_code("gen_model_fx", FD = DIR, add_comment = "Edited output list (added values; should not break anything)!")
+
+search_code("block", FD = DIR)
+
+
+
+DIR = FilesDescription(dirlist = "../network-comparison/netcomp-project/")
+search_code("generate_fitting_models", add_comment = "Renamed parameters", FD = DIR)
+search_code("compute_loglik_fromPC", FD = DIR)
+#|----##Renamed parameters --Thu Oct  9 15:10:53 2014--
 
 # ## Search code (and add comments)
 # #search_code(dir = DIR, mode = "R", regexp = "sim_one", add_comment = "Test this..")
