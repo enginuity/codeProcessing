@@ -1,7 +1,9 @@
 ##@S This is examples of how to run this for the netcomp project.
 
 library(stringr)
-library(metacode)
+library(codeProcessing)
+#|      **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 
 ## yoga ubuntu
 DIR = FilesDescription(dirlist = "../network-comparison/netcomp-project/")

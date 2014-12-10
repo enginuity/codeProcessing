@@ -86,7 +86,9 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 find_all_prev_documentation = function(text, lineno, header = "^#'") {
   ## Testing vals
   if (FALSE) {
-    text = readLines("metacode/R/search_code.R")
+    text = readLines("codeProcessing/R/search_code.R")
+#|                    **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
     lineno = grep("(^[[:alnum:]_]+) += +function", text)[1]
     header = "^#'"
   }

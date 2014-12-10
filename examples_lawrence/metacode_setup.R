@@ -1,12 +1,26 @@
-##@S This is examples / testing for the metacode directories. 
+##@S This is examples / testing for the codeProcessing directories. 
+#|                                      **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 
 ## Load all available programs
-library(metacode)
+library(codeProcessing)
+#|      **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 library(stringr)
+
+search_code(FD = FilesDescription(dirlist = "."), RE = "codeProcessing")
+#|                                                      **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
+
+replace_code(FD = FilesDescription(dirlist = "."), RE = "codeProcessing", replace = "codeProcessing", add_comment = "change package name")
+#|                                                       **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 
 process_code(dir = ".", mode = "dep", out_file = "test.pdf")
 process_code()
-package_FD = FilesDescription(mode = "R", dirlist = "metacode/R/")
+package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+#|                                                   **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
@@ -14,7 +28,9 @@ plot_dependency(FD = package_FD, out_file = "test.pdf")
 generate_todolist(FD = package_FD)
 
 
-one_FD = FilesDescription(mode = "R", filelist = list("metacode/R/h_documentation_processing.R"))
+one_FD = FilesDescription(mode = "R", filelist = list("codeProcessing/R/h_documentation_processing.R"))
+#|                                                     **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 FD = package_FD
 
 update_fx_documentation(one_FD, test_run = FALSE)

@@ -2,7 +2,9 @@
 
 ## Load all available programs
 library(stringr)
-library(metacode)
+library(codeProcessing)
+#|      **************
+#|----##change package name --Wed Dec 10 01:19:47 2014--
 
 DIR = FilesDescription(dirlist = "../sdfb_network/code/")
 
