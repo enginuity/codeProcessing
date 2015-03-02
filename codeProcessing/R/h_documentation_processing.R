@@ -99,7 +99,9 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   }
   prev_docu = data.frame(LineNo = prev_lines, Value = "", Type = "", ParamName = "", TypeOrder = 0, ParamOrder = 0, SubOrder = 0, stringsAsFactors=FALSE)
   
-  text_clean = gsub(str_c(header, " +"), "", text[prev_lines])
+  text_clean = gsub(stringr::str_c(header, " +"), "", text[prev_lines])
+#|                  **************
+#|----##use stringr package call implicitly --Mon Mar 02 00:07:51 2015--
   ## Mode is either 'Empty', 'Text', or "@something"
   tsplit = strsplit(text_clean, " ")
   

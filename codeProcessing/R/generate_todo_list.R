@@ -31,7 +31,9 @@ generate_todolist = function(FD) {
     ## TODO: [Refactor] Generalize this sort of printing, or use the printing mechanisms used in search_code and others. 
     if (length(linematches) > 0) {
         todolist = c(todolist, addition, 
-          paste(str_pad(string = linematches, width = 5, side = "right"),
+          paste(stringr::str_pad(string = linematches, width = 5, side = "right"),
+#|              ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
               gsub("^ *", "", f[linematches]), sep = " ::: "), 
         "##########", "##########", "##########")
       todo_type = c(todo_type, gsub("^ *#+ TODO: ", "", f[linematches]))
@@ -53,8 +55,12 @@ generate_todolist = function(FD) {
     for(j in 1:length(table_type)) {
       todolist = c(todolist, 
         paste("-----", 
-              str_pad(names(table_type)[j], width = max_len, side = 'right'),
-              "**", str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
+              stringr::str_pad(names(table_type)[j], width = max_len, side = 'right'),
+#|            ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
+              "**", stringr::str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
+#|                  ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
     }
   }
   

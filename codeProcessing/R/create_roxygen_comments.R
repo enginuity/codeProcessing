@@ -48,7 +48,9 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
       if (class(cur_doc) != "data.frame" || length(proper_doc$Value) != length(cur_doc$Value) || !all(proper_doc$Value == cur_doc$Value)) {
         if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
         
-        function_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        function_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+#|                      ********************
+#|----##use stringr package call implicitly --Mon Mar 02 00:06:12 2015--
         todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = "")
         doc = paste(proper_doc$Value, collapse = "\n")
         txt[matchlines[k]] = paste(todo, "\n", doc, "\n", txt[matchlines[k]], sep = "")
@@ -96,7 +98,9 @@ extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +functio
       params = find_current_params(param_segments[k])  
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
       if (is.data.frame(cur_doc)) {
-        fn_name = str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        fn_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+#|                ********************
+#|----##use stringr package call implicitly --Mon Mar 02 00:06:12 2015--
         
         paramvals = gsub("^#' @param [[:alnum:]]+", "", cur_doc$Value[cur_doc$Type == "@param"])
         param_list[[i]] = data.frame(filename = MCB$files[j], funcname = fn_name, 
