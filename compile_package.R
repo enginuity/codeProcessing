@@ -13,6 +13,7 @@ if ("codeProcessing" %in% installed.packages()) {
 }
 
 ## Update documentation -- this looks for new parameters & 
+
 update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), fill_emptyparam = FALSE)
 detach(package:codeProcessing)
 

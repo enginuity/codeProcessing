@@ -4,17 +4,10 @@
 
 ## Load all available programs
 library(codeProcessing)
-#|      **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
-library(stringr)
 
-search_code(FD = FilesDescription(dirlist = "."), RE = "codeProcessing")
-#|                                                      **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
 
-replace_code(FD = FilesDescription(dirlist = "."), RE = "codeProcessing", replace = "codeProcessing", add_comment = "change package name")
-#|                                                       **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
+
+
 
 process_code(dir = ".", mode = "dep", out_file = "test.pdf")
 process_code()

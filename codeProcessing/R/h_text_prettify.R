@@ -26,9 +26,13 @@ create_space_chars = function(v, ch = " ") {
 ## TODO: [Update] This function probably needs update to handle stringr::str_locate_all? is there a bug with this?
 #|                                                              ***********************
 #|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
-#' Marks the location of str_locate output 
+#' Marks the location of stringr::str_locate output 
+#|                       *******************
+#|----##use stringr package call implicitly --Mon Mar 02 00:13:35 2015--
 #' 
-#' @param strLoc Single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows)
+#' @param strLoc Single entry stringr::str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows)
+#|                            *******************
+#|----##use stringr package call implicitly --Mon Mar 02 00:13:35 2015--
 #' @param marker What to use as indicator text
 #' 
 #' @return String with mostly spaces, except with matching locations marked
