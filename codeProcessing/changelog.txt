@@ -1,0 +1,4 @@
+version 0.1.1 2015/03/02
+- remove DEFAULT_FD behavior -- now, if FD is NULL, default to working directory
+--- FUTURE WORK - need to safeguard working directory. (check for .git repository?! or other version control)
+- remove the need to call library(stringr); made all calls to package (i think) use the namespace, and added stringr as an import. 
