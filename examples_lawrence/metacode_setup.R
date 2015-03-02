@@ -1,32 +1,30 @@
 ##@S This is examples / testing for the codeProcessing directories. 
-#|                                      **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
 
 ## Load all available programs
 library(codeProcessing)
 
 
 
-
-
-process_code(dir = ".", mode = "dep", out_file = "test.pdf")
-process_code()
+# 
+# 
+# process_code(dir = ".", mode = "dep", out_file = "test.pdf")
+# process_code()
 package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+# 
+# examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
+# find_files(examples_FD)
+# 
+# plot_dependency(FD = package_FD, out_file = "test.pdf")
+# generate_todolist(FD = package_FD)
 
-examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
-find_files(examples_FD)
+# 
+# one_FD = FilesDescription(mode = "R", filelist = list("codeProcessing/R/h_documentation_processing.R"))
+# 
+# FD = package_FD
+# 
+# update_fx_documentation(one_FD, test_run = FALSE)
 
-plot_dependency(FD = package_FD, out_file = "test.pdf")
-generate_todolist(FD = package_FD)
-
-
-one_FD = FilesDescription(mode = "R", filelist = list("codeProcessing/R/h_documentation_processing.R"))
-
-FD = package_FD
-
-update_fx_documentation(one_FD, test_run = FALSE)
-
-search_code("process_documentation")
+search_code("DEFAULT_FD", FD = package_FD)
 
 search_code("update_fx_documentation")
 
