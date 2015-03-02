@@ -87,8 +87,6 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   ## Testing vals
   if (FALSE) {
     text = readLines("codeProcessing/R/search_code.R")
-#|                    **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
     lineno = grep("(^[[:alnum:]_]+) += +function", text)[1]
     header = "^#'"
   }
@@ -100,8 +98,6 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   prev_docu = data.frame(LineNo = prev_lines, Value = "", Type = "", ParamName = "", TypeOrder = 0, ParamOrder = 0, SubOrder = 0, stringsAsFactors=FALSE)
   
   text_clean = gsub(stringr::str_c(header, " +"), "", text[prev_lines])
-#|                  **************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:51 2015--
   ## Mode is either 'Empty', 'Text', or "@something"
   tsplit = strsplit(text_clean, " ")
   

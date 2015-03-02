@@ -32,8 +32,6 @@ generate_todolist = function(FD) {
     if (length(linematches) > 0) {
         todolist = c(todolist, addition, 
           paste(stringr::str_pad(string = linematches, width = 5, side = "right"),
-#|              ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
               gsub("^ *", "", f[linematches]), sep = " ::: "), 
         "##########", "##########", "##########")
       todo_type = c(todo_type, gsub("^ *#+ TODO: ", "", f[linematches]))
@@ -56,11 +54,7 @@ generate_todolist = function(FD) {
       todolist = c(todolist, 
         paste("-----", 
               stringr::str_pad(names(table_type)[j], width = max_len, side = 'right'),
-#|            ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
               "**", stringr::str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
-#|                  ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
     }
   }
   

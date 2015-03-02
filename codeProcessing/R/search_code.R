@@ -50,8 +50,6 @@ replace_code = function(RE, replace, add_comment,
   
   ## Do actual replacement: 
   for(j in seq_along(MCB$files)) { MCB$code[[j]] = stringr::str_replace_all(MCB$code[[j]], RE$regex, replace) }
-#|                                                 ************************
-#|----##use stringr package call implicitly --Mon Mar 02 00:11:29 2015--
   
   MCB = add_comment_matches(MCB = MCB, add_comment = add_comment, comment_heads = comment_heads, 
                              mark = TRUE, mark_replace_len = nchar(replace), write = TRUE)

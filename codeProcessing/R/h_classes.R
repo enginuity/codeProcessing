@@ -28,8 +28,6 @@ Codebase = function(files, code) {
 #' @param CB_subset If non-NULL, this specifies a subset of the files/code in CB to keep
 #' @param matchlines List of line-location of matches, as individual vectors
 #' @param matchlocs List of stringr::str_locate_all output (for 'regex' on each file)
-#|                          ***********************
-#|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
 #' @param REGEX Object of class Regex: storing search request
 #' 
 #' @return Object of class MatchedCodebase

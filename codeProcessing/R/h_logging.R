@@ -70,21 +70,13 @@ create_search_log = function(logtype, MCB) {
   for(j in seq_along(MCB$files)) {
     ## Insert file information
     log_result(stringr::str_pad("\n", 80, 'right', "*"),stringr::str_pad("\n", 80, 'right', "*"),"\n",
-#|                                             ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
                "Matches found in '", MCB$files[j],"'", stringr::str_pad("\n", 80, 'right', "*"), "\n")
-#|                                                     ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
     
     ## Insert match info
     for(k in seq_along(MCB$matchlines[[j]])) {
       codeline = MCB$matchlines[[j]][k]
       log_result(stringr::str_pad(codeline, 4, 'right', " "), "||", MCB$code[[j]][codeline], "\n",
-#|               ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
                  stringr::str_pad(" ", 4, 'right', " "), "||", mark_strlocate(MCB$matchlocs[[j]][[k]]), "\n")
-#|               ****************
-#|----##use stringr package call implicitly --Mon Mar 02 00:07:08 2015--
     }
   }
   log_result("\n--- Search Done! ---\n", header = TRUE)

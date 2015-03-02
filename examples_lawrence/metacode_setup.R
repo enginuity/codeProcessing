@@ -12,8 +12,7 @@ library(codeProcessing)
 process_code(dir = ".", mode = "dep", out_file = "test.pdf")
 process_code()
 package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
-#|                                                   **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
+
 examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 find_files(examples_FD)
 
@@ -22,8 +21,7 @@ generate_todolist(FD = package_FD)
 
 
 one_FD = FilesDescription(mode = "R", filelist = list("codeProcessing/R/h_documentation_processing.R"))
-#|                                                     **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
+
 FD = package_FD
 
 update_fx_documentation(one_FD, test_run = FALSE)

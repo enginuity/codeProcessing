@@ -19,11 +19,7 @@ find_single_enclosed = function(text, startlocation, regex_s = "[(]", regex_e = 
   ## text is a vector; this looks for things that span multiple entries. 
   ## 
   starts = stringr::str_locate_all(text, regex_s)
-#|         ***********************
-#|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
   ends = stringr::str_locate_all(text, regex_e)  
-#|       ***********************
-#|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
   
   lineno = startlocation[1]
   charno = startlocation[2]
