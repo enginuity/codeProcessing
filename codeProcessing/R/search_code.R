@@ -13,7 +13,7 @@
 #' 
 #' @export
 #' 
-search_code = function(RE, add_comment = NULL, comment_heads = c("#|", "#|----##"), FD = DEFAULT_FD) {
+search_code = function(RE, add_comment = NULL, comment_heads = c("#|", "#|----##"), FD = NULL) {
   
   ## If input is a regular expression instead of Regex object, use default settings. 
   if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
@@ -41,7 +41,7 @@ search_code = function(RE, add_comment = NULL, comment_heads = c("#|", "#|----##
 #' @export
 #' 
 replace_code = function(RE, replace, add_comment, 
-                        comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD = DEFAULT_FD) {
+                        comment_heads = c("#|", "#|----##"), replace_mark = TRUE, FD = NULL) {
 
   ## If input is a regular expression instead of Regex object, use default settings. 
   if (class(RE) != "Regex") { RE = Regex(base = RE, isword = TRUE) }
@@ -67,7 +67,7 @@ replace_code = function(RE, replace, add_comment,
 #' 
 #' @export
 #' 
-clear_comments = function(comment_regex = "^#[|]", FD = DEFAULT_FD) {
+clear_comments = function(comment_regex = "^#[|]", FD = NULL) {
   MCB = search_code_matches(RE = Regex(base = comment_regex), FD = FD, logged = "CLEAR-COMMENTS")
   
   ## Do actual comment clearing: 

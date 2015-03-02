@@ -14,7 +14,7 @@
 #' This should be a helper function called by any function that uses searching... 
 #' 
 #' @param REGEX Object of class Regex. What to search for? 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files -- if null -> uses current directory (getwd())
 #' @param logged If non-NULL, then this is the logtype (to write in filename)
 #' 
 #' @return A MatchedCodebase object
@@ -24,6 +24,8 @@
 search_code_matches = function(REGEX, FD, logged = NULL) {
   
   ## Look for all files, that match the current mode and file_regex setting, and extract code. 
+  if (is.null(FD)) FD = FilesDescription(mode = "R", dirlist = ".") ## IF null, default to current directory. 
+  
   all_code = extract_Codebase(FD = FD)
   
   ## Matching texts:
