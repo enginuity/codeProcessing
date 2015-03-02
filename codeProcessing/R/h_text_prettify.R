@@ -23,7 +23,9 @@ create_space_chars = function(v, ch = " ") {
 }
 
 
-## TODO: [Update] This function probably needs update to handle str_locate_all? is there a bug with this?
+## TODO: [Update] This function probably needs update to handle stringr::str_locate_all? is there a bug with this?
+#|                                                              ***********************
+#|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
 #' Marks the location of str_locate output 
 #' 
 #' @param strLoc Single entry str_locate output (corresponding to one vector, so a matrix with two columns, but any # rows)
@@ -34,9 +36,15 @@ create_space_chars = function(v, ch = " ") {
 #' @export
 #' 
 mark_strlocate = function(strLoc, marker = "*") {
-  res = str_dup(" ", max(strLoc[,2]))
+  res = stringr::str_dup(" ", max(strLoc[,2]))
+#|      ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:52 2015--
   for(k in nrow(strLoc)) {
-    str_sub(res, strLoc[k,1], strLoc[k,2]) <- str_dup(marker, strLoc[k,2] - strLoc[k,1]+1)
+    stringr::str_sub(res, strLoc[k,1], strLoc[k,2]) <- stringr::str_dup(marker, strLoc[k,2] - strLoc[k,1]+1)
+#|                                                     ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:52 2015--
+#|  ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:10 2015--
   }
   return(res)
 }

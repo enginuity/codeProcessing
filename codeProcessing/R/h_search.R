@@ -27,13 +27,19 @@ search_code_matches = function(REGEX, FD, logged = NULL) {
   all_code = extract_Codebase(FD = FD)
   
   ## Matching texts:
-  files_with_matches = which(sapply(all_code$code, function(code) {any(str_detect(code, REGEX$regex))}))
+  files_with_matches = which(sapply(all_code$code, function(code) {any(stringr::str_detect(code, REGEX$regex))}))
+#|                                                                     *******************
+#|----##use stringr package call implicitly --Mon Mar 02 00:10:56 2015--
   matchline_list = list()
   matchloc_list = list()
   for(j in seq_along(files_with_matches)) {
     text = all_code$code[[files_with_matches[j]]]
-    matchline_list[[j]] = which(str_detect(text, REGEX$regex))
-    matchloc_list[[j]] = str_locate_all(text[matchline_list[[j]]], REGEX$regex)
+    matchline_list[[j]] = which(stringr::str_detect(text, REGEX$regex))
+#|                              *******************
+#|----##use stringr package call implicitly --Mon Mar 02 00:10:56 2015--
+    matchloc_list[[j]] = stringr::str_locate_all(text[matchline_list[[j]]], REGEX$regex)
+#|                       ***********************
+#|----##use stringr package call implicitly --Mon Mar 02 00:10:35 2015--
   }
   
   ## Format matched results properly
@@ -68,10 +74,16 @@ add_comment_matches = function(MCB, add_comment, comment_heads = c("#|", "#|----
     if (mark) {
       for(k in seq_along(MCB$matchlines[[j]])) {
         com = mark_strlocate(MCB$matchlocs[[j]][[k]])
-        str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
+        stringr::str_sub(com, 1, nchar(comment_heads)[1]) <- comment_heads[1]
+#|      ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:10 2015--
         
         if (!is.null(mark_replace_len)) { 
-          com = str_replace_all(com, pattern = paste("[",marker,"]+",sep=""), replacement = str_dup(marker, times = mark_replace_len)) 
+          com = stringr::str_replace_all(com, pattern = paste("[",marker,"]+",sep=""), replacement = stringr::str_dup(marker, times = mark_replace_len)) 
+#|                                                                                                   ****************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:52 2015--
+#|              ************************
+#|----##use stringr package call implicitly --Mon Mar 02 00:11:29 2015--
         }
         
         text[k] = paste(text[k], "\n", com,sep = "")
