@@ -87,7 +87,7 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
   ## Testing vals
   if (FALSE) {
     text = readLines("codeProcessing/R/search_code.R")
-    lineno = grep("(^[[:alnum:]_]+) += +function", text)[1]
+    lineno = grep("(^[[:alnum:]_.]+) += +function", text)[1]
     header = "^#'"
   }
   
