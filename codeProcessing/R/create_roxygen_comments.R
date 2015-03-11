@@ -1,5 +1,7 @@
 ##@S Functions to produce Roxygen2 comments
 
+# TODO: Extract out the exact regex for functions into some default file? or make more explicit? (should have no manually written regexs inside the files)
+
 # Function to create Roxygen comments -------------------------------------
 
 #' Create roxygen templates (and fix/reorder them as necessary)
@@ -21,7 +23,7 @@
 #' @export
 #' 
 update_fx_documentation = function(FD, fill_emptyparam = TRUE,
-                                   regexp_fxstart = "(^[[:alnum:]_]+) += +function", test_run = FALSE) { 
+                                   regexp_fxstart = "(^[[:alnum:]_.]+) += +function", test_run = FALSE) { 
   if (FALSE) {
     FD = FilesDescription(dirlist = list("."))
     fill_emptyparam = TRUE
@@ -48,7 +50,7 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
       if (class(cur_doc) != "data.frame" || length(proper_doc$Value) != length(cur_doc$Value) || !all(proper_doc$Value == cur_doc$Value)) {
         if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
         
-        function_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        function_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_.]+")
         todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = "")
         doc = paste(proper_doc$Value, collapse = "\n")
         txt[matchlines[k]] = paste(todo, "\n", doc, "\n", txt[matchlines[k]], sep = "")
@@ -80,7 +82,7 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
 #' 
 #' @export
 #' 
-extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +function") {
+extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) += +function") {
   
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD, logged = "ROXY-param-matching")
   
@@ -96,9 +98,9 @@ extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_]+) += +functio
       params = find_current_params(param_segments[k])  
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
       if (is.data.frame(cur_doc)) {
-        fn_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_]+")
+        fn_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_.]+")
         
-        paramvals = gsub("^#' @param [[:alnum:]]+", "", cur_doc$Value[cur_doc$Type == "@param"])
+        paramvals = gsub("^#' @param [[:alnum:]._]+", "", cur_doc$Value[cur_doc$Type == "@param"])
         param_list[[i]] = data.frame(filename = MCB$files[j], funcname = fn_name, 
                                      paramname = params, paramval = paramvals,
                                      lineno = cur_doc$LineNo[cur_doc$Type == "@param"], stringsAsFactors = FALSE)
