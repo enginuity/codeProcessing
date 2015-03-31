@@ -97,7 +97,7 @@ extract_param_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) += +functi
     for(k in seq_along(matchlines)) {
       params = find_current_params(param_segments[k])  
       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
-      if (is.data.frame(cur_doc)) {
+      if (is.data.frame(cur_doc) & (length(params) > 0)) {
         fn_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_.]+")
         
         paramvals = gsub("^#' @param [[:alnum:]._]+", "", cur_doc$Value[cur_doc$Type == "@param"])
