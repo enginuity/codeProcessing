@@ -10,6 +10,8 @@ library(codeProcessing)
 # process_code(dir = ".", mode = "dep", out_file = "test.pdf")
 # process_code()
 package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+
+search_code("extract_param_docu", FD = package_FD)
 # 
 # examples_FD = FilesDescription(mode = "R", dirlist = c("examples/", "old_programs/"))
 # find_files(examples_FD)
