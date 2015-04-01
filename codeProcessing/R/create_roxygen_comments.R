@@ -151,3 +151,15 @@ update_param_docu = function(locate_df, param_name, replace_text = NULL, replace
   return("[Parameter Documentation replacement done!]")
 }
 
+
+
+replace_codelines = function(basecode, newcode, lines_start, lines_end) {
+  ## basecode, newcode are character vectors corresponding to lines of a code file
+  ## lines_start and lines_end denote the locations of where to start/end removing lines from basecode
+  
+  if (lines_start > lines_end) { stop("Error -- lines_start > linees_end") }
+  N = length(basecode)
+  base_start = ifelse(lines_start > 1, basecode[1:(lines_start-1)], NULL)
+  base_end = ifelse(lines_end < N, basecode[(lines_end+1):N], NULL)
+  return(c(base_start, newcode, base_end))
+}
