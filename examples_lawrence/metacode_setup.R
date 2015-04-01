@@ -2,14 +2,12 @@
 
 ## Load all available programs
 library(codeProcessing)
-
-
-
-# 
-# 
-# process_code(dir = ".", mode = "dep", out_file = "test.pdf")
-# process_code()
 package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+
+generate_todolist(FD = package_FD)
+search_code(RE = Regex(base = "write", isexact = FALSE, isword = FALSE), FD = package_FD)
+
+
 
 search_code("extract_param_docu", FD = package_FD)
 # 
@@ -52,8 +50,6 @@ update_param_docu(test, "logtype", "Type-identifier to be added to the logfile n
 update_param_docu(test, "logtype", "Type-identifier to be added to the logfile name", replace_all = TRUE)
 update_param_docu(test, "MCB", "Regex match list : this is output of search-code-matches", replace_all = TRUE)
 
-
-## TODO: [Idea] Write function to compare order of parameters (to compare for consistency across functions)
 
 
 search_code("reform_params")

@@ -96,13 +96,13 @@ add_comment_matches = function(MCB, add_comment, comment_heads = c("#|", "#|----
 #' This function does just that. 
 #' 
 #' @param MCB Regex match list : this is output of search-code-matches
+#' @param ids Write only the files indexed by ids
 #' 
 #' @return none
 #' 
 #' @export
 #' 
 write_MatchedCodebase = function(MCB, ids = NULL) {
-  # ids -- only replace these files, if non-null
   for(j in ifelse(test = is.null(ids), yes = seq_along(MCB$files), no = ids)) {
     writeLines(text = MCB$code[[j]], con = MCB$files[j])
   }
