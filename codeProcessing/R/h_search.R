@@ -101,8 +101,9 @@ add_comment_matches = function(MCB, add_comment, comment_heads = c("#|", "#|----
 #' 
 #' @export
 #' 
-write_MatchedCodebase = function(MCB) {
-  for(j in seq_along(MCB$files)) {
+write_MatchedCodebase = function(MCB, ids = NULL) {
+  # ids -- only replace these files, if non-null
+  for(j in ifelse(test = is.null(ids), yes = seq_along(MCB$files), no = ids)) {
     writeLines(text = MCB$code[[j]], con = MCB$files[j])
   }
   invisible(0)

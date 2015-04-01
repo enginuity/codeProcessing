@@ -32,6 +32,7 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
   }
   ## Search for function headers
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
+  ids_changed = NULL
   
   for(j in seq_along(MCB$files)) {
     txt = MCB$code[[j]]
@@ -58,11 +59,14 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
       }
     }
     
-    if (!is.null(lines_to_clear)) { txt = txt[-lines_to_clear] }
+    if (!is.null(lines_to_clear)) { 
+      txt = txt[-lines_to_clear] 
+      ids_changed = c(ids_changed, j)
+    }
     MCB$code[[j]] = txt
   }
   
-  if (!test_run) { write_MatchedCodebase(MCB) }
+  if (!test_run) { write_MatchedCodebase(MCB, ids_changed) }
   if (fill_emptyparam) {
     paramdf = extract_param_docu(FD = FD)
     for(s in unique(paramdf$paramname[which(sapply(strsplit(paramdf$paramval, " "), function(x) {x[4]}) == "temp")])) {
