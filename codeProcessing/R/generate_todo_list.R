@@ -14,7 +14,7 @@
 #' 
 #' @export
 #' 
-generate_todolist = function(FD) {
+generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
   
   ## Find files
   all_code = extract_Codebase(FD = FD)
@@ -59,7 +59,7 @@ generate_todolist = function(FD) {
   }
   
   ## Output to file
-  writeLines(todolist, con = "GEN_todolist.txt")
+  writeLines(todolist, con = outFile)
   
   return("Done! [Todo-list generation]")
 }
