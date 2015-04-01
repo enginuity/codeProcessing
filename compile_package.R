@@ -1,29 +1,39 @@
+##@S Contains code to compile the codeProcessing package (to be run from R)
+
+
+
+
 ##@S Contains code to compile the netcomp_sbm package (to be run from R)
 
 
-# Optional Steps ----------------------------------------------------------
-## These only need to be run, if the source code was edited. 
+# Update Documentation (if needed/possible) -------------------------------
 
-## Load up needed libraries
-
-if ("codeProcessing" %in% installed.packages()) {
-  source("load_library.R") ## Loads this package and loads stringr
-} else {
-  source("load_source.R")
+## This section only needs to be run if the source code is not necessarily up to date (ie new functions were written, or if parameters were added). It will also only be run if the package actually exists. 
+if (require(codeProcessing)) {
+  ## This is a package I've written to speed up my own coding efficiency to use when rewriting code / package writing
+  
+  ## Update documentation -- this looks for new parameters and creates documentation lines for it
+  update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), fill_emptyparam = FALSE)
+  detach(package:codeProcessing)
 }
 
-## Update documentation -- this looks for new parameters & 
-
-update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), fill_emptyparam = FALSE)
-detach(package:codeProcessing)
-
 # Compile Package ---------------------------------------------------------
-## Both these steps need to be run in order to build the package properly
 
-## Generate the documentation -- THIS MUST be run before building packages (since the documentation files are not version-controlled, as the version-controlled version is in the raw source code)
-require(roxygen2)
-roxygenise("codeProcessing/", clean = TRUE)
+if (require(roxygen2)) {
+  ## Generate the documentation -- THIS MUST be run before building packages (since the documentation files are not version-controlled, as the version-controlled version is in the raw source code)
+  roxygenise("codeProcessing/", clean = TRUE)
+  
+  ## Install the package
+  system("R CMD INSTALL codeProcessing")
+} else {
+  stop("Package 'roxygen2' is not installed: the codeProcessing package is not compilable.")
+}
 
-## Install the package
-system("R CMD INSTALL codeProcessing")
+
+
+## TODO: Create function in codeProcessing that reorders generics & makes templates and such. 
+
+## TODO: Functionality -- extract information for a specific function: pull out all full-line comments, extract all in-package function calls and where those functions live
+
+
 
