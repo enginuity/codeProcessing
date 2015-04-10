@@ -153,11 +153,23 @@ update_param_docu = function(locate_df, param_name, replace_text = NULL, replace
 
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (replace_codelines)
+#' <What does this function do>
+#' 
+#' @param basecode temp
+#' @param newcode temp
+#' @param lines_start temp
+#' @param lines_end temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 replace_codelines = function(basecode, newcode, lines_start, lines_end) {
   ## basecode, newcode are character vectors corresponding to lines of a code file
   ## lines_start and lines_end denote the locations of where to start/end removing lines from basecode
   
-  if (lines_start > lines_end) { stop("Error -- lines_start > linees_end") }
+  if (lines_start > lines_end) { stop("Error -- lines_start > lines_end") }
   N = length(basecode)
   base_start = ifelse(lines_start > 1, basecode[1:(lines_start-1)], NULL)
   base_end = ifelse(lines_end < N, basecode[(lines_end+1):N], NULL)
