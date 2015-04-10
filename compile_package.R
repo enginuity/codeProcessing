@@ -30,6 +30,12 @@ if (require(roxygen2)) {
 }
 
 
+## This line is here for easy calling of the library. 
+if (FALSE) {
+  library(codeProcessing)
+}
+
+
 
 ## TODO: Create function in codeProcessing that reorders generics & makes templates and such. 
 
