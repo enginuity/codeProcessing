@@ -36,6 +36,7 @@ Mode_nontemp = function(text, ignore_type = "temp") {
 #' @export
 #' 
 find_current_params = function(text) {
+  ## TODO: [Obselete] This function should no longer be necessary, as using parse is much better. 
   ## Get rid of stuff within parenthesis
   text = substr(text, start = 2, stop = nchar(text) - 1)
   text = gsub("\".*?\"","", text)
