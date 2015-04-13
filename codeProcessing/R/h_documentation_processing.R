@@ -49,32 +49,6 @@ find_current_params = function(text) {
 }
 
 
-#' Locates all previous lines that start with specific header type
-#' 
-#' @param text Source code
-#' @param lineno Line number
-#' @param header Documentation header
-#' 
-#' @return Vector of line numbers (can be NA)
-#' 
-#' @export
-#' 
-find_all_prev_headers = function(text, lineno, header="^#'") {
-  z = grep(header, text) 
-  breaks = c(0,setdiff(seq_along(text), z))
-  closest_break = max(breaks[breaks < lineno])
-  
-  if (closest_break < 0) {
-    return(NA)
-  } else if (closest_break == (lineno - 1)) {
-    return(NA)
-  } else {
-    return((closest_break+1):(lineno-1))
-  }
-}
-
-
-
 #' Extracts documentation prior to a current line (function start line)
 #' 
 #' @param text Source code
@@ -91,6 +65,21 @@ find_all_prev_documentation = function(text, lineno, header = "^#'") {
     text = readLines("codeProcessing/R/search_code.R")
     lineno = grep("(^[[:alnum:]_]+) += +function", text)[1]
     header = "^#'"
+  }
+  
+  find_all_prev_headers = function(text, lineno, header="^#'") {
+    ## locates all previous lines that contain 'header'
+    z = grep(header, text) 
+    breaks = c(0,setdiff(seq_along(text), z))
+    closest_break = max(breaks[breaks < lineno])
+    
+    if (closest_break < 0) {
+      return(NA)
+    } else if (closest_break == (lineno - 1)) {
+      return(NA)
+    } else {
+      return((closest_break+1):(lineno-1))
+    }
   }
   
   prev_lines = find_all_prev_headers(text, lineno, header)
