@@ -22,6 +22,18 @@ write_MatchedCodebase = function(MCB, ids = NULL) {
 
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (replace_codelines)
+#' <What does this function do>
+#' 
+#' @param basecode temp
+#' @param newcode temp
+#' @param lines_start temp
+#' @param lines_end temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 replace_codelines = function(basecode, newcode, lines_start, lines_end) {
   ## basecode, newcode are character vectors corresponding to lines of a code file
   ## lines_start and lines_end denote the locations of where to start/end removing lines from basecode
@@ -35,6 +47,17 @@ replace_codelines = function(basecode, newcode, lines_start, lines_end) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (insert_codelines)
+#' <What does this function do>
+#' 
+#' @param basecode temp
+#' @param newcode temp
+#' @param before_line temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 insert_codelines = function(basecode, newcode, before_line) {
   ## basecode is current code
   ## newcode is the code to insert before line [before_line]
