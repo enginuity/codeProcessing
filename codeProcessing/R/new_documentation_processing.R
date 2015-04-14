@@ -29,7 +29,7 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
     for (j in seq_along(fxinfo)) {
       fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
       reslist[[j]] = list(fxname = fxinfo[[j]]$fxname, 
-                          docu = NULL, 
+                          docu_cur = NULL, 
                           code = NULL, ## TODO: [Implement] this someday. 
                           params = fxinfo[[j]]$params)
       doclocs = extract_prev_headers(text = code, lineno = fx_start)
@@ -38,7 +38,7 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
         resdf$doc_start[j] = min(doclocs)
         resdf$doc_end[j] = max(doclocs)
         
-        reslist$docu = process_cur_docu(code, lines = doclocs)
+        reslist[[j]]$docu_cur = process_cur_docu(code, lines = doclocs)
       }
       resdf$fx_start[j] = fx_start
     }
@@ -46,11 +46,6 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
   }
   
   ### Function starts here! ####################  
-  
-  if (FALSE) {
-    FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
-    regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function"
-  }
   
   ## Search for function headers
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
@@ -67,69 +62,120 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
   ## Add ID's
   fx_df = cbind(ID = seq_len(nrow(fx_df)), fx_df, want_docu = TRUE, want_export = TRUE)
   
-  return(list(df = fx_df, list = fx_list))
+  return(list(MCB = MCB, df = fx_df, list = fx_list))
 }
 
 
-## Code to use in processing ... 
 
-# parameters for base function -- fill_emptyparam = TRUE, guess_emptyparam = FALSE, test_run = TRUE
-## fill_emptyparam = TRUE -> will give something other than empty for parameter documentation
-## guess_emptyparam  only is exmained if fill_emptyparam is TRUE; guess -> when empty, replaces parameter documentation with most common documentation for specific parameter. --- want to add marker for when something is edited. 
-## idea -- make this happen based on file or entire codebase (allow it as option) 
-
-
-## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively. This can be a vector of regular expressions. 
-
-# ## Check for undocumenting / unexporting
-# for (reg in regexp_noexport) { fx_df$want_export[grep(reg, x = fx_df$fx_name)] = FALSE }
-# for (reg in regexp_nodocu) { fx_df$want_docu[grep(reg, x = fx_df$fx_name)] = FALSE }
-# 
-# 
-# #proper_doc = reformat_documentation(cur_doc, params = fxs[[1]]$params)
-# 
-# 
-# 
-# 
-
-
-#   ## Search for function headers
-#   MCB 
-#   ids_changed = NULL
-#   
-#   for(j in seq_along(MCB$files)) {
-#     txt = MCB$code[[j]]
-#     matchlines = MCB$matchlines[[j]]
-#     param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
-#     
-#     lines_to_clear = NULL
-#     for(k in seq_along(matchlines)) {
-#       params = find_current_params(param_segments[k])  
-#       
-#       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
-#       proper_doc = reformat_documentation(cur_doc = cur_doc, params = params)
-#       
-#       
-#       ## Only change documentation if format does not match completely
-#       if (class(cur_doc) != "data.frame" || length(proper_doc$Value) != length(cur_doc$Value) || !all(proper_doc$Value == cur_doc$Value)) {
-#         if (class(cur_doc) == "data.frame" ) { lines_to_clear = c(lines_to_clear, cur_doc$LineNo) }
-#         
-#         function_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_.]+")
-#         todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",function_name,")", sep = "")
-#         doc = paste(proper_doc$Value, collapse = "\n")
-#         txt[matchlines[k]] = paste(todo, "\n", doc, "\n", txt[matchlines[k]], sep = "")
-#         
-#       }
-#     }
-#     
-#     if (!is.null(lines_to_clear)) { 
-#       txt = txt[-lines_to_clear] 
-#       ids_changed = c(ids_changed, j)
-#     }
-#     MCB$code[[j]] = txt
-#   }
-
-
-
+#' Update/create roxygen templates
+#' 
+#' DO NOT RUN THIS WITHOUT VERSION CONTROL!
+#' 
+#' This function searches for existing documentation, and updates it to a specific format. (The format isn't really flexible at the moment; not sure if effort will be spent generalizing it)
+#'     
+#' This function assumes functions are of the format 
+#' FUNCTION_NAME = function( .... ) \{
+#'   content
+#' \}
+#' 
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
+#' @param guess_emptyparam Should empty parameters be filled in by "default" value? 
+#' @param regexp_fxstart Regex to determine function starts; default should work
+#' @param test_run If TRUE: Won't write any changes to file. This is defaulted to TRUE for safety. 
+#' 
+#' @return none
+#' 
+#' @export
+#' 
+update_fx_documentation_v2 = function(FD, guess_emptyparam = FALSE,
+                                      regexp_noexport = NULL, regexp_nodocu = NULL,
+                                      regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
+                                      test_run = TRUE) {
+  ## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively. This can be a vector of regular expressions. 
+  ## guess_emptyparam guess -> when empty/temp, replaces parameter documentation with most common documentation for specific parameter. --- want to add marker for when something is edited. ********* NOT IMPLEMENTED NOW ****************
+  ## idea -- make this happen based on file or entire codebase (allow it as option) 
+  
+  if (FALSE) {
+    FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+    regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function"
+    regexp_noexport = NULL
+    regexp_nodocu = NULL
+  }
+  
+  ## Setup
+  temp = extract_full_docu(FD = FD, regexp_fxstart = regexp_fxstart)
+  fx_df = temp$df
+  fx_list = temp$list
+  MCB = temp$MCB
+  
+  ## Check for undocumenting / unexporting
+  for (reg in regexp_noexport) { fx_df$want_export[grep(reg, x = fx_df$fx_name)] = FALSE }
+  for (reg in regexp_nodocu) { fx_df$want_docu[grep(reg, x = fx_df$fx_name)] = FALSE }
+  
+  ## Update all the documentation (store as $docu_new in the list)
+  for (j in seq_along(fx_list)) {
+    if (fx_df$want_docu[j]) {
+      fx_list[[j]]$docu_new = reformat_documentation_v2(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
+    } else {
+      fx_list[[j]]$docu_new = NULL
+    }
+  }
+  
+  ## Insert/replace existing documentation as necessary
+  adjust_df = function(df, fx_no, to_add = FALSE, to_rm = FALSE, new_len = 0) {
+    ids = which(df$fileID == df$fileID[fx_no])
+    before_line = df$fx_start[fx_no] - 1 ## also adjust the doc_end also!
+    if (to_rm) {
+      adjust = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1) * -1
+      df$doc_end[fx_no] = NA; df$doc_start[fx_no] = NA
+    } else if (to_add) {
+      adjust = new_len
+    } else {
+      cur_len = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1)
+      adjust = new_len - cur_len
+    }
+    for(j in ids) {
+      if (!is.na(df$doc_start[j]) && df$doc_start[j] >= before_line) { df$doc_start[j] = df$doc_start[j] + adjust }
+      if (!is.na(df$doc_end[j]) && df$doc_end[j] >= before_line) { df$doc_end[j] = df$doc_end[j] + adjust }
+      if (!is.na(df$fx_start[j]) && df$fx_start[j] >= before_line) { df$fx_start[j] = df$fx_start[j] + adjust }
+    }
+    if (to_add) {
+      df$doc_start[fx_no] = df$fx_start[fx_no] - adjust ; df$doc_end[fx_no] = df$fx_start[fx_no] - 1
+    } 
+    return(df)
+  }
+  
+  if (!test_run) {
+    files_changed = rep(FALSE, max(fx_df$fileID))
+    for (j in seq_along(fx_list)) {
+      fileID = fx_df$fileID[j]; olds = fx_df$doc_start[j]; olde = fx_df$doc_end[j]
+      todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fx_list[[j]]$fxname,")", sep = "")
+      if (is.null(fx_list[[j]]$docu_new) & !is.null(fx_list[[j]]$docu_cur)) {
+        # Then, clear old documentation
+        MCB$code[[j]] = replace_codelines(MCB$code[[fileID]], newcode = NULL, 
+                                          lines_start = olds, lines_end = olde)
+        fx_df = adjust_df(df = fx_df, fx_no = j, to_rm = TRUE)
+        files_changed[fileID] = TRUE
+      } else if (is.null(fx_list[[j]]$docu_cur)) {
+        # Insert documentation, since currently null
+        MCB$code[[j]] = insert_codelines(basecode = MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), before_line = fx_df$fx_start[j])
+        fx_df = adjust_df(fx_df, j, to_add = TRUE, new_len = nrow(fx_list[[j]]$docu_new)+1)
+        files_changed[fileID] = TRUE
+      } else if ( (nrow(fx_list[[j]]$docu_cur) != nrow(fx_list[[j]]$docu_new)) | 
+                    (!all(fx_list[[j]]$docu_cur$Value == fx_list[[j]]$docu_new$Value)) ) {
+        # Replace documentation
+        MCB$code[[j]] = replace_codelines(MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), 
+                                          lines_start = olds, lines_end = olde)
+        fx_df = adjust_df(fx_df, j, new_len = nrow(fx_list[[j]]$docu_new)+1)
+        files_changed[fileID] = TRUE
+      } else {
+        ## NO CHANGE
+      }
+    }
+  }
+  
+  if (!test_run) { write_MatchedCodebase(MCB, which(files_changed)) }
+  return("Done! [Inserting/formatting documentation (roxygen) templates]")
+}
 
 
