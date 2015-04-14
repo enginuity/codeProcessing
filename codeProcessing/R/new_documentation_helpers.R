@@ -1,4 +1,15 @@
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract_prev_headers)
+#' <What does this function do>
+#' 
+#' @param text temp
+#' @param lineno temp
+#' @param header temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 extract_prev_headers = function(text, lineno, header="^#'") {
   ## locates all lines prior to lineno that match 'header'
   matchlines = grep(header, text) 
@@ -12,6 +23,17 @@ extract_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (process_cur_docu)
+#' <What does this function do>
+#' 
+#' @param code temp
+#' @param lines temp
+#' @param header temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 process_cur_docu = function(code, lines, header = "^#'") {
   ## Processes the current documentation on lines [lines] of code in [code]
   if (length(lines) <= 0) { return(NULL) }
@@ -44,12 +66,14 @@ process_cur_docu = function(code, lines, header = "^#'") {
   return(prev_docu)
 }
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reformat_documentation_v2)
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' Then outputs what it thinks the new format should be. Then, need to separately check whether it matches what it thinks it should be. 
 #' 
 #' @param cur_doc old documentation (as data frame output)
 #' @param params function parameters
 #' @param default_param_doc temp
+#' @param to_export temp
 #' 
 #' @return character vector: correct roxygen documentation
 #' 
