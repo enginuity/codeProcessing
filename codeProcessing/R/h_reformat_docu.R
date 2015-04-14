@@ -2,14 +2,14 @@
 
 # Main Function -----------------------------------------------------------
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (reformat_documentation_v2)
+
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' Then outputs what it thinks the new format should be. Then, need to separately check whether it matches what it thinks it should be. 
 #' 
 #' @param cur_doc old documentation (as data frame output)
 #' @param params function parameters
-#' @param default_param_doc temp
-#' @param to_export temp
+#' @param default_param_doc ** not sure if implemeneted. figure this out.
+#' @param to_export if TRUE: adds lines corresponding to @export. 
 #' 
 #' @return character vector: correct roxygen documentation
 #' 

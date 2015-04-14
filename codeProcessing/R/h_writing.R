@@ -23,16 +23,14 @@ write_MatchedCodebase = function(MCB, ids = NULL) {
 }
 
 
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (replace_codelines)
-#' <What does this function do>
+#' Replaces lines of text
 #' 
-#' @param basecode temp
-#' @param newcode temp
-#' @param lines_start temp
-#' @param lines_end temp
+#' @param basecode base lines of code
+#' @param newcode code that replaces old lines
+#' @param lines_start start replacing from this line
+#' @param lines_end end replacing at this line
 #' 
-#' @return temp
+#' @return updated text
 #' 
 #' @export
 #' 
@@ -49,20 +47,18 @@ replace_codelines = function(basecode, newcode, lines_start, lines_end) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (insert_codelines)
-#' <What does this function do>
+
+#' Inserts lines of code into a script
 #' 
-#' @param basecode temp
-#' @param newcode temp
-#' @param before_line temp
+#' @param basecode current text
+#' @param newcode text to insert
+#' @param before_line insert (newcode) before this line in (basecode)
 #' 
-#' @return temp
+#' @return updated text
 #' 
 #' @export
 #' 
 insert_codelines = function(basecode, newcode, before_line) {
-  ## basecode is current code
-  ## newcode is the code to insert before line [before_line]
   cat("before line = ", before_line, "** length = ", length(basecode), "\n")
   if (before_line > length(basecode)) { stop("Error -- before_line is outside of current code length") }
   N = length(basecode)
