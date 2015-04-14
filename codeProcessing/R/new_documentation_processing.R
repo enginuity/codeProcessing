@@ -188,7 +188,7 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   }
   
   ## Write updated documentation as necessary
-  if (!test_run) { write_MatchedCodebase(MCB,which(files_changed)) }
+  if (!test_run) { write_MatchedCodebase(MCB, which(files_changed)) }
   
   return("Done! [Inserting/formatting documentation (roxygen) templates]")
 }
