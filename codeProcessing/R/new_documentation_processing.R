@@ -19,8 +19,8 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
   ## Search for function headers
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
-  ## function -- check for function matches
   extractFxInfo = function(code, matchlines) {
+    ## Check the function names extracted, and returns a list of matching functions and information for each function. 
     fn_name_regex = stringr::str_extract(code[matchlines], pattern = "[[:alnum:]_.]+") ## is character vector
     parsed_code = parse(text = code, keep.source = TRUE)
     
@@ -38,18 +38,24 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
   }
   
   extractDocu = function(code, all_matchlines, fxinfo) {
+    ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
     reslist = list()
     resdf = data.frame(fxname = sapply(fxinfo, function(x) {x$fxname}),
                        doc_exist = FALSE, doc_start = -1, doc_end = -1, fx_start = -1, fx_end = -1)
     
     for (j in seq_along(fxinfo)) {
-      reslist[[j]] = list(fxname = fxinfo[[j]]$fxinfo, 
-                          docu = find_all_prev_documentation(code, all_matchlines[fxinfo[[j]]$matchlineIND]), 
-                          code = NULL, 
+      fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
+      reslist[[j]] = list(fxname = fxinfo[[j]]$fxname, 
+                          docu = find_all_prev_documentation(code, fx_start), 
+                          code = NULL, ## TODO: [Implement] this someday. 
                           params = fxinfo[[j]]$params)
-      if (is.null(reslist[[j]]$docu)) {
-        
+      if (!is.null(reslist[[j]]$docu)) {
+        resdf$doc_exist[j] = TRUE
+        doclocs = extract_prev_headers(text = code, lineno = fx_start)
+        resdf$doc_start[j] = min(doclocs)
+        resdf$doc_end[j] = max(doclocs)
       }
+      resdf$fx_start[j] = fx_start
     }
     return(list(df = resdf, list = reslist))
   }
