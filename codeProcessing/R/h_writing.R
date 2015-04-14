@@ -14,7 +14,9 @@
 #' @export
 #' 
 write_MatchedCodebase = function(MCB, ids = NULL) {
-  for(j in ifelse(test = is.null(ids), yes = seq_along(MCB$files), no = ids)) {
+  if (is.null(ids)) { ids = seq_along(MCB$files) }
+  for (j in ids) {
+    print(MCB$files[j])
     writeLines(text = MCB$code[[j]], con = MCB$files[j])
   }
   invisible(0)
