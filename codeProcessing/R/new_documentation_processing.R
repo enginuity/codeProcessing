@@ -1,4 +1,14 @@
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract_full_docu)
+#' <What does this function do>
+#' 
+#' @param FD temp
+#' @param regexp_fxstart temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
   ### HELPER FUNCTIONS ###
   
@@ -67,6 +77,7 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (update_fx_documentation_v2)
 #' Update/create roxygen templates
 #' 
 #' DO NOT RUN THIS WITHOUT VERSION CONTROL!
@@ -80,6 +91,8 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param guess_emptyparam Should empty parameters be filled in by "default" value? 
+#' @param regexp_noexport temp
+#' @param regexp_nodocu temp
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run If TRUE: Won't write any changes to file. This is defaulted to TRUE for safety. 
 #' 
