@@ -165,19 +165,19 @@ update_fx_documentation_v2 = function(FD, guess_emptyparam = FALSE,
       todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fx_list[[j]]$fxname,")", sep = "")
       if (is.null(fx_list[[j]]$docu_new) & !is.null(fx_list[[j]]$docu_cur)) {
         # Then, clear old documentation
-        MCB$code[[j]] = replace_codelines(MCB$code[[fileID]], newcode = NULL, 
+        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = NULL, 
                                           lines_start = olds, lines_end = olde)
         fx_df = adjust_df(df = fx_df, fx_no = j, to_rm = TRUE)
         files_changed[fileID] = TRUE
       } else if (is.null(fx_list[[j]]$docu_cur)) {
         # Insert documentation, since currently null
-        MCB$code[[j]] = insert_codelines(basecode = MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), before_line = fx_df$fx_start[j])
+        MCB$code[[fileID]] = insert_codelines(basecode = MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), before_line = fx_df$fx_start[j])
         fx_df = adjust_df(fx_df, j, to_add = TRUE, new_len = nrow(fx_list[[j]]$docu_new)+1)
         files_changed[fileID] = TRUE
       } else if ( (nrow(fx_list[[j]]$docu_cur) != nrow(fx_list[[j]]$docu_new)) | 
                     (!all(fx_list[[j]]$docu_cur$Value == fx_list[[j]]$docu_new$Value)) ) {
         # Replace documentation
-        MCB$code[[j]] = replace_codelines(MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), 
+        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), 
                                           lines_start = olds, lines_end = olde)
         fx_df = adjust_df(fx_df, j, new_len = nrow(fx_list[[j]]$docu_new)+1)
         files_changed[fileID] = TRUE
