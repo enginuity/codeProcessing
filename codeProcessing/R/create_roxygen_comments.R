@@ -99,8 +99,8 @@ update_fx_documentation = function(FD, fill_emptyparam = TRUE,
 #     param_segments = find_all_enclosed(text = txt, startlocations = cbind(matchlines, 1))
 #     
 #     for(k in seq_along(matchlines)) {
-#       params = find_current_params(param_segments[k])  
-#       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k])
+#       params = find_current_params(param_segments[k]) ########### DESTROYED. there is a better way to find parameters
+#       cur_doc = find_all_prev_documentation(text = txt, lineno = matchlines[k]) ########## new becomes process_cur_docu
 #       if (is.data.frame(cur_doc) & (length(params) > 0)) {
 #         fn_name = stringr::str_extract(txt[matchlines[k]], pattern = "[[:alnum:]_.]+")
 #         
