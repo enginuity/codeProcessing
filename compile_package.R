@@ -1,11 +1,5 @@
 ##@S Contains code to compile the codeProcessing package (to be run from R)
 
-
-
-
-##@S Contains code to compile the netcomp_sbm package (to be run from R)
-
-
 # Update Documentation (if needed/possible) -------------------------------
 
 ## This section only needs to be run if the source code is not necessarily up to date (ie new functions were written, or if parameters were added). It will also only be run if the package actually exists. 
@@ -34,12 +28,3 @@ if (require(roxygen2)) {
 if (FALSE) {
   library(codeProcessing)
 }
-
-
-
-## TODO: Create function in codeProcessing that reorders generics & makes templates and such. 
-
-## TODO: Functionality -- extract information for a specific function: pull out all full-line comments, extract all in-package function calls and where those functions live
-
-
-
