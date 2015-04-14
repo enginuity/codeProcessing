@@ -1,17 +1,18 @@
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract_prev_headers)
-#' <What does this function do>
+
+#' Locates chunk of previous lines that match a regex
 #' 
-#' @param text temp
-#' @param lineno temp
-#' @param header temp
+#' Mainly used to figure out which previous lines correspond to the documentation segment (and check the regex specified by header)
 #' 
-#' @return temp
+#' @param text character vector -- should be code
+#' @param lineno integer -- line number whose previous lines are searched
+#' @param header character -- corresponds to regex to search for chunk
+#' 
+#' @return line numbers for the previous contiguous chunk (corresponding to indices of [text] that match [header])
 #' 
 #' @export
 #' 
 extract_prev_headers = function(text, lineno, header="^#'") {
-  ## locates all lines prior to lineno that match 'header'
   matchlines = grep(header, text) 
   closest_break = max(c(0,setdiff(seq_len(lineno-1), matchlines)))
   
@@ -23,19 +24,19 @@ extract_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (process_cur_docu)
-#' <What does this function do>
+#' Extract and process the current documentation
 #' 
-#' @param code temp
-#' @param lines temp
-#' @param header temp
+#' Creates a data frame storing information for the current documentation
 #' 
-#' @return temp
+#' @param code character vector -- should be source code
+#' @param lines integer vector -- lines corresponding to 'code' that contain the documentation segment
+#' @param header character -- corresponds to regex to search for chunk
+#' 
+#' @return A data frame containing information about current documentation (or NULL if none)
 #' 
 #' @export
 #' 
 process_cur_docu = function(code, lines, header = "^#'") {
-  ## Processes the current documentation on lines [lines] of code in [code]
   if (length(lines) <= 0) { return(NULL) }
   
   prev_docu = data.frame(LineNo = lines, Value = "", Type = "", ParamName = "", TypeOrder = 0, ParamOrder = 0, SubOrder = 0, stringsAsFactors=FALSE)
