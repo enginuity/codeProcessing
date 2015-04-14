@@ -1,7 +1,5 @@
 
-extract_fxs = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
-  
-  
+extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
   ### HELPER FUNCTIONS ###
   
   extractFxInfo = function(code, matchlines) {
