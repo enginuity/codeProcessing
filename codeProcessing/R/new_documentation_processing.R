@@ -1,11 +1,12 @@
+##@S Functions that extract and update the documentation
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (extract_full_docu)
-#' <What does this function do>
+
+#' Extract all documentation
 #' 
-#' @param FD temp
-#' @param regexp_fxstart temp
+#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
+#' @param regexp_fxstart Regex to determine function starts; default should work
 #' 
-#' @return temp
+#' @return A list of two objects: A list of functions and information about each function, and then a data frame denoting ALL of the functions and information about each. 
 #' 
 #' @export
 #' 
@@ -76,8 +77,6 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 }
 
 
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (update_fx_documentation_v2)
 #' Update/create roxygen templates
 #' 
 #' DO NOT RUN THIS WITHOUT VERSION CONTROL!
@@ -91,12 +90,12 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 #' 
 #' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
 #' @param guess_emptyparam Should empty parameters be filled in by "default" value? 
-#' @param regexp_noexport temp
-#' @param regexp_nodocu temp
+#' @param regexp_noexport A vector of regular expressions that determine which functions that should not be exported
+#' @param regexp_nodocu A vector of regular expressions that determine which functions should not receive documentation
 #' @param regexp_fxstart Regex to determine function starts; default should work
 #' @param test_run If TRUE: Won't write any changes to file. This is defaulted to TRUE for safety. 
 #' 
-#' @return none
+#' @return message about success!
 #' 
 #' @export
 #' 
@@ -104,7 +103,6 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
                                       regexp_noexport = NULL, regexp_nodocu = NULL,
                                       regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
                                       test_run = TRUE) {
-  ## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively. This can be a vector of regular expressions. 
   ## guess_emptyparam guess -> when empty/temp, replaces parameter documentation with most common documentation for specific parameter. --- want to add marker for when something is edited. ********* NOT IMPLEMENTED NOW ****************
   ## idea -- make this happen based on file or entire codebase (allow it as option) 
   
