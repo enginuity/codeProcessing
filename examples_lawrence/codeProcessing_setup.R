@@ -4,6 +4,20 @@
 library(codeProcessing)
 package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
 
+update_fx_documentation(FD = package_FD, test_run = FALSE)
+
+
+
+## Functions to remove
+search_code("find_current_params", FD = package_FD)
+search_code("find_all_prev_headers", FD = package_FD)
+search_code("find_all_prev_documentation", FD = package_FD)
+search_code("reformat_documentation", FD = package_FD)
+
+
+
+
+
 plot_dependency(FD = package_FD, out_file = "test.pdf")
 generate_todolist(FD = package_FD)
 
