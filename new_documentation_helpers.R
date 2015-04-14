@@ -12,7 +12,6 @@ extract_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
-
 process_cur_docu = function(code, lines, header = "^#'") {
   ## Processes the current documentation on lines [lines] of code in [code]
   if (length(lines) <= 0) { return(NULL) }
