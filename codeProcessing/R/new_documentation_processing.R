@@ -11,13 +11,8 @@
 extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
                        regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
   ## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively
-  if (FALSE) {
-    FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
-    regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function"
-  }
   
-  ## Search for function headers
-  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
+  ### HELPER FUNCTIONS ###
   
   extractFxInfo = function(code, matchlines) {
     ## Check the function names extracted, and returns a list of matching functions and information for each function. 
@@ -46,23 +41,43 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
     for (j in seq_along(fxinfo)) {
       fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
       reslist[[j]] = list(fxname = fxinfo[[j]]$fxname, 
-                          docu = find_all_prev_documentation(code, fx_start), 
+                          docu = NULL, 
                           code = NULL, ## TODO: [Implement] this someday. 
                           params = fxinfo[[j]]$params)
-      if (!is.null(reslist[[j]]$docu)) {
-        resdf$doc_exist[j] = TRUE
-        doclocs = extract_prev_headers(text = code, lineno = fx_start)
+      doclocs = extract_prev_headers(text = code, lineno = fx_start)
+      if (length(doclocs) > 0) {
+        resdf$doc_exist[j] = TRUE        
         resdf$doc_start[j] = min(doclocs)
         resdf$doc_end[j] = max(doclocs)
+        
+        reslist$docu = #(**$&#@($*@# )) process old docuemtation here
       }
       resdf$fx_start[j] = fx_start
     }
     return(list(df = resdf, list = reslist))
   }
   
-  fxinfo = extractFxInfo(MCB$code[[1]], MCB$matchlines[[1]])
+  ### Function starts here! ####################  
   
-  extractDocu(MCB$code[[1]], MCB$matchlines[[1]], fxinfo)
+  if (FALSE) {
+    FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
+    regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function"
+  }
+  
+  ## Search for function headers
+  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
+  
+  fx_list = list()
+  fx_df = NULL
+  
+  for (j in seq_along(MCB$code)) {
+    fxinfo = extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
+    temp = extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fxinfo)
+    fx_list = c(fx_list, temp$list)
+    fx_df = rbind(fx_df, cbind(fileID = j, filename = "test.R", temp$df))
+  }
+  
+  
   
   cur_doc = find_all_prev_documentation(text = MCB$code[[1]], MCB$matchlines[[1]][1])
   proper_doc = reformat_documentation(cur_doc, params = fxs[[1]]$params)
@@ -149,5 +164,40 @@ extract_prev_headers = function(text, lineno, header="^#'") {
     return((closest_break+1):(lineno-1))
   }
 }
+
+
+
+process_cur_docu = function(code, lines, header = "^#'") {
+  ## Processes the current documentation on lines [lines] of code in [code]
+  if (length(lines) <= 0) { return(NULL) }
+  
+  prev_docu = data.frame(LineNo = lines, Value = "", Type = "", ParamName = "", TypeOrder = 0, ParamOrder = 0, SubOrder = 0, stringsAsFactors=FALSE)
+  
+  ## Clean up text (clear extra spaces and stuff)
+  text_clean = gsub(stringr::str_c(header, " +"), "", code[lines])
+  tsplit = strsplit(text_clean, " ")
+  
+  ## Fill in Value, Type, ParamName
+  for(j in seq_along(lines)) {
+    t = tsplit[[j]]
+    ## TODO: [Generalize] This imposes a very rigid instruction on the format of documentation. Could be relaxed. 
+    t = t[t != ""]
+    if (length(t) < 1 | is.na(t[1])) {
+      prev_docu$Type[j] = 'Empty'
+    } else if (t[1] == "@param") {
+      prev_docu$Type[j] = "@param"
+      prev_docu$ParamName[j] = t[2]
+    } else if (length(t) > 0 && grep("@", x = t[1]) == 1) {
+      ## If starts with @[...] other than 'param'
+      prev_docu$Type[j] = t[1]
+    } else {
+      prev_docu$Type[j] = "Text"
+    }
+    prev_docu$Value[j] = code[lines[j]]
+  }
+  
+  return(prev_docu)
+}
+
 
 
