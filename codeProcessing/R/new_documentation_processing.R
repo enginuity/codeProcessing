@@ -10,7 +10,7 @@
 
 extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
                        regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
-  ## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively
+  ## regexp_noexport/nodocu -> regular expressions that when applied to function names determines which functions that will not receive export or documentation respectively. This can be a vector of regular expressions. 
   
   ### HELPER FUNCTIONS ###
   
@@ -35,8 +35,8 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
   extractDocu = function(code, all_matchlines, fxinfo) {
     ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
     reslist = list()
-    resdf = data.frame(fxname = sapply(fxinfo, function(x) {x$fxname}),
-                       doc_exist = FALSE, doc_start = -1, doc_end = -1, fx_start = -1, fx_end = -1)
+    resdf = data.frame(fx_name = sapply(fxinfo, function(x) {x$fxname}),
+                       doc_exist = FALSE, doc_start = NA, doc_end = NA, fx_start = NA, fx_end = NA)
     
     for (j in seq_along(fxinfo)) {
       fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
@@ -50,7 +50,7 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
         resdf$doc_start[j] = min(doclocs)
         resdf$doc_end[j] = max(doclocs)
         
-        reslist$docu = #(**$&#@($*@# )) process old docuemtation here
+        reslist$docu = process_cur_docu(code, lines = doclocs)
       }
       resdf$fx_start[j] = fx_start
     }
@@ -74,15 +74,19 @@ extract_fxs = function(FD, regexp_noexport = NULL, regexp_nodocu = NULL,
     fxinfo = extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
     temp = extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fxinfo)
     fx_list = c(fx_list, temp$list)
-    fx_df = rbind(fx_df, cbind(fileID = j, filename = "test.R", temp$df))
+    fx_df = rbind(fx_df, cbind(fileID = j, filename = MCB$files[j], temp$df))
   }
+  ## Add ID's
+  fx_df = cbind(ID = seq_len(nrow(fx_df)), fx_df, want_docu = TRUE, want_export = TRUE)
   
+  ## Check for undocumenting / unexporting
+  for (reg in regexp_noexport) { fx_df$want_export[grep(reg, x = fx_df$fx_name)] = FALSE }
+  for (reg in regexp_nodocu) { fx_df$want_docu[grep(reg, x = fx_df$fx_name)] = FALSE }
+
   
-  
-  cur_doc = find_all_prev_documentation(text = MCB$code[[1]], MCB$matchlines[[1]][1])
   proper_doc = reformat_documentation(cur_doc, params = fxs[[1]]$params)
   
-  return(NULL)
+  return(list(df = fx_df, list = fx_list))
   
   #   
   #   
@@ -187,7 +191,7 @@ process_cur_docu = function(code, lines, header = "^#'") {
     } else if (t[1] == "@param") {
       prev_docu$Type[j] = "@param"
       prev_docu$ParamName[j] = t[2]
-    } else if (length(t) > 0 && grep("@", x = t[1]) == 1) {
+    } else if (length(t) > 0 && length(grep("@", x = t[1])) == 1) {
       ## If starts with @[...] other than 'param'
       prev_docu$Type[j] = t[1]
     } else {
