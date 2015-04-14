@@ -100,7 +100,7 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 #' 
 #' @export
 #' 
-update_fx_documentation_v2 = function(FD, guess_emptyparam = FALSE,
+update_fx_documentation = function(FD, guess_emptyparam = FALSE,
                                       regexp_noexport = NULL, regexp_nodocu = NULL,
                                       regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
                                       test_run = TRUE) {
@@ -128,7 +128,7 @@ update_fx_documentation_v2 = function(FD, guess_emptyparam = FALSE,
   ## Update all the documentation (store as $docu_new in the list)
   for (j in seq_along(fx_list)) {
     if (fx_df$want_docu[j]) {
-      fx_list[[j]]$docu_new = reformat_documentation_v2(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
+      fx_list[[j]]$docu_new = reformat_documentation(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
     } else {
       fx_list[[j]]$docu_new = NULL
     }

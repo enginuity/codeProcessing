@@ -79,7 +79,7 @@ process_cur_docu = function(code, lines, header = "^#'") {
 #' 
 #' @export
 #' 
-reformat_documentation_v2 = function(cur_doc, params, default_param_doc = NULL, to_export = TRUE) {
+reformat_documentation = function(cur_doc, params, default_param_doc = NULL, to_export = TRUE) {
   
   reorder_rows = function(df) {
     return(df[order(df$TypeOrder, df$ParamOrder, df$SubOrder),])
