@@ -46,5 +46,13 @@ replace_codelines = function(basecode, newcode, lines_start, lines_end) {
 }
 
 
+insert_codelines = function(basecode, newcode, before_line) {
+  ## basecode is current code
+  ## newcode is the code to insert before line [before_line]
+  if (before_line > length(basecode)) { stop("Error -- before_line is outside of current code length") }
+  N = length(basecode)
+  return(c(basecode[seq_len(before_line - 1)], newcode, basecode[seq(from = before_line, to = N, by = 1)]))
+}
+
 
 
