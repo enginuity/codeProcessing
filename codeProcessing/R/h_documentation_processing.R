@@ -50,6 +50,7 @@ find_current_params = function(text) {
 
 
 find_all_prev_headers = function(text, lineno, header="^#'") {
+  ## TODO: [Obselete] this function -- delete!
   ## old function. don't bother redocumenting, since this will be replaced... 
   ## locates all previous lines that contain 'header'
   z = grep(header, text) 
@@ -77,6 +78,8 @@ find_all_prev_headers = function(text, lineno, header="^#'") {
 #' @export
 #' 
 find_all_prev_documentation = function(text, lineno, header = "^#'") {
+  ## TODO: [Obselete] this function -- delete!
+  
   ## Testing vals
   if (FALSE) {
     text = readLines("codeProcessing/R/search_code.R")
