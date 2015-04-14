@@ -1,7 +1,5 @@
 ##@S This file contains code (and documentation) for the various classes used. 
 
-## TODO: [Make better documentation] -- Figure out how to do links in Roxygen2. 
-
 #' Class Codebase
 #'    
 #' This stores a basic combination of filenames and the source code. 
