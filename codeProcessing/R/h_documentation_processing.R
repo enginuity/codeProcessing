@@ -49,6 +49,17 @@ find_current_params = function(text) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (find_all_prev_headers)
+#' <What does this function do>
+#' 
+#' @param text temp
+#' @param lineno temp
+#' @param header temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 find_all_prev_headers = function(text, lineno, header="^#'") {
   ## TODO: [Obselete] this function -- delete!
   ## old function. don't bother redocumenting, since this will be replaced... 
