@@ -40,8 +40,9 @@ replace_codelines = function(basecode, newcode, lines_start, lines_end) {
   
   if (lines_start > lines_end) { stop("Error -- lines_start > lines_end") }
   N = length(basecode)
-  base_start = ifelse(lines_start > 1, basecode[1:(lines_start-1)], NULL)
-  base_end = ifelse(lines_end < N, basecode[(lines_end+1):N], NULL)
+  base_start = NULL; base_end = NULL
+  if (lines_start > 1) { base_start = basecode[1:(lines_start-1)] }
+  if (lines_end < N) { base_end = basecode[(lines_end+1):N] }
   return(c(base_start, newcode, base_end))
 }
 
