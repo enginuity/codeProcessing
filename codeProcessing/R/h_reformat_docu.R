@@ -9,7 +9,7 @@
 #' @param cur_doc old documentation (as data frame output)
 #' @param params function parameters
 #' @param default_param_doc ** not sure if implemeneted. figure this out.
-#' @param to_export if TRUE: adds lines corresponding to @export. 
+#' @param to_export if TRUE: adds lines corresponding to @@export. 
 #' 
 #' @return character vector: correct roxygen documentation
 #' 
