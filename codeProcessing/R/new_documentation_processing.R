@@ -11,53 +11,6 @@
 #' @export
 #' 
 extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
-  ### HELPER FUNCTIONS ###
-  
-  extractFxInfo = function(code, matchlines) {
-    ## Check the function names extracted, and returns a list of matching functions and information for each function. 
-    fn_name_regex = stringr::str_extract(code[matchlines], pattern = "[[:alnum:]_.]+") ## is character vector
-    parsed_code = parse(text = code, keep.source = TRUE)
-    
-    fn_name_parse = lapply(parsed_code, function(x) {as.character(x[[2]])}) ## is list
-    is_function = sapply(parsed_code, function(x) {x[[3]][[1]] == 'function'})
-    res_list = list()
-    for(i in which(is_function)) {
-      if (fn_name_parse[[i]] %in% fn_name_regex) {
-        fn_params = names(parsed_code[[i]][[3]][[2]])
-        res_list[[i]] = list(fxname = fn_name_parse[[i]], params = fn_params, 
-                             matchlineIND = which(fn_name_parse[[i]] == fn_name_regex))
-      }
-    }
-    return(res_list)
-  }
-  
-  extractDocu = function(code, all_matchlines, fxinfo) {
-    ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
-    reslist = list()
-    resdf = data.frame(fx_name = sapply(fxinfo, function(x) {x$fxname}),
-                       doc_exist = FALSE, doc_start = NA, doc_end = NA, fx_start = NA, fx_end = NA)
-    
-    for (j in seq_along(fxinfo)) {
-      fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
-      reslist[[j]] = list(fxname = fxinfo[[j]]$fxname, 
-                          docu_cur = NULL, 
-                          code = NULL, ## TODO: [Implement] this someday. 
-                          params = fxinfo[[j]]$params)
-      doclocs = extract_prev_headers(text = code, lineno = fx_start)
-      if (length(doclocs) > 0) {
-        resdf$doc_exist[j] = TRUE        
-        resdf$doc_start[j] = min(doclocs)
-        resdf$doc_end[j] = max(doclocs)
-        
-        reslist[[j]]$docu_cur = process_cur_docu(code, lines = doclocs)
-      }
-      resdf$fx_start[j] = fx_start
-    }
-    return(list(df = resdf, list = reslist))
-  }
-  
-  ### Function starts here! ####################  
-  
   ## Search for function headers
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
@@ -65,8 +18,8 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
   fx_df = NULL
   
   for (j in seq_along(MCB$code)) {
-    fxinfo = extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
-    temp = extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fxinfo)
+    fxinfo = zhdp_extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
+    temp = zhdp_extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fxinfo)
     fx_list = c(fx_list, temp$list)
     fx_df = rbind(fx_df, cbind(fileID = j, filename = MCB$files[j], temp$df))
   }
