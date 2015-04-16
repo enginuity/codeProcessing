@@ -1,6 +1,17 @@
 ## Helper functions for processing documentation
 
 
+#' [Helper] Extract metadata for each function
+#' 
+#' In addition, it checks for the funciton in two ways: first, based off regex matching, second, using the parse function. 
+#' 
+#' @param code character vector : Source code
+#' @param matchlines numeric vector : Lines where functions start
+#' 
+#' @return A list of function information extracted for specific code file
+#' 
+#' @export
+#' 
 zhdp_extractFxInfo = function(code, matchlines) {
   ## Check the function names extracted, and returns a list of matching functions and information for each function. 
   fn_name_regex = stringr::str_extract(code[matchlines], pattern = "[[:alnum:]_.]+") ## is character vector
@@ -20,6 +31,17 @@ zhdp_extractFxInfo = function(code, matchlines) {
 }
 
 
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (zhdp_extractDocu)
+#' <What does this function do>
+#' 
+#' @param code temp
+#' @param all_matchlines temp
+#' @param fxinfo temp
+#' 
+#' @return temp
+#' 
+#' @export
+#' 
 zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
   ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
   reslist = list()
