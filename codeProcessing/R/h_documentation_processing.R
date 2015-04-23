@@ -27,14 +27,16 @@ zhdp_extractFxInfo = function(code, matchlines) {
                            matchlineIND = which(fn_name_parse[[i]] == fn_name_regex))
     }
   }
+  res_list = res_list[is_function]
   return(res_list)
 }
 
 
 ## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (zhdp_extractDocu)
 #' <What does this function do>
+#' [Helper] Extracts existing (roxygen2-style) documentation
 #' 
-#' @param code temp
+#' @param code character vector -- source code
 #' @param all_matchlines temp
 #' @param fxinfo temp
 #' 
