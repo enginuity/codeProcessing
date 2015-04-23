@@ -25,6 +25,7 @@ zhdp_extractFxInfo = function(code, matchlines) {
       fn_params = names(parsed_code[[i]][[3]][[2]])
       res_list[[i]] = list(fxname = fn_name_parse[[i]], params = fn_params, 
                            matchlineIND = which(fn_name_parse[[i]] == fn_name_regex))
+      if (length(res_list[[i]]$matchlineIND) > 1) { stop(paste("error--Function *",res_list[[i]]$fxname,"* has been defined more than once")) }
     }
   }
   res_list = res_list[is_function]
