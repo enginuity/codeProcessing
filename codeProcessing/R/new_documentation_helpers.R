@@ -13,6 +13,7 @@
 #' @export
 #' 
 extract_prev_headers = function(text, lineno, header="^#'") {
+  if (!is.vector(lineno) || length(lineno) > 1) { stop("Invalid input 'lineno'")}
   matchlines = grep(header, text) 
   closest_break = max(c(0,setdiff(seq_len(lineno-1), matchlines)))
   
