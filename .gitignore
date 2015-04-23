@@ -14,3 +14,4 @@ metacode_logs/
 *.aux
 *.log
 GEN_todolist.txt
+codeProcessing/NAMESPACE
