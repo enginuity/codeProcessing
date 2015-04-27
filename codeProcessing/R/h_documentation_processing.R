@@ -33,15 +33,15 @@ zhdp_extractFxInfo = function(code, matchlines) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (zhdp_extractDocu)
-#' <What does this function do>
 #' [Helper] Extracts existing (roxygen2-style) documentation
 #' 
-#' @param code character vector -- source code
-#' @param all_matchlines temp
-#' @param fxinfo temp
+#' This function extends the function information extracted previously in fxinfo, and returns a list of an updated data.frame version of fxinfo, and a list of function information. 
 #' 
-#' @return temp
+#' @param code character vector -- source code
+#' @param all_matchlines numeric vector -- Lines where functions potentially start
+#' @param fxinfo Data frame containing information on functions in this file
+#' 
+#' @return List(df, list) : df is updated version of fxinfo, list contains information about each function
 #' 
 #' @export
 #' 
