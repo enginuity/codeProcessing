@@ -82,7 +82,7 @@ zhdp_updateDocu = function(fxdf, fxlist, MCB) {
     todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fxlist[[ID]]$fxname,")", sep = "")
     
     ID_fxs = setdiff(which(fxdf$fileID == fileID), ID) ## Find all functions listed in this same file, ignoring current function
-    line_before_fx = df$fx_start[ID] - 1
+    line_before_fx = fxdf$fx_start[ID] - 1
     
     ## Update documentation, and update fx_df. 
     ## Depending on the case -- fx_df needs to have doc_start, doc_end, fx_start, status updated. 
