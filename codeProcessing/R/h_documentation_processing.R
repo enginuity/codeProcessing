@@ -111,22 +111,22 @@ zhdp_updateDocu = function(fxdf, fxlist, MCB) {
         
       } else { # Add in new documentation
         fxdf$status[ID] = "add_docu"; files_changed[fileID] = TRUE
+        MCB$code[[fileID]] = insert_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$fx_start[ID])
         fxdf$doc_start[ID] = fxdf$fx_start[ID] + 1; fxdf$doc_end[ID] = fxdf$fx_start[ID] - 1
         lines_added = lines_added + 1
-        MCB$code[[fileID]] = insert_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$fx_start[ID])
         
       }
     } else { # Else, current documentation exists
       if (is.null(fxlist[[ID]]$docu_new)) { # Want to remove documentation
         fxdf$status[ID] = "remove_docu"; files_changed[fileID] = TRUE
-        fxdf$doc_end[ID] = NA; fxdf$doc_start[ID] = NA
         MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], NULL, fxdf$doc_start[ID], fxdf$doc_end[ID])
+        fxdf$doc_end[ID] = NA; fxdf$doc_start[ID] = NA
         
       } else if (any(fxlist[[ID]]$docu_new$Value != fxlist[[ID]]$docu_cur$Value)) { # Documentation doesn't match
         fxdf$status[ID] = "update_docu"; files_changed[fileID] = TRUE
+        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$doc_start[ID], fxdf$doc_end[ID])
         fxdf$doc_start[ID] = fxdf$doc_start[ID] + 1
         lines_added = lines_added + 1
-        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$doc_start[ID], fxdf$doc_end[ID])
         
       } else {
         fxdf$status[ID] = "no_change:docu_exists"
