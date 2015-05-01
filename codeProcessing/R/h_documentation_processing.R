@@ -49,7 +49,8 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
   ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
   reslist = list()
   resdf = data.frame(fx_name = sapply(fxinfo, function(x) {x$fxname}),
-                     doc_exist = FALSE, doc_start = NA, doc_end = NA, fx_start = NA, fx_end = NA)
+                     doc_exist = FALSE, doc_start = NA, doc_end = NA, fx_start = NA, fx_end = NA, status = NA)
+  ## status -- should eventually store what happened to this document: add docu, remove docu, no change, update docu
   
   for (j in seq_along(fxinfo)) {
     fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
@@ -71,6 +72,67 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
 }
 
 
+zhdp_updateDocu = function(fxdf, fxlist, MCB) {
+  ## function that updates the documentation if necessary (comparing the existing docu to the 'standard' one.)  
+  
+  files_changed = rep(FALSE, max(fxdf$fileID))
+  
+  for (ID in seq_along(fxlist)) {
+    fileID = fxdf$fileID[ID]
+    todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fxlist[[ID]]$fxname,")", sep = "")
+    
+    ID_fxs = setdiff(which(fxdf$fileID == fileID), ID) ## Find all functions listed in this same file, ignoring current function
+    line_before_fx = df$fx_start[ID] - 1
+    
+    ## Update documentation, and update fx_df. 
+    ## Depending on the case -- fx_df needs to have doc_start, doc_end, fx_start, status updated. 
+    ## Also, depending on the case, MCB has the code updated (replacing docu_cur with docu_new in fxlist)
+    diff_nrow_0 = function(x,y) { return(ifelse(is.null(x), 0, nrow(x)) - ifelse(is.null(y), 0, nrow(y))) }
+    lines_added = diff_nrow_0(fxlist[[ID]]$docu_new, fxlist[[ID]]$docu_cur)
+    
+    if (is.null(fxlist[[ID]]$docu_cur)) { # If no current documentation
+      if (is.null(fxlist[[ID]]$docu_new)) { # Want no documentation -> do nothing
+        fxdf$status[ID] = "no_change:no_docu"
+        
+      } else { # Add in new documentation
+        fxdf$status[ID] = "add_docu"; files_changed[fileID] = TRUE
+        fxdf$doc_start[ID] = fxdf$fx_start[ID] + 1; fxdf$doc_end[ID] = fxdf$fx_start[ID] - 1
+        lines_added = lines_added + 1
+        MCB$code[[fileID]] = insert_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$fx_start[ID])
+        
+      }
+    } else { # Else, current documentation exists
+      if (is.null(fxlist[[ID]]$docu_new)) { # Want to remove documentation
+        fxdf$status[ID] = "remove_docu"; files_changed[fileID] = TRUE
+        fxdf$doc_end[ID] = NA; fxdf$doc_start[ID] = NA
+        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], NULL, fxdf$doc_start[ID], fxdf$doc_end[ID])
+        
+      } else if (any(fxlist[[ID]]$docu_new$Value != fxlist[[ID]]$docu_cur$Value)) { # Documentation doesn't match
+        fxdf$status[ID] = "update_docu"; files_changed[fileID] = TRUE
+        fxdf$doc_start[ID] = fxdf$doc_start[ID] + 1
+        lines_added = lines_added + 1
+        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$doc_start[ID], fxdf$doc_end[ID])
+        
+      } else {
+        fxdf$status[ID] = "no_change:docu_exists"
+      }
+    }
+    
+    if (lines_added != 0) {
+      ## Adjust locations for this specific function
+      fxdf$doc_end[ID] = fxdf$doc_end[ID] + lines_added; fxdf$fx_start[ID] = fxdf$fx_start[ID] + lines_added
+      
+      ## Adjust locations for remaining functions in the file
+      for(rs in ID_fxs) {
+        for (cs in which(colnames(fxdf) %in% c("doc_start", "doc_end", "fx_start"))) {
+          if (!is.na(fxdf[rs,cs]) && fxdf[rs,cs] >= line_before_fx) { fxdf[rs,cs] = fxdf[rs,cs] + lines_added }
+        }
+      }
+    }  
+  } 
+  
+  return(list(fx_df = fxdf, fx_list = fxlist, files_changed = files_changed, MCB = MCB))
+}
 
 #' Compute mode of text ignoring certain values
 #' 
