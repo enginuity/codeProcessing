@@ -1,28 +1,6 @@
 ##@S This file contains generic text-prettifying functions
 
 
-
-#' Creates a character vector of a varying amount of 'ch' characters
-#'   
-#' This is mainly used to space out text for pretty displaying (in printing dataframes)
-#' Example: If v = c(5,1), returns c("     ", " ")
-#' 
-#' @param v Numeric vector
-#' @param ch Character to repeat
-#' 
-#' @return Character vector of length(v)
-#' 
-#' @export
-#' 
-create_space_chars = function(v, ch = " ") {
-  toreturn = as.character(v)
-  for (j in 1:length(v)) {
-    toreturn[j] = paste(rep(ch, times = v[j]), collapse = "")
-  }
-  return(toreturn)
-}
-
-
 ## TODO: [Update] This function probably needs update to handle stringr::str_locate_all? is there a bug with this?
 #' Marks the location of stringr::str_locate output 
 #' 
