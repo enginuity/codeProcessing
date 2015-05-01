@@ -119,7 +119,7 @@ zhdp_updateDocu = function(fxdf, fxlist, MCB) {
         MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], NULL, fxdf$doc_start[ID], fxdf$doc_end[ID])
         fxdf$doc_end[ID] = NA; fxdf$doc_start[ID] = NA
         
-      } else if (any(fxlist[[ID]]$docu_new$Value != fxlist[[ID]]$docu_cur$Value)) { # Documentation doesn't match
+      } else if (lines_added != 0 || any(fxlist[[ID]]$docu_new$Value != fxlist[[ID]]$docu_cur$Value)) { # Documentation doesn't match
         fxdf$status[ID] = "update_docu"; files_changed[fileID] = TRUE
         MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], c(todo, fxlist[[ID]]$docu_new$Value), fxdf$doc_start[ID], fxdf$doc_end[ID])
         fxdf$doc_start[ID] = fxdf$doc_start[ID] + 1
