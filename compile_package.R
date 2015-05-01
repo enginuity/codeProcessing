@@ -8,6 +8,10 @@ if (require(codeProcessing)) {
   
   ## Update documentation -- this looks for new parameters and creates documentation lines for it
   update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), test_run = FALSE)
+  
+  if (FALSE) { ## Compile without exporting everything?
+    update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), test_run = FALSE, regexp_noexport = c("zhdp"))
+  }
   detach(package:codeProcessing)
 }
 
