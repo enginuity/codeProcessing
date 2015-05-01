@@ -59,7 +59,6 @@ replace_codelines = function(basecode, newcode, lines_start, lines_end) {
 #' @export
 #' 
 insert_codelines = function(basecode, newcode, before_line) {
-  cat("before line = ", before_line, "** length = ", length(basecode), "\n")
   if (before_line > length(basecode)) { stop("Error -- before_line is outside of current code length") }
   N = length(basecode)
   return(c(basecode[seq_len(before_line - 1)], newcode, basecode[before_line:N]))
