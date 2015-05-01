@@ -53,9 +53,9 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
 #' @export
 #' 
 update_fx_documentation = function(FD, guess_emptyparam = FALSE,
-                                      regexp_noexport = NULL, regexp_nodocu = NULL,
-                                      regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
-                                      test_run = TRUE) {
+                                   regexp_noexport = NULL, regexp_nodocu = NULL,
+                                   regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
+                                   test_run = TRUE) {
   ## guess_emptyparam guess -> when empty/temp, replaces parameter documentation with most common documentation for specific parameter. --- want to add marker for when something is edited. ********* NOT IMPLEMENTED NOW ****************
   ## idea -- make this happen based on file or entire codebase (allow it as option) 
   
@@ -84,64 +84,68 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
       fx_list[[j]]$docu_new = NULL
     }
   }
+  #   
   
-  ## Insert/replace existing documentation as necessary
-  adjust_df = function(df, fx_no, to_add = FALSE, to_rm = FALSE, new_len = 0) {
-    ids = which(df$fileID == df$fileID[fx_no])
-    before_line = df$fx_start[fx_no] - 1 ## also adjust the doc_end also!
-    if (to_rm) {
-      adjust = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1) * -1
-      df$doc_end[fx_no] = NA; df$doc_start[fx_no] = NA
-    } else if (to_add) {
-      adjust = new_len
-    } else {
-      cur_len = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1)
-      adjust = new_len - cur_len
-    }
-    for(j in ids) {
-      if (!is.na(df$doc_start[j]) && df$doc_start[j] >= before_line) { df$doc_start[j] = df$doc_start[j] + adjust }
-      if (!is.na(df$doc_end[j]) && df$doc_end[j] >= before_line) { df$doc_end[j] = df$doc_end[j] + adjust }
-      if (!is.na(df$fx_start[j]) && df$fx_start[j] >= before_line) { df$fx_start[j] = df$fx_start[j] + adjust }
-    }
-    if (to_add) {
-      df$doc_start[fx_no] = df$fx_start[fx_no] - adjust ; df$doc_end[fx_no] = df$fx_start[fx_no] - 1
-    } 
-    return(df)
-  }
+  #   adjust_df = function(df, fx_no, to_add = FALSE, to_rm = FALSE, new_len = 0) {
+  #     ids = which(df$fileID == df$fileID[fx_no])
+  #     before_line = df$fx_start[fx_no] - 1 ## also adjust the doc_end also!
+  #     if (to_rm) {
+  #       adjust = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1) * -1
+  #       df$doc_end[fx_no] = NA; df$doc_start[fx_no] = NA
+  #     } else if (to_add) {
+  #       adjust = new_len
+  #     } else {
+  #       cur_len = (df$doc_end[fx_no] - df$doc_start[fx_no] + 1)
+  #       adjust = new_len - cur_len
+  #     }
+  #     for(j in ids) {
+  #       if (!is.na(df$doc_start[j]) && df$doc_start[j] >= before_line) { df$doc_start[j] = df$doc_start[j] + adjust }
+  #       if (!is.na(df$doc_end[j]) && df$doc_end[j] >= before_line) { df$doc_end[j] = df$doc_end[j] + adjust }
+  #       if (!is.na(df$fx_start[j]) && df$fx_start[j] >= before_line) { df$fx_start[j] = df$fx_start[j] + adjust }
+  #     }
+  #     if (to_add) {
+  #       df$doc_start[fx_no] = df$fx_start[fx_no] - adjust ; df$doc_end[fx_no] = df$fx_start[fx_no] - 1
+  #     } 
+  #     return(df)
+  #   }
+  #   
+  #   files_changed = rep(FALSE, max(fx_df$fileID))
+  #   for (j in seq_along(fx_list)) {
+  #     fileID = fx_df$fileID[j]; olds = fx_df$doc_start[j]; olde = fx_df$doc_end[j]
+  #     todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fx_list[[j]]$fxname,")", sep = "")
+  #     if (is.null(fx_list[[j]]$docu_new) & !is.null(fx_list[[j]]$docu_cur)) {
+  #       # Then, clear old documentation
+  #       MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = NULL, 
+  #                                              lines_start = olds, lines_end = olde)
+  #       fx_df = adjust_df(df = fx_df, fx_no = j, to_rm = TRUE)
+  #       files_changed[fileID] = TRUE
+  #     } else if (is.null(fx_list[[j]]$docu_cur)) {
+  #       # Insert documentation, since currently null
+  #       MCB$code[[fileID]] = insert_codelines(basecode = MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), before_line = fx_df$fx_start[j])
+  #       fx_df = adjust_df(fx_df, j, to_add = TRUE, new_len = nrow(fx_list[[j]]$docu_new)+1)
+  #       files_changed[fileID] = TRUE
+  #     } else if ( (nrow(fx_list[[j]]$docu_cur) != nrow(fx_list[[j]]$docu_new)) | 
+  #                   (!all(fx_list[[j]]$docu_cur$Value == fx_list[[j]]$docu_new$Value)) ) {
+  #       # Replace documentation
+  #       MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), 
+  #                                              lines_start = olds, lines_end = olde)
+  #       fx_df = adjust_df(fx_df, j, new_len = nrow(fx_list[[j]]$docu_new)+1)
+  #       files_changed[fileID] = TRUE
+  #     } else {
+  #       ## NO CHANGE
+  #     }
+  #   }
   
-  if (!test_run) {
-    files_changed = rep(FALSE, max(fx_df$fileID))
-    for (j in seq_along(fx_list)) {
-      fileID = fx_df$fileID[j]; olds = fx_df$doc_start[j]; olde = fx_df$doc_end[j]
-      todo = paste("## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (",fx_list[[j]]$fxname,")", sep = "")
-      if (is.null(fx_list[[j]]$docu_new) & !is.null(fx_list[[j]]$docu_cur)) {
-        # Then, clear old documentation
-        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = NULL, 
-                                          lines_start = olds, lines_end = olde)
-        fx_df = adjust_df(df = fx_df, fx_no = j, to_rm = TRUE)
-        files_changed[fileID] = TRUE
-      } else if (is.null(fx_list[[j]]$docu_cur)) {
-        # Insert documentation, since currently null
-        MCB$code[[fileID]] = insert_codelines(basecode = MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), before_line = fx_df$fx_start[j])
-        fx_df = adjust_df(fx_df, j, to_add = TRUE, new_len = nrow(fx_list[[j]]$docu_new)+1)
-        files_changed[fileID] = TRUE
-      } else if ( (nrow(fx_list[[j]]$docu_cur) != nrow(fx_list[[j]]$docu_new)) | 
-                    (!all(fx_list[[j]]$docu_cur$Value == fx_list[[j]]$docu_new$Value)) ) {
-        # Replace documentation
-        MCB$code[[fileID]] = replace_codelines(MCB$code[[fileID]], newcode = c(todo, fx_list[[j]]$docu_new$Value), 
-                                          lines_start = olds, lines_end = olde)
-        fx_df = adjust_df(fx_df, j, new_len = nrow(fx_list[[j]]$docu_new)+1)
-        files_changed[fileID] = TRUE
-      } else {
-        ## NO CHANGE
-      }
-    }
-  }
+  
+  ## Insert/replace existing documentation as necessary  
+  temp = zhdp_updateDocu(fx_df, fx_list, MCB) 
+  fx_df = temp$fx_df; fx_list = temp$fx_list; MCB = temp$MCB; files_changed = temp$files_changed
   
   ## Write updated documentation as necessary
   if (!test_run) { write_MatchedCodebase(MCB, which(files_changed)) }
+  print("Done! [Inserting/formatting documentation (roxygen) templates]")
   
-  return("Done! [Inserting/formatting documentation (roxygen) templates]")
+  return(fx_df)
 }
 
 
