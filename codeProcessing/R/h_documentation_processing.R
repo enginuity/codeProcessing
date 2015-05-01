@@ -14,7 +14,7 @@
 #' 
 #' @export
 #' 
-extract_prev_headers = function(text, lineno, header="^#'") {
+zhdp_extract_prev_headers = function(text, lineno, header="^#'") {
   if (!is.vector(lineno) || length(lineno) > 1) { stop("Invalid input 'lineno'")}
   matchlines = grep(header, text) 
   closest_break = max(c(0,setdiff(seq_len(lineno-1), matchlines)))
@@ -39,7 +39,7 @@ extract_prev_headers = function(text, lineno, header="^#'") {
 #' 
 #' @export
 #' 
-process_cur_docu = function(code, lines, header = "^#'") {
+zhdp_process_cur_docu = function(code, lines, header = "^#'") {
   if (length(lines) <= 0) { return(NULL) }
   
   prev_docu = data.frame(LineNo = lines, Value = "", Type = "", ParamName = "", TypeOrder = 0, ParamOrder = 0, SubOrder = 0, stringsAsFactors=FALSE)
@@ -129,13 +129,13 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
                         docu_cur = NULL, 
                         code = NULL, ## TODO: [Implement] this someday. 
                         params = fxinfo[[j]]$params)
-    doclocs = extract_prev_headers(text = code, lineno = fx_start)
+    doclocs = zhdp_extract_prev_headers(text = code, lineno = fx_start)
     if (length(doclocs) > 0) {
       resdf$doc_exist[j] = TRUE        
       resdf$doc_start[j] = min(doclocs)
       resdf$doc_end[j] = max(doclocs)
       
-      reslist[[j]]$docu_cur = process_cur_docu(code, lines = doclocs)
+      reslist[[j]]$docu_cur = zhdp_process_cur_docu(code, lines = doclocs)
     }
     resdf$fx_start[j] = fx_start
   }
