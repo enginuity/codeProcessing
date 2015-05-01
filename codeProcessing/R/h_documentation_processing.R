@@ -72,9 +72,6 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
 }
 
 
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (zhdp_updateDocu)
-#' <What does this function do>
-#' 
 #' [Helper] Update documentation as necessary
 #' 
 #' This function updates the data frame storing function results, as well as all the code. 
