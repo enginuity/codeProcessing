@@ -5,7 +5,7 @@
 #' 
 #' Only applies to R code (since searches for #'s and functions in R formatting)
 #' 
-#' @param FD [FilesDescription] :: A collection of source code files
+#' @param FD [\code{\link{FilesDescription}}] :: A collection of source code files
 #' @param regexp_fxstart [char] :: Regex to determine function starts; default should work
 #' 
 #' @return -- UPDATE THIS

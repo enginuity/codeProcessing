@@ -3,9 +3,9 @@
 
 #' Find all files with appropriate file extensions and extract code
 #' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
+#' @param FD [\code{\link{FilesDescription}}] -- A specification of codefiles
 #' 
-#' @return Object of class Codebase
+#' @return [\code{\link{Codebase}}] -- Specification and container for codefiles and filenames
 #' 
 #' @export
 #' 
@@ -20,14 +20,14 @@ extract_Codebase = function(FD) {
 #'     
 #' See documentation on class FilesDescription to see how to describe a file. 
 #' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files
+#' @param FD [\code{\link{FilesDescription}}] -- A specification of codefiles
 #' 
 #' @return Character vector of filenames
 #' 
 #' @export
 #' 
 find_files = function(FD) {
-  if (!inherits(x = FD, "FilesDescription")) {stop("Input class is not of class FilesDescription")} 
+  if (!inherits(x = FD, "FilesDescription")) { stop("Input class is not of class FilesDescription") } 
 
   ## Find appropriate filename extension
   if (FD$mode == "R") {
