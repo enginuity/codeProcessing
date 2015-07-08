@@ -7,7 +7,7 @@ codefile-processing.Rproj
 *.Rd
 *.Rproj
 *.pdf
-metacode_logs/
+codeProcessing_logs/
 *~
 *.synctex.gz
 *.toc
