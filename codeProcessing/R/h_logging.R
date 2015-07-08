@@ -34,7 +34,7 @@ log_result = function(..., file = log_file, header = FALSE, display = FALSE) {
 #' @param logtype Type-identifier to be added to the logfile name
 #' @param query Usually is regexp; this is added to the logfile name
 #' 
-#' @return A filename in under the folder metacode_logs/
+#' @return A filename in under the folder codeProcessing_logs/
 #' 
 #' @export
 #' 
@@ -43,9 +43,9 @@ logfile_namecreation = function(logtype, query) {
   querylog = gsub("[^[:alnum:]]", "", querylog)
   
   ## Create directory if storage directory doesn't exist.
-  if (!file.exists("metacode_logs")) { dir.create("metacode_logs") }
+  if (!file.exists("codeProcessing_logs")) { dir.create("codeProcessing_logs") }
   
-  res = paste("metacode_logs/", logtype, "_", querylog,
+  res = paste("codeProcessing_logs/", logtype, "_", querylog,
               "_", format(Sys.time(), "%Y%m%d-%H%M%S"), ".txt", 
               sep = "")
   return(res)
