@@ -5,10 +5,12 @@
 #' This stores a basic combination of filenames and the source code. 
 #' Often used for further searching, or for applying some edit to the source code and then rewriting to disk. 
 #' 
-#' @param files A vector of filenames, accessible from the current working directory
-#' @param code A list of source codes (each an individual character vector)
+#' @param files [vector-char] :: A vector of filenames, accessible from the current working directory
+#' @param code [List, vector-char] :: A list containing source code (each an individual character vector which are just line-by-line versions of source code)
 #' 
-#' @return Object of class Codebase
+#' @return Object of class Codebase, which is a list with entries: 
+#' files -- [vector-char] :: A vector of filenames
+#' code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
 #' 
 #' @export
 #' 
@@ -22,11 +24,11 @@ Codebase = function(files, code) {
 #' Extends Codebase.
 #' In addition to Codebase, this stores where 'regex' matchings occur in the source. 
 #' 
-#' @param CB Object of class Codebase
-#' @param CB_subset If non-NULL, this specifies a subset of the files/code in CB to keep
-#' @param matchlines List of line-location of matches, as individual vectors
-#' @param matchlocs List of stringr::str_locate_all output (for 'regex' on each file)
-#' @param REGEX Object of class Regex: storing search request
+#' @param CB [Codebase] :: Original input text collection
+#' @param CB_subset [vector] :: If non-NULL, this is used as an index for files in the original codebase. This can be any indexing method (eg. numeric indices, negative numeric indices, logical vector, etc.). This allows for subsetting the original codebase (eg. to ignore certain files that are described in FD, or to ignore certain files that do not have any matches)
+#' @param matchlines [List] :: Line locations of matches, as individual vectors in the list, corresponding to the order in the input CB. (This corresponds to subsetted remaining vector of appropriate)
+#' @param matchlocs [List] :: stringr::str_locate_all output from running some regular expression on each file. 
+#' @param REGEX [Regex] :: Allows for input of the search request for storage purposes
 #' 
 #' @return Object of class MatchedCodebase
 #' 

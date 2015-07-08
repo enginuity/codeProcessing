@@ -1,17 +1,19 @@
 ##@S Functions that extract and update the documentation
 
 
-#' Extract all documentation
+#' Extract all documentation from source files
 #' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
-#' @param regexp_fxstart Regex to determine function starts; default should work
+#' Only applies to R code (since searches for #'s and functions in R formatting)
 #' 
-#' @return A list of two objects: A list of functions and information about each function, and then a data frame denoting ALL of the functions and information about each. 
+#' @param FD [FilesDescription] :: A collection of source code files
+#' @param regexp_fxstart [char] :: Regex to determine function starts; default should work
+#' 
+#' @return -- UPDATE THIS
 #' 
 #' @export
 #' 
 extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
-  ## Search for function headers
+  ## Generate a 
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
   fx_list = list()
