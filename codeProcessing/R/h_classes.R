@@ -8,9 +8,11 @@
 #' @param files [vector-char] :: A vector of filenames, accessible from the current working directory
 #' @param code [List, vector-char] :: A list containing source code (each an individual character vector which are just line-by-line versions of source code)
 #' 
-#' @return Object of class Codebase, which is a list with entries: 
-#' files -- [vector-char] :: A vector of filenames
-#' code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
+#' @return [Codebase] :: A list (S3 class) with entries: 
+#' \itemize{
+#'   \item files -- [vector-char] :: A vector of filenames
+#'   \item code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
+#' }
 #' 
 #' @export
 #' 
@@ -30,7 +32,14 @@ Codebase = function(files, code) {
 #' @param matchlocs [List] :: stringr::str_locate_all output from running some regular expression on each file. 
 #' @param REGEX [Regex] :: Allows for input of the search request for storage purposes
 #' 
-#' @return Object of class MatchedCodebase
+#' @return [MatchedCodebase] :: A list (S3 class) with entries:
+#' \itemize{
+#'   \item files -- [vector-char] :: A vector of filenames
+#'   \item code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
+#'   \item matchlines -- [list, vector-int] :: A list storing line-locations of matches, as individual vectors. 
+#'   \item matchlocs -- [list] :: A list storing match locations as in str_locate_all output format. 
+#'   \item REGEX -- [Regex] :: Stores the regex requested
+#' }
 #' 
 #' @export
 #' 
