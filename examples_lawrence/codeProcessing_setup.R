@@ -18,8 +18,8 @@ generate_todolist(FD = package_FD)
 # Misc Examples -----------------------------------------------------------
 
 search_code(RE = Regex(base = "write", isexact = FALSE, isword = FALSE), FD = package_FD)
-search_code("extract_param_docu", FD = package_FD)
+search_code("Mode_nontemp", FD = package_FD)
 
-search_code("zhdp_extractDocu", FD = package_FD)
+search_code("extract_full_docu", FD = package_FD)
 
 

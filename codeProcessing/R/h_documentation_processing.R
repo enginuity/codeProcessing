@@ -171,16 +171,23 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
   return(list(fx_df = resdf, fx_list = reslist))
 }
 
+## TODO [Improvement]: Make object type for storage of output data elements?
 
 #' [Helper] Update documentation as necessary
 #' 
-#' This function updates the data frame storing function results, as well as all the code. 
+#' This function calls for the standard form of the documentation (given the current documentation), and then compares it to the existing documentation. If it's different (or if the existing documentation is missing), it'll be updated in MCB.
+#' 
+#' This function makes no changes to disk. 
 #' 
 #' @param fxdf [dataframe] :: function information output from \code{\link{zhdp_extractDocu}}
 #' @param fxlist [list] :: function information output from \code{\link{zhdp_extractDocu}}
 #' @param MCB [\code{\link{MatchedCodebase}}] :: Stored code information (and information about matches, but this is unreliable, since the code might be altered by previous calls to this function)
 #' 
-#' @return [list] ::        list containing updated objects, as well as a vector telling which files have been adjusted. 
+#' @return [list] :: Contains updated function information. Entries of the list are: \code{fx_df}, \code{fx_list}, \code{files_changed}, \code{MCB} \cr
+#' fx_df -- [list] :: Updated output of \code{\link{zhdp_extractDocu}} \cr
+#' fx_list -- [list] :: Updated output of \code{\link{zhdp_extractDocu}} \cr
+#' files_changed -- [vector-int] :: A vector indicating which in MCB were updated \cr
+#' MCB -- [\code{\link{MatchedCodebase}}] :: Updated source code
 #' 
 #' @export
 #' 
