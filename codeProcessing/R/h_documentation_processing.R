@@ -1,16 +1,15 @@
 ## Helper functions for processing documentation
 
 
-
-#' Locates chunk of previous lines that match a regex
+#' [Helper] Locates chunk of previous lines that match a regex
 #' 
-#' Mainly used to figure out which previous lines correspond to the documentation segment (and check the regex specified by header)
+#' Mainly used to figure out which previous lines correspond to the documentation chunk (and check the regex specified by header). The input line \code{lineno} shouldn't match \code{header} in the intended usage case, but this is not checked. 
 #' 
-#' @param text character vector -- should be code
-#' @param lineno integer -- line number whose previous lines are searched
-#' @param header character -- corresponds to regex to search for chunk
+#' @param text [vector-char] :: Text (code) to search
+#' @param lineno [int] :: Line number of which previous lines are checked against the header regular expression
+#' @param header [char] :: A regex that is the header (first few characters) of all lines in the 'chunk'
 #' 
-#' @return line numbers for the previous contiguous chunk (corresponding to indices of [text] that match [header])
+#' @return [vector-int] :: Line numbers for the previous contiguous chunk (corresponding to indices of \code{text} that match \code{header})
 #' 
 #' @export
 #' 
@@ -27,15 +26,25 @@ zhdp_extract_prev_headers = function(text, lineno, header="^#'") {
 }
 
 
-#' Extract and process the current documentation
+#' [Helper] Extract and process the current documentation for input code, for a given documentation segment
 #' 
 #' Creates a data frame storing information for the current documentation
 #' 
-#' @param code character vector -- should be source code
-#' @param lines integer vector -- lines corresponding to 'code' that contain the documentation segment
-#' @param header character -- corresponds to regex to search for chunk
+#' @param code [vector-char] :: Text (code) to process
+#' @param lines [vector-int] :: Lines in the code that correspond to a single documentation segment
+#' @param header [char] :: A regex that is the header (first few characters) of all lines in the 'chunk'
 #' 
-#' @return A data frame containing information about current documentation (or NULL if none)
+#' @return [dataframe] :: NULL if no current documentation, otherwise: 
+#' \itemize{
+#'   \item LineNo -- [int] :: Line number of original code
+#'   \item Value -- [char] :: Entire line in the original code
+#'   \item Type -- [char] :: Type of documentation this line is. Choices are: (Empty, @@[<validtype>], Text)
+#'   \item ParamName -- [char] :: If this is of type @@param, this contains the parameter name
+#'   \item TypeOrder -- [int] :: **Zeroed out for now**
+#'   \item ParamOrder -- [int] :: **Zeroed out for now**
+#'   \item SubOrder -- [int] :: **Zeroed out for now**
+#' }
+#' A data frame containing information about current documentation (or NULL if none)
 #' 
 #' @export
 #' 
@@ -51,7 +60,6 @@ zhdp_process_cur_docu = function(code, lines, header = "^#'") {
   ## Fill in Value, Type, ParamName
   for(j in seq_along(lines)) {
     t = tsplit[[j]]
-    ## TODO: [Generalize] This imposes a very rigid instruction on the format of documentation. Could be relaxed. 
     t = t[t != ""]
     if (length(t) < 1 | is.na(t[1])) {
       prev_docu$Type[j] = 'Empty'
@@ -71,15 +79,19 @@ zhdp_process_cur_docu = function(code, lines, header = "^#'") {
 }
 
 
-
 #' [Helper] Extract metadata for each function
 #' 
 #' In addition, it checks for the funciton in two ways: first, based off regex matching, second, using the parse function. 
 #' 
-#' @param code character vector : Source code
-#' @param matchlines numeric vector : Lines where functions start
+#' @param code [vector-char] :: Text (code)
+#' @param matchlines [vector-int] :: All lines in the code which correspond to defining named functions
 #' 
-#' @return A list of function information extracted for specific code file
+#' @return [list] :: Information about each function: 
+#' \itemize{
+#'   \item fxname -- [char] :: Function name
+#'   \item params -- [vector-char] :: Parameter names in order of appearance
+#'   \item matchlineIND -- [int] :: Index of input \code{matchlines} that corresponds to this function
+#' }
 #' 
 #' @export
 #' 

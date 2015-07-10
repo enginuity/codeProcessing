@@ -1,7 +1,6 @@
 ##@S This file contains function related to reformatting a given extrated documentation (or generating it)
 
 # Main Function -----------------------------------------------------------
-## TODO [Idea] : For temporary documentation (and perhaps in general): Allow for adding some sort of default format (eg << param_name [type, default value] :: temp >>)
 
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' Then outputs what it thinks the new format should be. Then, need to separately check whether it matches what it thinks it should be. 
