@@ -253,23 +253,20 @@ zhdp_updateDocu = function(fxdf, fxlist, MCB) {
   return(list(fx_df = fxdf, fx_list = fxlist, files_changed = files_changed, MCB = MCB))
 }
 
-#' Compute mode of text ignoring certain values
+#' Compute "mode" of text
 #' 
-#' Ignores all values that are equal to "temp", and computes the mode of the remaining text values
-#' (or ignores all values in 'ignore_type')
+#' This function computes the most frequently occuring element of a character vector (it works exactly like Mode on an integer vector). In addition, it's possible to specify certain exact elements to ignore, by specifying \code{ignore_type}
 #' 
-#' @param text Character vector whose mode is desired
-#' @param ignore_type Character vector of elements to ignore. 
+#' @param v [vector-char] :: Input vector whose mode is desired
+#' @param ignore [vector-char; DEFAULT = "temp"] :: Exact elements to ignore when computing mode
 #' 
-#' @return Mode of 'text'
+#' @return [char] :: Mode of \code{v}. Returns char(0) if no non-ignored elements. 
 #' 
 #' @export
 #' 
-Mode_nontemp = function(text, ignore_type = "temp") {
-  
-  t = text[!(text %in% ignore_type)]
-  if (length(t) == 0) { return(ignore_type[1]) }
-  
+Mode_text = function(v, ignore = "temp") {
+  t = v[!(v %in% ignore)]
+  if (length(t) == 0) { return(char(0)) }  
   tab = table(t)
   return(names(tab)[which(tab == max(tab))[1]])
 }
