@@ -3,9 +3,9 @@
 
 #' Find all files with appropriate file extensions and extract code
 #' 
-#' @param FD [\code{\link{FilesDescription}}] -- A specification of codefiles
+#' @param FD [\code{\link{FilesDescription}}] :: A specification of codefiles
 #' 
-#' @return [\code{\link{Codebase}}] -- Specification and container for codefiles and filenames
+#' @return [\code{\link{Codebase}}] :: Specification and container for codefiles and filenames
 #' 
 #' @export
 #' 
@@ -20,7 +20,7 @@ extract_Codebase = function(FD) {
 #'     
 #' See documentation on class FilesDescription to see how to describe a file. 
 #' 
-#' @param FD [\code{\link{FilesDescription}}] -- A specification of codefiles
+#' @param FD [\code{\link{FilesDescription}}] :: A specification of codefiles
 #' 
 #' @return Character vector of filenames
 #' 

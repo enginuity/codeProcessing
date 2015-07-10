@@ -6,12 +6,12 @@
 #' Often used for further searching, or for applying some edit to the source code and then rewriting to disk. 
 #' 
 #' @param files [vector-char] :: A vector of filenames, accessible from the current working directory
-#' @param code [List, vector-char] :: A list containing source code (each an individual character vector which are just line-by-line versions of source code)
+#' @param code [list-vector-char] :: A list containing source code (each an individual character vector which are just line-by-line versions of source code)
 #' 
 #' @return [Codebase] :: A list (S3 class) with entries: 
 #' \itemize{
 #'   \item files -- [vector-char] :: A vector of filenames
-#'   \item code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
+#'   \item code -- [list-vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
 #' }
 #' 
 #' @export
@@ -28,15 +28,15 @@ Codebase = function(files, code) {
 #' 
 #' @param CB [\code{\link{Codebase}}] :: Original input text collection
 #' @param CB_subset [vector] :: If non-NULL, this is used as an index for files in the original codebase. This can be any indexing method (eg. numeric indices, negative numeric indices, logical vector, etc.). This allows for subsetting the original codebase (eg. to ignore certain files that are described in FD, or to ignore certain files that do not have any matches)
-#' @param matchlines [List] :: Line locations of matches, as individual vectors in the list, corresponding to the order in the input CB. (This corresponds to subsetted remaining vector of appropriate)
-#' @param matchlocs [List] :: stringr::str_locate_all output from running some regular expression on each file. 
+#' @param matchlines [list] :: Line locations of matches, as individual vectors in the list, corresponding to the order in the input CB. (This corresponds to subsetted remaining vector of appropriate)
+#' @param matchlocs [list] :: stringr::str_locate_all output from running some regular expression on each file. 
 #' @param REGEX [\code{\link{Regex}}] :: Allows for input of the search request for storage purposes
 #' 
 #' @return [MatchedCodebase] :: A list (S3 class) with entries:
 #' \itemize{
 #'   \item files -- [vector-char] :: A vector of filenames
-#'   \item code -- [list, vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
-#'   \item matchlines -- [list, vector-int] :: A list storing line-locations of matches, as individual vectors. 
+#'   \item code -- [list-vector-char] :: A list of source code, each element is a character vector corresponding to source code. 
+#'   \item matchlines -- [list-vector-int] :: A list storing line-locations of matches, as individual vectors. 
 #'   \item matchlocs -- [list] :: A list storing match locations as in str_locate_all output format. 
 #'   \item REGEX -- [\code{\link{Regex}}] :: Stores the regex requested
 #' }
@@ -64,13 +64,13 @@ MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, REGEX) {
 #' 
 #' @param mode "R" or "C" -- looks for appropriate filename extensions. Defaults to "R".
 #' @param dirlist Either a vector of directories, or a list of lists: Inner lists have $dir = some path; $file_regex = NULL or some regex. If input is instead a vector of 'dir's, then it will be converted into list form. Can be NULL. 
-#' @param filelist [list, char] :: List of individually specified files
+#' @param filelist [list-char] :: List of individually specified files
 #' 
 #' @return [FilesDescription] :: A list (S3 class): 
 #' \itemize{
 #'    \item mode -- [char] :: "R" or "C" : looks for appropriate file extensions of this type
-#'    \item dirlist -- [list, list] :: Inner lists have $dir to specify a path, and $file_regex to specify a regular expression to search. 
-#'    \item filelist -- [list, char] :: List of individually specified files
+#'    \item dirlist -- [list-list] :: Inner lists have $dir to specify a path, and $file_regex to specify a regular expression to search. 
+#'    \item filelist -- [list-char] :: List of individually specified files
 #' }
 #' 
 #' @export
