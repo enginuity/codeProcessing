@@ -20,4 +20,6 @@ generate_todolist(FD = package_FD)
 search_code(RE = Regex(base = "write", isexact = FALSE, isword = FALSE), FD = package_FD)
 search_code("extract_param_docu", FD = package_FD)
 
+search_code("zhdp_extractDocu", FD = package_FD)
+
 

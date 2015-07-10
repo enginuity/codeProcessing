@@ -44,7 +44,6 @@ zhdp_extract_prev_headers = function(text, lineno, header="^#'") {
 #'   \item ParamOrder -- [int] :: **Zeroed out for now**
 #'   \item SubOrder -- [int] :: **Zeroed out for now**
 #' }
-#' A data frame containing information about current documentation (or NULL if none)
 #' 
 #' @export
 #' 
@@ -120,21 +119,41 @@ zhdp_extractFxInfo = function(code, matchlines) {
 #' 
 #' This function extends the function information extracted previously in fxinfo, and returns a list of an updated data.frame version of fxinfo, and a list of function information. 
 #' 
-#' @param code character vector -- source code
-#' @param all_matchlines numeric vector -- Lines where functions potentially start
-#' @param fxinfo Data frame containing information on functions in this file
+#' @param code [vector-char] :: Text (code) 
+#' @param all_matchlines [vector-int] :: Lines where functions potentially start
+#' @param fxinfo [dataframe] :: Data frame containing information on functions in this file. This should be output from \code{\link{zhdp_extractFxInfo}}
 #' 
-#' @return List(df, list) : df is updated version of fxinfo, list contains information about each function
+#' @return [list] :: Two elements: \code{df}, \code{list}, where \cr
+#' \code{df} -- [dataframe] :: Contains information about location of the functions in the code
+#' \itemize{
+#'   \item fx_name -- [char] :: Function name
+#'   \item doc_exist -- [logical] :: Is there existing documentation?
+#'   \item doc_start -- [int] :: Line number for documentation to start
+#'   \item doc_end -- [int] :: Line number for end of documentation
+#'   \item fx_start -- [int] :: Line number for function declaration (function start)
+#'   \item fx_end -- [int] :: **Zeroed out for now**
+#'   \item status -- [char] :: **NA'd out for now**
+#' } \cr
+#' \code{list} -- [list-list] :: Contains information about each function foudn as follows: 
+#' \itemize{
+#'   \item fxname -- [char] :: Function name
+#'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
+#'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
+#'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
+#' }
+#' 
+#' List(df, list) : df is updated version of fxinfo, list contains information about each function
 #' 
 #' @export
 #' 
 zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
-  ## For each codefile, extract all matches -- return a list of a data frame and an updated function information list. 
+
+  ## Setup storage containers
   reslist = list()
   resdf = data.frame(fx_name = sapply(fxinfo, function(x) {x$fxname}),
                      doc_exist = FALSE, doc_start = NA, doc_end = NA, fx_start = NA, fx_end = NA, status = NA)
-  ## status -- should eventually store what happened to this document: add docu, remove docu, no change, update docu
   
+  ## For each function, extract documentation information
   for (j in seq_along(fxinfo)) {
     fx_start = all_matchlines[fxinfo[[j]]$matchlineIND]
     reslist[[j]] = list(fxname = fxinfo[[j]]$fxname, 
