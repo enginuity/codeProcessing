@@ -18,11 +18,11 @@ extract_Codebase = function(FD) {
 
 #' Find all files
 #'     
-#' See documentation on class FilesDescription to see how to describe a file. 
+#' See \code{\link{FilesDescription}} to see how to describe a file. 
 #' 
 #' @param FD [\code{\link{FilesDescription}}] :: A specification of codefiles
 #' 
-#' @return Character vector of filenames
+#' @return [vector-char] :: A vector of filenames that match the given \code{\link{FilesDescription}}
 #' 
 #' @export
 #' 
@@ -63,9 +63,9 @@ find_files = function(FD) {
 
 #' Extracts code for each file input
 #' 
-#' @param files Vector of filenames
+#' @param files [vector-char] :: Filenames to extract code from
 #' 
-#' @return List of code files
+#' @return [list-vector-char] :: A list of code read from each given input file
 #' 
 #' @export
 #' 

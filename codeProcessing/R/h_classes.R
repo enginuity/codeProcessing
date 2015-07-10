@@ -21,6 +21,7 @@ Codebase = function(files, code) {
 }
 
 
+## TODO [Documentation] : Improve the parameter documentation to be more specific
 #' Class MatchedCodebase 
 #'    
 #' Extends \code{\link{Codebase}}.
