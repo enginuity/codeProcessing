@@ -121,7 +121,7 @@ zhdp_extractFxInfo = function(code, matchlines) {
 #' 
 #' @param code [vector-char] :: Text (code) 
 #' @param all_matchlines [vector-int] :: Lines where functions potentially start
-#' @param fxinfo [dataframe] :: Data frame containing information on functions in this file. This should be output from \code{\link{zhdp_extractFxInfo}}
+#' @param fxinfo [list] :: Data frame containing information on functions in this file. This should be output from \code{\link{zhdp_extractFxInfo}}
 #' 
 #' @return [list] :: Two elements: \code{fx_df}, \code{fx_list}, where \cr
 #' \code{fx_df} -- [dataframe] :: Contains information about location of the functions in the code
@@ -134,7 +134,7 @@ zhdp_extractFxInfo = function(code, matchlines) {
 #'   \item fx_end -- [int] :: **Zeroed out for now**
 #'   \item status -- [char] :: **NA'd out for now**
 #' } \cr
-#' \code{fx_list} -- [list-list] :: Contains information about each function foudn as follows: 
+#' \code{fx_list} -- [list-list] :: Contains information about each function found as follows: 
 #' \itemize{
 #'   \item fxname -- [char] :: Function name
 #'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
@@ -176,11 +176,11 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
 #' 
 #' This function updates the data frame storing function results, as well as all the code. 
 #' 
-#' @param fxdf data frame consisting of function information
-#' @param fxlist list consisting function and documentation information
-#' @param MCB codebase object
+#' @param fxdf [dataframe] :: function information output from \code{\link{zhdp_extractDocu}}
+#' @param fxlist [list] :: function information output from \code{\link{zhdp_extractDocu}}
+#' @param MCB [\code{\link{MatchedCodebase}}] :: Stored code information (and information about matches, but this is unreliable, since the code might be altered by previous calls to this function)
 #' 
-#' @return list containing updated objects, as well as a vector telling which files have been adjusted. 
+#' @return [list] ::        list containing updated objects, as well as a vector telling which files have been adjusted. 
 #' 
 #' @export
 #' 
