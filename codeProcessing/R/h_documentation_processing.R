@@ -123,8 +123,8 @@ zhdp_extractFxInfo = function(code, matchlines) {
 #' @param all_matchlines [vector-int] :: Lines where functions potentially start
 #' @param fxinfo [dataframe] :: Data frame containing information on functions in this file. This should be output from \code{\link{zhdp_extractFxInfo}}
 #' 
-#' @return [list] :: Two elements: \code{df}, \code{list}, where \cr
-#' \code{df} -- [dataframe] :: Contains information about location of the functions in the code
+#' @return [list] :: Two elements: \code{fx_df}, \code{fx_list}, where \cr
+#' \code{fx_df} -- [dataframe] :: Contains information about location of the functions in the code
 #' \itemize{
 #'   \item fx_name -- [char] :: Function name
 #'   \item doc_exist -- [logical] :: Is there existing documentation?
@@ -134,15 +134,13 @@ zhdp_extractFxInfo = function(code, matchlines) {
 #'   \item fx_end -- [int] :: **Zeroed out for now**
 #'   \item status -- [char] :: **NA'd out for now**
 #' } \cr
-#' \code{list} -- [list-list] :: Contains information about each function foudn as follows: 
+#' \code{fx_list} -- [list-list] :: Contains information about each function foudn as follows: 
 #' \itemize{
 #'   \item fxname -- [char] :: Function name
 #'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
 #'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
 #'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
 #' }
-#' 
-#' List(df, list) : df is updated version of fxinfo, list contains information about each function
 #' 
 #' @export
 #' 
@@ -170,7 +168,7 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
     }
     resdf$fx_start[j] = fx_start
   }
-  return(list(df = resdf, list = reslist))
+  return(list(fx_df = resdf, fx_list = reslist))
 }
 
 

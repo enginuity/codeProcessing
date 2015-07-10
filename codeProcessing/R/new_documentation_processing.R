@@ -20,15 +20,15 @@ extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *
   fx_df = NULL
   
   for (j in seq_along(MCB$code)) {
-    fxinfo = zhdp_extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
-    temp = zhdp_extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fxinfo)
-    fx_list = c(fx_list, temp$list)
-    fx_df = rbind(fx_df, cbind(fileID = j, filename = MCB$files[j], temp$df))
+    fx_info = zhdp_extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
+    temp = zhdp_extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fx_info)
+    fx_list = c(fx_list, temp$fx_list)
+    fx_df = rbind(fx_df, cbind(fileID = j, filename = MCB$files[j], temp$fx_df))
   }
   ## Add ID's
   fx_df = cbind(ID = seq_len(nrow(fx_df)), fx_df, want_docu = TRUE, want_export = TRUE)
   
-  return(list(MCB = MCB, df = fx_df, list = fx_list))
+  return(list(MCB = MCB, fx_df = fx_df, fx_list = fx_list))
 }
 
 
@@ -70,8 +70,8 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   
   ## Setup
   temp = extract_full_docu(FD = FD, regexp_fxstart = regexp_fxstart)
-  fx_df = temp$df
-  fx_list = temp$list
+  fx_df = temp$fx_df
+  fx_list = temp$fx_list
   MCB = temp$MCB
   
   ## Check for undocumenting / unexporting
