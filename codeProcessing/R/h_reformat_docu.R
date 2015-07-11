@@ -7,14 +7,13 @@
 #' 
 #' @param cur_doc old documentation (as data frame output)
 #' @param params function parameters
-#' @param default_param_doc ** not sure if implemeneted. figure this out.
 #' @param to_export if TRUE: adds lines corresponding to @@export. 
 #' 
 #' @return character vector: correct roxygen documentation
 #' 
 #' @export
 #' 
-reformat_documentation = function(cur_doc, params, default_param_doc = NULL, to_export = TRUE) {
+reformat_documentation = function(cur_doc, params, to_export = TRUE) {
   
   reorder_rows = function(df) {
     return(df[order(df$TypeOrder, df$ParamOrder, df$SubOrder),])
@@ -87,7 +86,7 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL, to_
   new_doc = rbind(new_doc, data.frame(LineNo=-1, Value = "#' ", Type ="Empty", ParamName = "", TypeOrder = c(1.5, 2.5, 3.5, 10.5), ParamOrder = 0, SubOrder = 1, stringsAsFactors=FALSE))
   
   ## Find correct parameter assignment
-  new_doc = reform_params(raw_docu_df = new_doc, correct_param_order = params, default_param_doc = default_param_doc)
+  new_doc = reform_params(raw_docu_df = new_doc, correct_param_order = params)
   
   ## Reorder rows using ordering
   new_doc = reorder_rows(new_doc)
@@ -112,13 +111,12 @@ reformat_documentation = function(cur_doc, params, default_param_doc = NULL, to_
 #' 
 #' @param raw_docu_df Data frame describing the documentation for a specific function. 
 #' @param correct_param_order Character vector: correct order for parameters
-#' @param default_param_doc Data frame: columns ParamName and Doc (parameter name and documentation for parameter)
 #' 
 #' @return Data frame describing documentation for the specific function. 
 #' 
 #' @export
 #' 
-reform_params = function(raw_docu_df, correct_param_order, default_param_doc = NULL) {
+reform_params = function(raw_docu_df, correct_param_order) {
   ## This assumes default documentation is one line. 
   ## TODO: [Idea] improve to assume that parameter documentation can be more than one line. 
   
@@ -144,7 +142,6 @@ reform_params = function(raw_docu_df, correct_param_order, default_param_doc = N
   
   if (length(params_toadd) > 0) {
     param_doc = rep("temp", times = length(params_toadd))
-    param_doc[which(!is.na(match(params_toadd, default_param_doc$ParamName)))] = default_param_doc$Doc[match(params_toadd, default_param_doc$ParamName, nomatch = 0)]
     
     raw_docu_df = rbind(raw_docu_df, data.frame(LineNo=-1, Value = paste( "#' @param", params_toadd, param_doc), Type ="@param", ParamName = params_toadd, TypeOrder = 2, ParamOrder = param_nums, SubOrder = 1, stringsAsFactors=FALSE))
   }
