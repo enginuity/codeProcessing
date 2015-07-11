@@ -59,7 +59,7 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   }
   
   ## Insert/replace existing documentation as necessary  
-  temp = write_updated_docu(fx_df, fx_list, MCB) 
+  temp = update_stored_docu(fx_df, fx_list, MCB) 
   fx_df = temp$fx_df; fx_list = temp$fx_list; MCB = temp$MCB; files_changed = temp$files_changed
   
   ## Write updated documentation as necessary
