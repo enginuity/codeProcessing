@@ -1,10 +1,11 @@
-## Helper functions for processing documentation
-
+## Functions for extracting existing documentation 
+## The main extraction function extracts a result from every single file passed in. 
+## The helper functions operate only on a single file (and thus a loop over individual files in the main function)
 
 # Main Extraction Function (calls all these as sub-functions) -------------
 
 
-#' Extract all documentation from source files
+#' Extract all documentation from all source files
 #' 
 #' Only applies to R code (since searches for #'s and functions in R formatting)
 #' 
@@ -46,7 +47,7 @@ extract_all_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *f
 #' @param code [vector-char] :: Text (code)
 #' @param matchlines [vector-int] :: All lines in the code which correspond to defining named functions
 #' 
-#' @return [list] :: Information about each function: 
+#' @return [list-list] :: For each sublist -- stores information about a single function
 #' \itemize{
 #'   \item fxname -- [char] :: Function name
 #'   \item params -- [vector-char] :: Parameter names in order of appearance
@@ -156,15 +157,13 @@ zhdp_process_cur_docu = function(code, lines, header = "^#'") {
 }
 
 
-
-
 #' [Helper] Extracts existing (roxygen2-style) documentation
 #' 
 #' This function extends the function information extracted previously in fxinfo, and returns a list of an updated data.frame version of fxinfo, and a list of function information. 
 #' 
 #' @param code [vector-char] :: Text (code) 
 #' @param all_matchlines [vector-int] :: Lines where functions potentially start
-#' @param fxinfo [list] :: Data frame containing information on functions in this file. This should be output from \code{\link{zhdp_extractFxInfo}}
+#' @param fxinfo [list] :: Output from \code{\link{zhdp_extractFxInfo}}
 #' 
 #' @return [list] :: Two elements: \code{fx_df}, \code{fx_list}, where \cr
 #' \code{fx_df} -- [dataframe] :: Contains information about location of the functions in the code
