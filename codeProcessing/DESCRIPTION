@@ -1,7 +1,7 @@
 Package: codeProcessing
 Type: Package
 Title: Functions for processing source code
-Version: 0.1.1
+Version: 0.1.2
 Date: 2015-03-02
 Author: Lawrence Wang
 Maintainer: Lawrence Wang <lawrencw@andrew.cmu.edu>

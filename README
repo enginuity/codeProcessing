@@ -5,7 +5,11 @@ This R package will contain a set of functions that can be thought of as develop
 NOTE OF WARNING: DO NOT RUN THIS CODE ON ANY DIRECTORY WITHOUT VERSION CONTROL... [maybe a check to look for [.git] folders or something might be implemented someday]
 
 Version Plan: 
-Current version: 0.1.1
+Current version: 0.1.2
+
+Version 0.1.3 -- fix dependency plotting
+Version 0.1.4 -- improve documentation processing
+Version 0.1.5 -- improve dependency plotting
 
 
 
