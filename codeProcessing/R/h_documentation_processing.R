@@ -1,6 +1,49 @@
 ## Helper functions for processing documentation
 
 
+# Function to extract metadata from functions -----------------------------
+
+
+#' [Helper] Extract metadata for each function
+#' 
+#' In addition, it checks for the funciton in two ways: first, based off regex matching, second, using the parse function. 
+#' 
+#' @param code [vector-char] :: Text (code)
+#' @param matchlines [vector-int] :: All lines in the code which correspond to defining named functions
+#' 
+#' @return [list] :: Information about each function: 
+#' \itemize{
+#'   \item fxname -- [char] :: Function name
+#'   \item params -- [vector-char] :: Parameter names in order of appearance
+#'   \item matchlineIND -- [int] :: Index of input \code{matchlines} that corresponds to this function
+#' }
+#' 
+#' @export
+#' 
+zhdp_extractFxInfo = function(code, matchlines) {
+  ## Check the function names extracted, and returns a list of matching functions and information for each function. 
+  fn_name_regex = stringr::str_extract(code[matchlines], pattern = "[[:alnum:]_.]+") ## is character vector
+  parsed_code = parse(text = code, keep.source = TRUE)
+  
+  fn_name_parse = lapply(parsed_code, function(x) {as.character(x[[2]])}) ## is list
+  is_function = sapply(parsed_code, function(x) {x[[3]][[1]] == 'function'})
+  res_list = list()
+  for(i in which(is_function)) {
+    if (fn_name_parse[[i]] %in% fn_name_regex) {
+      fn_params = names(parsed_code[[i]][[3]][[2]])
+      res_list[[i]] = list(fxname = fn_name_parse[[i]], params = fn_params, 
+                           matchlineIND = which(fn_name_parse[[i]] == fn_name_regex))
+      if (length(res_list[[i]]$matchlineIND) > 1) { stop(paste("error--Function *",res_list[[i]]$fxname,"* has been defined more than once")) }
+    }
+  }
+  res_list = res_list[is_function]
+  return(res_list)
+}
+
+
+# Function (and two helpers) to extract existing documentation ------------
+
+
 #' [Helper] Locates chunk of previous lines that match a regex
 #' 
 #' Mainly used to figure out which previous lines correspond to the documentation chunk (and check the regex specified by header). The input line \code{lineno} shouldn't match \code{header} in the intended usage case, but this is not checked. 
@@ -78,41 +121,6 @@ zhdp_process_cur_docu = function(code, lines, header = "^#'") {
 }
 
 
-#' [Helper] Extract metadata for each function
-#' 
-#' In addition, it checks for the funciton in two ways: first, based off regex matching, second, using the parse function. 
-#' 
-#' @param code [vector-char] :: Text (code)
-#' @param matchlines [vector-int] :: All lines in the code which correspond to defining named functions
-#' 
-#' @return [list] :: Information about each function: 
-#' \itemize{
-#'   \item fxname -- [char] :: Function name
-#'   \item params -- [vector-char] :: Parameter names in order of appearance
-#'   \item matchlineIND -- [int] :: Index of input \code{matchlines} that corresponds to this function
-#' }
-#' 
-#' @export
-#' 
-zhdp_extractFxInfo = function(code, matchlines) {
-  ## Check the function names extracted, and returns a list of matching functions and information for each function. 
-  fn_name_regex = stringr::str_extract(code[matchlines], pattern = "[[:alnum:]_.]+") ## is character vector
-  parsed_code = parse(text = code, keep.source = TRUE)
-  
-  fn_name_parse = lapply(parsed_code, function(x) {as.character(x[[2]])}) ## is list
-  is_function = sapply(parsed_code, function(x) {x[[3]][[1]] == 'function'})
-  res_list = list()
-  for(i in which(is_function)) {
-    if (fn_name_parse[[i]] %in% fn_name_regex) {
-      fn_params = names(parsed_code[[i]][[3]][[2]])
-      res_list[[i]] = list(fxname = fn_name_parse[[i]], params = fn_params, 
-                           matchlineIND = which(fn_name_parse[[i]] == fn_name_regex))
-      if (length(res_list[[i]]$matchlineIND) > 1) { stop(paste("error--Function *",res_list[[i]]$fxname,"* has been defined more than once")) }
-    }
-  }
-  res_list = res_list[is_function]
-  return(res_list)
-}
 
 
 #' [Helper] Extracts existing (roxygen2-style) documentation
@@ -170,6 +178,10 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
   }
   return(list(fx_df = resdf, fx_list = reslist))
 }
+
+
+# Function to update existing documentation -------------------------------
+
 
 ## TODO [Improvement]: Make object (class) type for storage of output data elements?
 
@@ -252,6 +264,10 @@ zhdp_updateDocu = function(fxdf, fxlist, MCB) {
   
   return(list(fx_df = fxdf, fx_list = fxlist, files_changed = files_changed, MCB = MCB))
 }
+
+
+# Function to compute mode of text ----------------------------------------
+
 
 #' Compute "mode" of text
 #' 
