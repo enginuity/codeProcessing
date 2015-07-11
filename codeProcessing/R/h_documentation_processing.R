@@ -1,6 +1,41 @@
 ## Helper functions for processing documentation
 
 
+# Main Extraction Function (calls all these as sub-functions) -------------
+
+
+#' Extract all documentation from source files
+#' 
+#' Only applies to R code (since searches for #'s and functions in R formatting)
+#' 
+#' @param FD [\code{\link{FilesDescription}}] :: A collection of source code files
+#' @param regexp_fxstart [char] :: Regex to determine function starts; default should work
+#' 
+#' @return -- UPDATE THIS
+#' 
+#' @export
+#' 
+extract_all_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
+  ## Generate a 
+  MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
+  
+  fx_list = list()
+  fx_df = NULL
+  
+  for (j in seq_along(MCB$code)) {
+    fx_info = zhdp_extractFxInfo(MCB$code[[j]], MCB$matchlines[[j]])
+    temp = zhdp_extractDocu(MCB$code[[j]], MCB$matchlines[[j]], fx_info)
+    fx_list = c(fx_list, temp$fx_list)
+    fx_df = rbind(fx_df, cbind(fileID = j, filename = MCB$files[j], temp$fx_df))
+  }
+  ## Add ID's
+  fx_df = cbind(ID = seq_len(nrow(fx_df)), fx_df, want_docu = TRUE, want_export = TRUE)
+  
+  return(list(MCB = MCB, fx_df = fx_df, fx_list = fx_list))
+}
+
+
+
 # Function to extract metadata from functions -----------------------------
 
 
