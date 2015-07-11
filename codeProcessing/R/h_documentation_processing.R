@@ -203,7 +203,7 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
 #' 
 #' @export
 #' 
-zhdp_updateDocu = function(fxdf, fxlist, MCB) {
+write_updated_docu = function(fxdf, fxlist, MCB) {
   ## function that updates the documentation if necessary (comparing the existing docu to the 'standard' one.)  
   
   files_changed = rep(FALSE, max(fxdf$fileID))

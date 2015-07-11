@@ -15,7 +15,7 @@
 #' 
 #' @export
 #' 
-reformat_documentation = function(cur_doc, params, to_export = TRUE) {
+reformat_docu = function(cur_doc, params, to_export = TRUE) {
   
   reorder_rows = function(df) {
     return(df[order(df$TypeOrder, df$ParamOrder, df$SubOrder),])

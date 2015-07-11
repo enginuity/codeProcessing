@@ -81,14 +81,14 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   ## Update all the documentation (store as $docu_new in the list)
   for (j in seq_along(fx_list)) {
     if (fx_df$want_docu[j]) {
-      fx_list[[j]]$docu_new = reformat_documentation(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
+      fx_list[[j]]$docu_new = reformat_docu(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
     } else {
       fx_list[[j]]$docu_new = NULL
     }
   }
   
   ## Insert/replace existing documentation as necessary  
-  temp = zhdp_updateDocu(fx_df, fx_list, MCB) 
+  temp = write_updated_docu(fx_df, fx_list, MCB) 
   fx_df = temp$fx_df; fx_list = temp$fx_list; MCB = temp$MCB; files_changed = temp$files_changed
   
   ## Write updated documentation as necessary
