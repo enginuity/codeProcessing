@@ -77,7 +77,7 @@ reformat_documentation = function(cur_doc, params, to_export = TRUE) {
   ## Assign arrangement for parameters
   if (any(new_doc$TypeOrder == 2)) {
     for(j in seq_along(unique(new_doc$ParamName[new_doc$ParamName != ""]))) {
-      matches = zhdp_find_type_section(types, start_line = min(which((new_doc$TypeOrder == 2) & (new_doc$ParamOrder == 0))), end_marker = c("@param", "@return"), keep_one = TRUE)
+      matches = zhdp_find_type_section(types, start_line = min(which((new_doc$TypeOrder == 2) & (new_doc$ParamOrder == 0))), end_marker = c("@param", "@return"))
       new_doc$ParamOrder[matches] = j
       new_doc$SubOrder[matches] = seq_along(matches)
     }
