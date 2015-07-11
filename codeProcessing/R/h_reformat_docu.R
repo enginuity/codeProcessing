@@ -2,14 +2,16 @@
 
 # Main Function -----------------------------------------------------------
 
+#' Reformats/generates appropriate roxygen documentation
+#' 
 #' Takes old (or non-existent) roxygen documentation, and reformats it
 #' Then outputs what it thinks the new format should be. Then, need to separately check whether it matches what it thinks it should be. 
 #' 
-#' @param cur_doc old documentation (as data frame output)
-#' @param params function parameters
-#' @param to_export if TRUE: adds lines corresponding to @@export. 
+#' @param cur_doc [dataframe] :: old documentation
+#' @param params [vector-char] :: function parameters
+#' @param to_export [logical] :: If TRUE: adds lines corresponding to @@export. 
 #' 
-#' @return character vector: correct roxygen documentation
+#' @return [vector-char] :: correct roxygen documentation
 #' 
 #' @export
 #' 
@@ -107,12 +109,13 @@ reformat_documentation = function(cur_doc, params, to_export = TRUE) {
 # Helper Functions --------------------------------------------------------
 
 ## TODO: [General Documentation] Have to improve documentation for the data frame used here. 
+
 #' Reorder parameters based on order in function. 
 #' 
-#' @param raw_docu_df Data frame describing the documentation for a specific function. 
-#' @param correct_param_order Character vector: correct order for parameters
+#' @param raw_docu_df [dataframe] :: Describing the documentation for a specific function. 
+#' @param correct_param_order [vector-char] :: correct order for parameters
 #' 
-#' @return Data frame describing documentation for the specific function. 
+#' @return [dataframe] describing documentation for the specific function. 
 #' 
 #' @export
 #' 
@@ -156,17 +159,16 @@ reform_params = function(raw_docu_df, correct_param_order) {
 #' The section must start at 'start_line', and ends BEFORE the first match of 'end_marker' in 'x'. 
 #' If 'keep_empty', this section is returned; otherwise, the section, minus all matches of 'Empty' is returned.
 #' 
-#' @param x Vector
-#' @param start_line Index of match starting
-#' @param end_marker Elements of x that mark end of the match
-#' @param keep_empty If TRUE: then keep x's marked as "Empty", otherwise discard these
-#' @param keep_one Not implemented. 
+#' @param x [vector-char] :: Input text
+#' @param start_line [int] :: Index of match starting
+#' @param end_marker [vector-char] :: Elements of x that mark end of the match
+#' @param keep_empty [logical] :: If TRUE: then keep x's marked as "Empty", otherwise discard these
 #' 
-#' @return Vector identifying where the matches are
+#' @return [vector-int] :: Indices identifying where the matches are
 #' 
 #' @export
 #' 
-find_type_section = function(x, start_line, end_marker, keep_empty = FALSE, keep_one = FALSE) {
+find_type_section = function(x, start_line, end_marker, keep_empty = FALSE) {
   if (length(which(x %in% end_marker)) == 0) {
     end_line = length(x) 
   } else {

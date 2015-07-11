@@ -20,6 +20,6 @@ generate_todolist(FD = package_FD)
 search_code(RE = Regex(base = "write", isexact = FALSE, isword = FALSE), FD = package_FD)
 search_code("Mode_nontemp", FD = package_FD)
 
-search_code("extract_full_docu", FD = package_FD)
+search_code("(default_param_doc)|(reformat_documentation)", FD = package_FD)
 
 

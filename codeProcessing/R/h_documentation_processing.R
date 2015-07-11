@@ -171,7 +171,7 @@ zhdp_extractDocu = function(code, all_matchlines, fxinfo) {
   return(list(fx_df = resdf, fx_list = reslist))
 }
 
-## TODO [Improvement]: Make object type for storage of output data elements?
+## TODO [Improvement]: Make object (class) type for storage of output data elements?
 
 #' [Helper] Update documentation as necessary
 #' 
