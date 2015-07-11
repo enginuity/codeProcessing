@@ -104,3 +104,41 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
   
   return(structure(list(regex = regex, base = base, isexact = isexact, isword = isword, ignorecommentlines = ignorecommentlines), class = "Regex"))
 }
+
+
+
+## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (FunctionDocu)
+#' Create object of type FunctionDocu
+#' 
+#' This object stores all information about the documentation, given an input file. It's just a fancy container (list) that will get passed around... 
+#' 
+#' @param fxtables temp
+#' @param fxinfos temp
+#' @param MCB temp
+#' 
+#' @return [FunctionDocu] :: Stores all extracted information from the function documentation. This is a list (S3 class) with the following elements: fxtables, fxinfos, MCB, which are: \cr
+#' \code{fxtables} -- [list-dataframe] :: This is a list of dataframes, one for each input file (corresponding to the \code{MCB})
+#' \itemize{
+#'   \item fx_name -- [char] :: Function name
+#'   \item doc_exist -- [logical] :: Is there existing documentation?
+#'   \item doc_start -- [int] :: Line number for documentation to start
+#'   \item doc_end -- [int] :: Line number for end of documentation
+#'   \item fx_start -- [int] :: Line number for function declaration (function start)
+#'   \item fx_end -- [int] :: **Zeroed out for now**
+#'   \item status -- [char] :: **NA'd out for now**
+#' } \cr
+#' \code{fx_list} -- [list-list] :: Contains information about each function (the lists for each file are concatenated) found as follows: 
+#' \itemize{
+#'   \item fxname -- [char] :: Function name
+#'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
+#'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
+#'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
+#' }
+#' 
+#' @export
+#' 
+FunctionDocu = function(fxtables, fxinfos, MCB) {
+  return(structure(list(files = files, code = code), class = "FunctionDocu"))  
+}
+
+
