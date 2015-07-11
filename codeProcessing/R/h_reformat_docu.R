@@ -54,30 +54,30 @@ reformat_documentation = function(cur_doc, params, to_export = TRUE) {
   
   ## Assign arrangement of regular sections
   ## TODO: [Refactor] This code is VERY ugly... Logic needs to be rethought... 
-  matches = find_type_section(types, start_line = 1, end_marker = c("@param", "@return"), keep_empty = TRUE)
+  matches = zhdp_find_type_section(types, start_line = 1, end_marker = c("@param", "@return"), keep_empty = TRUE)
   new_doc$TypeOrder[matches] = 1
   new_doc$SubOrder[matches] = seq_along(matches)
   
   ## IF parameters exist: 
   if (any(types == "@param")) {
-    matches = find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@return"))
+    matches = zhdp_find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@return"))
     new_doc$TypeOrder[matches] = 2
     new_doc$SubOrder[matches] = seq_along(matches)
     new_doc$TypeOrder[intersect(matches, which(types == "Empty"))] = 1000
   }
   
-  matches = find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@export"))
+  matches = zhdp_find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0)), end_marker = c("@export"))
   new_doc$TypeOrder[matches] = 3
   new_doc$SubOrder[matches] = seq_along(matches)
   
-  matches = find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0 )), end_marker = c("endofdocu"))
+  matches = zhdp_find_type_section(types, start_line = 1 + max(which(new_doc$TypeOrder > 0 )), end_marker = c("endofdocu"))
   new_doc$TypeOrder[matches] = 10
   new_doc$SubOrder[matches] = seq_along(matches)
   
   ## Assign arrangement for parameters
   if (any(new_doc$TypeOrder == 2)) {
     for(j in seq_along(unique(new_doc$ParamName[new_doc$ParamName != ""]))) {
-      matches = find_type_section(types, start_line = min(which((new_doc$TypeOrder == 2) & (new_doc$ParamOrder == 0))), end_marker = c("@param", "@return"), keep_one = TRUE)
+      matches = zhdp_find_type_section(types, start_line = min(which((new_doc$TypeOrder == 2) & (new_doc$ParamOrder == 0))), end_marker = c("@param", "@return"), keep_one = TRUE)
       new_doc$ParamOrder[matches] = j
       new_doc$SubOrder[matches] = seq_along(matches)
     }
@@ -88,7 +88,7 @@ reformat_documentation = function(cur_doc, params, to_export = TRUE) {
   new_doc = rbind(new_doc, data.frame(LineNo=-1, Value = "#' ", Type ="Empty", ParamName = "", TypeOrder = c(1.5, 2.5, 3.5, 10.5), ParamOrder = 0, SubOrder = 1, stringsAsFactors=FALSE))
   
   ## Find correct parameter assignment
-  new_doc = reform_params(raw_docu_df = new_doc, correct_param_order = params)
+  new_doc = zhdp_reform_params(raw_docu_df = new_doc, correct_param_order = params)
   
   ## Reorder rows using ordering
   new_doc = reorder_rows(new_doc)
@@ -119,7 +119,7 @@ reformat_documentation = function(cur_doc, params, to_export = TRUE) {
 #' 
 #' @export
 #' 
-reform_params = function(raw_docu_df, correct_param_order) {
+zhdp_reform_params = function(raw_docu_df, correct_param_order) {
   ## This assumes default documentation is one line. 
   ## TODO: [Idea] improve to assume that parameter documentation can be more than one line. 
   
@@ -168,7 +168,7 @@ reform_params = function(raw_docu_df, correct_param_order) {
 #' 
 #' @export
 #' 
-find_type_section = function(x, start_line, end_marker, keep_empty = FALSE) {
+zhdp_find_type_section = function(x, start_line, end_marker, keep_empty = FALSE) {
   if (length(which(x %in% end_marker)) == 0) {
     end_line = length(x) 
   } else {

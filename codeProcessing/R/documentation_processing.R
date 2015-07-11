@@ -12,7 +12,7 @@
 #' 
 #' @export
 #' 
-extract_full_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
+extract_all_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
   ## Generate a 
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
@@ -69,7 +69,7 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   }
   
   ## Setup
-  temp = extract_full_docu(FD = FD, regexp_fxstart = regexp_fxstart)
+  temp = extract_all_docu(FD = FD, regexp_fxstart = regexp_fxstart)
   fx_df = temp$fx_df
   fx_list = temp$fx_list
   MCB = temp$MCB
