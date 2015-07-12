@@ -12,12 +12,12 @@
 #' @param FD [\code{\link{FilesDescription}}] :: A collection of source code files
 #' @param regexp_fxstart [char] :: Regex to determine function starts; default should work
 #' 
-#' @return -- UPDATE THIS
+#' @return [\code{\link{FunctionDocu}}] :: Information about the function documentation in the processed source files
 #' 
 #' @export
 #' 
 extract_all_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function") {
-  ## Generate a 
+  ## Search for all function starts
   MCB = search_code_matches(RE = Regex(base = regexp_fxstart), FD = FD, logged = "ROXY-TEMPLATES")
   
   fx_list = list()
@@ -32,7 +32,7 @@ extract_all_docu = function(FD, regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *f
   ## Add ID's
   fx_df = cbind(ID = seq_len(nrow(fx_df)), fx_df, want_docu = TRUE, want_export = TRUE)
   
-  return(list(MCB = MCB, fx_df = fx_df, fx_list = fx_list))
+  return(FunctionDocu(fx_df, fx_list, MCB))
 }
 
 

@@ -1,8 +1,6 @@
 ##@S Functions that extract and update the documentation
 
 
-
-
 #' Update/create roxygen templates
 #' 
 #' DO NOT RUN THIS WITHOUT VERSION CONTROL!
@@ -40,33 +38,29 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
   }
   
   ## Setup
-  temp = extract_all_docu(FD = FD, regexp_fxstart = regexp_fxstart)
-  fx_df = temp$fx_df
-  fx_list = temp$fx_list
-  MCB = temp$MCB
+  fxdoc = extract_all_docu(FD = FD, regexp_fxstart = regexp_fxstart)
   
   ## Check for undocumenting / unexporting
-  for (reg in regexp_noexport) { fx_df$want_export[grep(reg, x = fx_df$fx_name)] = FALSE }
-  for (reg in regexp_nodocu) { fx_df$want_docu[grep(reg, x = fx_df$fx_name)] = FALSE }
+  for (reg in regexp_noexport) { fxdoc$fxtable$want_export[grep(reg, x = fxdoc$fxtable$fx_name)] = FALSE }
+  for (reg in regexp_nodocu) { fxdoc$fxtable$want_docu[grep(reg, x = fxdoc$fxtable$fx_name)] = FALSE }
   
   ## Update all the documentation (store as $docu_new in the list)
-  for (j in seq_along(fx_list)) {
-    if (fx_df$want_docu[j]) {
-      fx_list[[j]]$docu_new = reformat_docu(fx_list[[j]]$docu_cur, params = fx_list[[j]]$params, to_export = fx_df$want_export[j])
+  for (j in seq_along(fxdoc$fxinfo)) {
+    if (fxdoc$fxtable$want_docu[j]) {
+      fxdoc$fxinfo[[j]]$docu_new = reformat_docu(fxdoc$fxinfo[[j]]$docu_cur, params = fxdoc$fxinfo[[j]]$params, to_export = fxdoc$fxtable$want_export[j])
     } else {
-      fx_list[[j]]$docu_new = NULL
+      fxdoc$fxinfo[[j]]$docu_new = NULL
     }
   }
   
   ## Insert/replace existing documentation as necessary  
-  temp = update_stored_docu(fx_df, fx_list, MCB) 
-  fx_df = temp$fx_df; fx_list = temp$fx_list; MCB = temp$MCB; files_changed = temp$files_changed
+  fxdoc = update_stored_docu(fxdoc) 
   
   ## Write updated documentation as necessary
-  if (!test_run) { write_MatchedCodebase(MCB, which(files_changed)) }
+  if (!test_run) { write_MatchedCodebase(fxdoc$MCB, which(fxdoc$files_changed)) }
   print("Done! [Inserting/formatting documentation (roxygen) templates]")
   
-  return(fx_df)
+  return(fxdoc)
 }
 
 
