@@ -113,6 +113,7 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
 #' @param fxtable [dataframe] :: This is a list of dataframes, one for each input file (corresponding to the \code{MCB})
 #' @param fxinfo [list-list] :: Contains information about each function
 #' @param MCB [MatchedCodebase] :: Information about source code
+#' @param files_changed [vector-logical] :: T/F for each files in MCB identifying whether it has changed
 #' 
 #' @return [FunctionDocu] :: Stores all extracted information from the function documentation. This is a list (S3 class) with the following elements: fxtables, fxinfos, MCB, which are: \cr
 #' \code{fxtable} -- [dataframe] :: This is a dataframe containing function information (and has information on the origin file)
@@ -132,11 +133,12 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
 #'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
 #'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
 #' } \cr
-#' \code{MCB} -- [MatchedCodebase] :: Information about source code
+#' \code{MCB} -- [MatchedCodebase] :: Information about source code \cr
+#' \code{files_changed} -- [vector-logical] :: T/F for each files in MCB identifying whether it has changed
 #' 
 #' @export
 #' 
-FunctionDocu = function(fxtable, fxinfo, MCB) {
-  return(structure(list(fxtable = fxtable, fxinfo = fxinfo, MCB = MCB), class = "FunctionDocu"))  
+FunctionDocu = function(fxtable, fxinfo, MCB, files_changed) {
+  return(structure(list(fxtable = fxtable, fxinfo = fxinfo, MCB = MCB, files_changed = files_changed), class = "FunctionDocu"))  
 }
 
