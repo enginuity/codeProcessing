@@ -8,7 +8,7 @@ package_FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
 
 
 # Default stuff to run ----------------------------------------------------
-update_fx_documentation(FD = package_FD, test_run = FALSE)
+fxdoc = update_fx_documentation(FD = package_FD, test_run = FALSE)
 
 plot_dependency(FD = package_FD, out_file = "test.pdf")
 generate_todolist(FD = package_FD)
