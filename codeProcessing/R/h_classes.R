@@ -106,18 +106,16 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
 }
 
 
-
-## TODO: [Documentation-AUTO] Check/fix Roxygen2 Documentation (FunctionDocu)
 #' Create object of type FunctionDocu
 #' 
 #' This object stores all information about the documentation, given an input file. It's just a fancy container (list) that will get passed around... 
 #' 
-#' @param fxtables temp
-#' @param fxinfos temp
-#' @param MCB temp
+#' @param fxtable [dataframe] :: This is a list of dataframes, one for each input file (corresponding to the \code{MCB})
+#' @param fxinfo [list-list] :: Contains information about each function
+#' @param MCB [MatchedCodebase] :: Information about source code
 #' 
 #' @return [FunctionDocu] :: Stores all extracted information from the function documentation. This is a list (S3 class) with the following elements: fxtables, fxinfos, MCB, which are: \cr
-#' \code{fxtables} -- [list-dataframe] :: This is a list of dataframes, one for each input file (corresponding to the \code{MCB})
+#' \code{fxtable} -- [dataframe] :: This is a dataframe containing function information (and has information on the origin file)
 #' \itemize{
 #'   \item fx_name -- [char] :: Function name
 #'   \item doc_exist -- [logical] :: Is there existing documentation?
@@ -127,18 +125,18 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
 #'   \item fx_end -- [int] :: **Zeroed out for now**
 #'   \item status -- [char] :: **NA'd out for now**
 #' } \cr
-#' \code{fx_list} -- [list-list] :: Contains information about each function (the lists for each file are concatenated) found as follows: 
+#' \code{fxinfo} -- [list-list] :: Contains information about each function (the lists for each file are concatenated) found as follows: 
 #' \itemize{
 #'   \item fxname -- [char] :: Function name
 #'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
 #'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
 #'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
-#' }
+#' } \cr
+#' \code{MCB} -- [MatchedCodebase] :: Information about source code
 #' 
 #' @export
 #' 
-FunctionDocu = function(fxtables, fxinfos, MCB) {
-  return(structure(list(files = files, code = code), class = "FunctionDocu"))  
+FunctionDocu = function(fxtable, fxinfo, MCB) {
+  return(structure(list(fxtable = fxtable, fxinfo = fxinfo, MCB = MCB), class = "FunctionDocu"))  
 }
-
 
