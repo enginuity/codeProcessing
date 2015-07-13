@@ -1,9 +1,6 @@
-
+## Function that compares the existing documentation with the optimal, and reorders / replaces as necessary. 
 
 # Function to update existing documentation -------------------------------
-
-
-## TODO [Improvement]: Make object (class) type for storage of output data elements?
 
 #' [Helper] Update documentation as necessary
 #' 

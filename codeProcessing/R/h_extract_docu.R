@@ -179,7 +179,7 @@ zhdp_process_cur_docu = function(code, lines, header = "^#'") {
 #' \code{fx_list} -- [list-list] :: Contains information about each function found as follows: 
 #' \itemize{
 #'   \item fxname -- [char] :: Function name
-#'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_extractFxInfo}}
+#'   \item docu_cur -- [dataframe] :: output from \code{\link{zhdp_process_cur_docu}}
 #'   \item code -- [] :: **NOT IMPLEMENTED** -- intention is to store function's code. 
 #'   \item params -- [vector-char] :: Character vector of parameter names (or length 0 if no parameters)
 #' }

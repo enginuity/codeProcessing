@@ -118,13 +118,18 @@ Regex = function(base, isexact = FALSE, isword = FALSE, ignorecommentlines = FAL
 #' @return [FunctionDocu] :: Stores all extracted information from the function documentation. This is a list (S3 class) with the following elements: fxtables, fxinfos, MCB, which are: \cr
 #' \code{fxtable} -- [dataframe] :: This is a dataframe containing function information (and has information on the origin file)
 #' \itemize{
+#'   \item ID -- [int] :: Numeric index for function (to align with fxinfo)
+#'   \item fileID -- [int] :: Index for file number in MCB
+#'   \item filename -- [char] :: File name (to save to)
 #'   \item fx_name -- [char] :: Function name
 #'   \item doc_exist -- [logical] :: Is there existing documentation?
 #'   \item doc_start -- [int] :: Line number for documentation to start
 #'   \item doc_end -- [int] :: Line number for end of documentation
 #'   \item fx_start -- [int] :: Line number for function declaration (function start)
-#'   \item fx_end -- [int] :: **Zeroed out for now**
+#'   \item fx_end -- [int] :: **NA'd out for now, not implemented**
 #'   \item status -- [char] :: **NA'd out for now**
+#'   \item want_docu -- [logical] :: T/F - should this function be documented?
+#'   \item want_export -- [logical] :: T/F - should this function be exported?
 #' } \cr
 #' \code{fxinfo} -- [list-list] :: Contains information about each function (the lists for each file are concatenated) found as follows: 
 #' \itemize{
