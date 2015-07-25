@@ -12,14 +12,14 @@
 #'   content
 #' \}
 #' 
-#' @param FD Object of class FilesDescription; See documentation to see how to describe a collection of files  
-#' @param guess_emptyparam Should empty parameters be filled in by "default" value? 
-#' @param regexp_noexport A vector of regular expressions that determine which functions that should not be exported
-#' @param regexp_nodocu A vector of regular expressions that determine which functions should not receive documentation
-#' @param regexp_fxstart Regex to determine function starts; default should work
-#' @param test_run If TRUE: Won't write any changes to file. This is defaulted to TRUE for safety. 
+#' @param FD [\code{\link{FilesDescription}}] :: Information about which files to search for documentation
+#' @param guess_emptyparam [char] :: Default value to fill in for empty parameter documentation. If NULL, then this is not done. ** NOT IMPLEMENTED** 
+#' @param regexp_noexport [vector-char] :: A vector of regular expressions that determine which functions that should not be exported
+#' @param regexp_nodocu [vector-char] :: A vector of regular expressions that determine which functions should not receive documentation
+#' @param regexp_fxstart [char] :: Regex to determine function starts; default should work
+#' @param test_run [logical] :: If TRUE: Won't write any changes to file. This is defaulted to TRUE for safety. 
 #' 
-#' @return message about success!
+#' @return [\code{\link{FunctionDocu}}] :: Updated function documentation
 #' 
 #' @export
 #' 
@@ -27,8 +27,7 @@ update_fx_documentation = function(FD, guess_emptyparam = FALSE,
                                    regexp_noexport = NULL, regexp_nodocu = NULL,
                                    regexp_fxstart = "(^[[:alnum:]_.]+) *(=|(<-)) *function", 
                                    test_run = TRUE) {
-  ## guess_emptyparam guess -> when empty/temp, replaces parameter documentation with most common documentation for specific parameter. --- want to add marker for when something is edited. ********* NOT IMPLEMENTED NOW ****************
-  ## idea -- make this happen based on file or entire codebase (allow it as option) 
+  ## idea -- make guess_emptyparam do something based on entire codebase (or specific file) this happen based on file or entire codebase (allow it as option) 
   
   if (FALSE) {
     FD = FilesDescription(mode = "R", dirlist = "codeProcessing/R/")
