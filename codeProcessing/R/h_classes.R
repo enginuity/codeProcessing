@@ -87,12 +87,19 @@ FilesDescription = function(mode = "R", dirlist = NULL, filelist = NULL) {
 #'     
 #' This should store all the information needed to do regex matching. Thus, there will be a consistent method to input parameters. 
 #' 
-#' @param base Base regex to search for
-#' @param isexact Use 'exact = TRUE' in regex; might be outdated. 
-#' @param isword Edit base regex to look for a 'word'
-#' @param ignorecommentlines When doing regex; wish to ignore all lines with comments. 
+#' @param base [char] :: Base regex to search for
+#' @param isexact [logical] :: If TRUE, Use 'exact = TRUE' in regex
+#' @param isword [logical] :: If TRUE, edits the incoming regex to search for a single 'word' 
+#' @param ignorecommentlines [logical] :: If TRUE, ignores all lines with comments
 #' 
-#' @return Object of class Regex
+#' @return [Regex] :: A list (S3 class) with entries: 
+#' \itemize{
+#'   \item regex -- [char] :: Regex to actually search for
+#'   \item base -- [char] :: Base regex (input by user)
+#'   \item isexact -- [logical] :: If TRUE, Use 'exact = TRUE' in regex
+#'   \item isword -- [logical] :: If TRUE, edits the incoming regex to search for a single 'word' 
+#'   \item ignorecommentlines -- [logical] :: If TRUE, ignores all lines with comments
+#' }
 #' 
 #' @export
 #' 
