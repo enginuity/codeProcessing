@@ -7,7 +7,7 @@ DIR = FilesDescription(dirlist = c("../smoothingGraphs/", "../netcompLib/", "../
 
 search_code("fast_compute_pval", FD = DIR, add_comment = "Function obseleted. These simulations should use newer code (computePval/sim_hyptest) instead...")
 
-search_code("compute_pval_multtrees", FD = DIR, add_comment = "Function deleted. These simulations should be replaced with newer code...")
+search_code("set_sim_param", FD = DIR, add_comment = "Function modified -- all calls need to be updated..")
 
 search_code("compute_pval", FD = DIR, add_comment = "Function obseleted. These simulations should use newer code (computePval/sim_hyptest) instead...")
 
