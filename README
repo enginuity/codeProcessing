@@ -1,8 +1,26 @@
 General Description of Project: 
 
-This R package will contain a set of functions that can be thought of as developer tools for R, in the sense that it will help in making your code more structured.
+WARNING: DO NOT RUN THIS CODE ON ANY DIRECTORY WITHOUT VERSION CONTROL... [maybe a check to look for [.git] folders or something might be implemented someday]
 
-NOTE OF WARNING: DO NOT RUN THIS CODE ON ANY DIRECTORY WITHOUT VERSION CONTROL... [maybe a check to look for [.git] folders or something might be implemented someday]
+This R package (set of tools/functions) can be thought of as developer tools for R, in the sense that it will help in making your code more structured or improve the efficiency of coding.
+
+The current functional parts are the following: 
+
+-- generate a todo report :: This simply searches the code for possible 'TODO::' style comments, and generates a report of such comments
+
+-- search/replace/comment text :: It's possible to search an entire directory/set of files for any text and do any/all of the following
+---- Replace text with other text
+---- Add a comment on the next line
+---- Generate a report denoting where all of the matches were found
+
+-- create a color-coded (coded by file) function dependency tree/graph :: It's possible to extract all the named functions in an R package/set of source files, and create a dependency network/graph between them (which functions calls (depends on) other functions). 
+
+-- create Roxygen2 style documentation templates :: It's possible to run a function that creates Roxygen2 templates (including inserting templates for each parameter in the function), to save a tiny bit of typing. It also has a few more functionalities such as: 
+---- Insert/replace the same documentation for the same named parameter in multiple functions
+---- Automatically reorder parameter documentations if parameters are reordered in the function
+
+
+------------------------------------------------------------------------
 
 Version Plan: 
 Current version: 0.1.2
@@ -11,8 +29,9 @@ Version 0.1.3 -- fix dependency plotting
 Version 0.1.4 -- improve documentation processing
 Version 0.1.5 -- improve dependency plotting
 
+------------------------------------------------------------------------
 
-
+Package documentation rules: 
 
 Documentation rules -- For parameter listings in function documentation: 
 [<type>] :: <documentation>
@@ -34,14 +53,7 @@ an \itemize with items as follows:
 
 
 
-
-
-
-
  --- placeholder --- 
-
-
-
 
 
 

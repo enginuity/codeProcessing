@@ -5,7 +5,8 @@ library(codeProcessing)
 
 DIR = FilesDescription(dirlist = c("../smoothingGraphs/", "../netcompLib/", "../netcompSBM", "../../network-comparison/netcomp-project/"), mode = "R")
 
-search_code("computeLik", FD = DIR, add_comment = "Function output and input changed -- output is now a list")
+search_code(Regex("c_names", isexact = FALSE), FD = DIR)
+search_code("extractStruct", FD = DIR, add_comment = "Issue #26 -- destroy this function; replace with call to base NetworkStruct function.")
 
 search_code("recycle_fitstructs", FD = DIR, add_comment = "In set_sim_param, recycle_fitstructs is renamed into fitstruct_method")
 
@@ -18,9 +19,6 @@ plot_dependency(FD = FilesDescription(dirlist = c("../netcompLib/")), out_file =
 
 
 search_code("extract_result_list", FD = DIR)
-
-## TODO -- in netowrkModel & networkstruct calls, rely on Nnodes and type from set_model_params, not from separate input. does not seem like a good reason to keep it still allowed... 
-
 
 
 
