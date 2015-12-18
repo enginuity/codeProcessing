@@ -58,3 +58,4 @@ process_code = function(dir = NULL, mode, out_file = "test.pdf", regex = NULL, a
 }
 
 
+## TODO: Idea -- write functions that examine code base for repeated patterns? (ie look for stuff that should be made into a function...)
