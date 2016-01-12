@@ -41,8 +41,8 @@ generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
     } else {
       todotable = NULL
     }
-    if (length(temp$fxtables$fx_name > 0) { 
-      fxtable = data.frame(lines = temp$fxtables$fx_start, text = paste("***FunctionStart***", temp$fxtables$fx_name)))
+    if (length(temp$fxtables$fx_name) > 0) { 
+      fxtable = data.frame(lines = temp$fxtables$fx_start, text = paste("***FunctionStart***", temp$fxtables$fx_name))
     } else {
       fxtable = NULL
     }
@@ -61,7 +61,6 @@ generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
                  paste(stringr::str_pad(string = tab$lines, width = 5, side = "right"), 
                        tab$text, sep = " ::: "), ## Add todo/function
                  "##########", "##########", "##########", "") ## Add separator
-    )
   }
   
   ## Add TODO analysis
