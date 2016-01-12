@@ -10,7 +10,7 @@ search_code("extractStruct", FD = DIR, add_comment = "Issue #26 -- destroy this 
 
 search_code("recycle_fitstructs", FD = DIR, add_comment = "In set_sim_param, recycle_fitstructs is renamed into fitstruct_method")
 
-search_code("compute_pval", FD = DIR, add_comment = "Function obseleted. These simulations should use newer code (computePval/sim_hyptest) instead...")
+search_code("hide_edges", FD = DIR, add_comment = "Check parameter usage of invert_template. It's been converted into a logical argument, relying on input of template")
 
 search_code("NetworkModelPair", FD = DIR, add_comment = "Parameters changed")
 
@@ -23,4 +23,6 @@ search_code("extract_result_list", FD = DIR)
 
 
 
-
+## Generate TODOlist for base network comparison
+baseFD = FilesDescription(dirlist = c("../../network-comparison/netcomp-project/code/"), mode = "R")
+generate_todolist(FD = baseFD)
