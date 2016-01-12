@@ -43,12 +43,7 @@ for(j in matches) {
 
 # Output to file
 writeLines(shortdoc, con = "codeProcessing/zGEN_shortdoc.txt")
-#|                          **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
 writeLines(longdoc, con = "codeProcessing/zGEN_longdoc.txt")
-#|                         **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
 writeLines(functiondoc, con = "codeProcessing/zGEN_funcdoc.txt")
-#|                             **************
-#|----##change package name --Wed Dec 10 01:19:47 2014--
+
 
