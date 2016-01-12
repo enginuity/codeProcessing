@@ -32,8 +32,10 @@ generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
     ## Grab line number matches for TODOs. (only grabs leading TODOs) 
     linematches = grep("^ *#+ TODO:", f)
     
-    ## Grab line numbers and function names
-    temp = extract_all_docu(FD)
+    # Temporarily broken
+    ## TODO: Fix file extraction somehow? bugs out?
+    #     ## Grab line numbers and function names
+    #     temp = extract_all_docu(FD)
     
     ## Make a table for TODOs and functions
     if (length(linematches) > 0) { 
@@ -41,11 +43,13 @@ generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
     } else {
       todotable = NULL
     }
-    if (length(temp$fxtables$fx_name) > 0) { 
-      fxtable = data.frame(lines = temp$fxtables$fx_start, text = paste("***FunctionStart***", temp$fxtables$fx_name))
-    } else {
-      fxtable = NULL
-    }
+    fxtable = NULL
+    #     if (length(temp$fxtables$fx_name) > 0) { 
+    #       fxtable = data.frame(lines = temp$fxtables$fx_start, text = paste("***FunctionStart***", temp$fxtables$fx_name))
+    #     } else {
+    #       fxtable = NULL
+    #     }
+    
     
     ## Count todo TYPE
     if (length(linematches) > 0) {
@@ -76,11 +80,13 @@ generate_todolist = function(FD, outFile = "GEN_todolist.txt") {
                  paste("----- There are", length(first_word) - length(specific_typed) ,"unsorted TODO lines"),
                  "-----")
     max_len = max(nchar(names(table_type))) + 1
-    for(j in 1:length(table_type)) {
-      todolist = c(todolist, 
-                   paste("-----", 
-                         stringr::str_pad(names(table_type)[j], width = max_len, side = 'right'),
-                         "**", stringr::str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
+    if (length(table_type) > 0) {
+      for(j in 1:length(table_type)) {
+        todolist = c(todolist, 
+                     paste("-----", 
+                           stringr::str_pad(names(table_type)[j], width = max_len, side = 'right'),
+                           "**", stringr::str_pad(table_type[j], width = 3, side = 'right'), sep = " "))
+      }
     }
   }
   
