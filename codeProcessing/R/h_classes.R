@@ -77,7 +77,7 @@ MatchedCodebase = function(CB, CB_subset = NULL, matchlines, matchlocs, REGEX) {
 #' @export
 #' 
 FilesDescription = function(mode = "R", dirlist = NULL, filelist = NULL) {
-  if (!(mode %in% c("R", "C"))) { stop("mode value is not allowed")}
+  if (!(mode %in% c("R", "C", "all"))) { stop("mode value is not allowed")}
   if (is.vector(dirlist) & length(dirlist) > 0) { dirlist = lapply(dirlist, function(x) {list(dir = x, file_regex = NULL)}) }
   return(structure(list(mode = mode, dirlist = dirlist, filelist = filelist), class = "FilesDescription"))
 }
