@@ -15,3 +15,4 @@ codeProcessing_logs/
 *.log
 GEN_todolist.txt
 codeProcessing/NAMESPACE
+*.DS_Store
