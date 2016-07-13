@@ -3,20 +3,18 @@
 ## Load all available programs
 library(codeProcessing)
 
-DIR = FilesDescription(dirlist = c("../smoothingGraphs/", "../netcompLib/", "../netcompSBM", "../../network-comparison/netcomp-project/"), mode = "R")
+DIR = FilesDescription(dirlist = c("../smoothingGraphs/", "../netcompLib/", "../netcompSBM", "../../network-comparison/netcomp-project/", "../../papers/code/"), mode = "R")
 
-search_code(Regex("smoother", isexact = FALSE), FD = DIR)
-search_code("extractStruct", FD = DIR, add_comment = "Issue #26 -- destroy this function; replace with call to base NetworkStruct function.")
+replace_code("mult_pearson", replace = "mult_fisher", add_comment = "rename mult_pearson", FD = DIR)
 
-search_code("recycle_fitstructs", FD = DIR, add_comment = "In set_sim_param, recycle_fitstructs is renamed into fitstruct_method")
+search_code("computePval", FD = DIR, add_comment = "Change available modes (default vs default-slow)")
 
-search_code("hide_edges", FD = DIR, add_comment = "Check parameter usage of invert_template. It's been converted into a logical argument, relying on input of template")
+  
 
-search_code("NetworkModelPair", FD = DIR, add_comment = "Parameters changed")
+
 
 
 plot_dependency(FD = FilesDescription(dirlist = c("../netcompLib/")), out_file = "test.pdf")
-
 
 search_code("extract_result_list", FD = DIR)
 
