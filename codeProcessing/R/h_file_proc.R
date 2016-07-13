@@ -34,6 +34,8 @@ find_files = function(FD) {
     ext_regex = "[.]R$"
   } else if (FD$mode == "C") {
     ext_regex = "[.](c|cc|cpp|h|hh)$"
+  } else if (FD$mode == "all") {
+    ext_regex = "."
   }
   
   ## Start with exact files if any
