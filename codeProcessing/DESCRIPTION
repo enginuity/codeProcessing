@@ -10,3 +10,4 @@ Description: This package contains a suite of functions that might make coding
 License: What license is it under?
 Imports:
     stringr
+RoxygenNote: 5.0.1
