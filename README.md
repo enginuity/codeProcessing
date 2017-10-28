@@ -21,9 +21,18 @@ use this package on directories without proper version control.
 
 ## Version Plan
 
-* Version 0.1.3 -- fix dependency plotting, add/create addins.
-* Version 0.1.4 -- improve documentation processing
-* Version 0.1.5 -- improve dependency plotting
+* Version 0.1.3 -- General cleanup
+  * Some refactoring to streamline things.
+  * Add/fix documentation.
+  
+* Version 0.1.4 -- Fix dependency plotting
+  * Fix any issues in dependency plotting, create a static version of the
+  dependency plot that does not use the graphviz package.
+  
+* Version 0.1.5 -- Create addins
+  * Create addins for search/replace.
+  * Create addin for documentation processing.
+  * Create addin for dependency visualization.
 
 
 ## Changelog
