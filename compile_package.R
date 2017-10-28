@@ -1,34 +1,40 @@
-##@S Contains code to compile the codeProcessing package (to be run from R)
+## Scripts to install or load the package in various forms.
 
-# Update Documentation (if needed/possible) -------------------------------
+# Source Package ----------------------------------------------------------
 
-## This section only needs to be run if the source code is not necessarily up to date (ie new functions were written, or if parameters were added). It will also only be run if the package actually exists. 
+# Loads needed libraries and functions. This loads all functions into the global
+# environment.
+require(stringr, quietly = TRUE)
+for (s in list.files("codeProcessing/R/", full.names = TRUE)) { source(s) }
+
+
+# Load Package as Library -------------------------------------------------
+require(codeProcessing)
+
+
+
+# Update Documentation ----------------------------------------------------
+# Run this code to update the documentation files. It relies on the package, so
+# it must already be built.
+
 if (require(codeProcessing)) {
-  ## This is a package I've written to speed up my own coding efficiency to use when rewriting code / package writing
-  
-  ## Update documentation -- this looks for new parameters and creates documentation lines for it
-  update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), test_run = FALSE)
-  
-  if (FALSE) { ## Compile without exporting everything?
-    update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"), test_run = FALSE, regexp_noexport = c("zhdp"))
-  }
+  update_fx_documentation(FD = FilesDescription(dirlist = "codeProcessing/R/"),
+                          test_run = FALSE)
+
+  # Detach the package, since the documentation is updated.
   detach(package:codeProcessing)
 }
 
+
 # Compile Package ---------------------------------------------------------
+# Compiles the package. roxygen2 is required.
 
 if (require(roxygen2)) {
-  ## Generate the documentation -- THIS MUST be run before building packages (since the documentation files are not version-controlled, as the version-controlled version is in the raw source code)
+  # Generate the documentation.
   roxygenise("codeProcessing/", clean = TRUE)
-  
-  ## Install the package
+
+  # Install the package
   system("R CMD INSTALL codeProcessing")
 } else {
-  stop("Package 'roxygen2' is not installed: the codeProcessing package is not compilable.")
-}
-
-
-## This line is here for easy calling of the library. 
-if (FALSE) {
-  library(codeProcessing)
+  stop("Package 'roxygen2' is not installed.")
 }
